@@ -1,6 +1,7 @@
 :root {
   --primary-color: #e5414e;
   --secondary-color: #c7d5e0;
+  --off-white: #FAF9F6;
 }
 
 /* utility classes */
@@ -17,6 +18,6 @@ img {
     display: block;
   }
   .desktop {
-    display: none;
+    display: none !important;
   }
 }
