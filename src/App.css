@@ -1,0 +1,13 @@
+/* utility classes */
+.mobile {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .mobile {
+    display: block;
+  }
+  .desktop {
+    display: none;
+  }
+}

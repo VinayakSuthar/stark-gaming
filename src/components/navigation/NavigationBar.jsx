@@ -5,7 +5,7 @@ import { MdSlowMotionVideo, MdOutlineFactCheck } from "react-icons/md";
 
 import "./NavigationBar.css";
 
-export default function NavigationBar() {
+export default function NavigationBar({navRef}) {
   const [activeIndex, setActiveIndex] = useState("home");
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
@@ -18,7 +18,7 @@ export default function NavigationBar() {
   }
 
   return (
-    <div className="nav-bar">
+    <div ref={navRef} className="nav-bar">
       <div className="logo">
         {
           innerWidth>992 ? "Stark Gaming": "SG"
