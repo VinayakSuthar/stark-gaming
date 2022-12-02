@@ -1,3 +1,8 @@
+:root {
+  --primary-color: #e5414e;
+  --secondary-color: #c7d5e0
+}
+
 /* utility classes */
 .mobile {
   display: none;

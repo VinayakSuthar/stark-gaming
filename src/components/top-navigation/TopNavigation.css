@@ -1,0 +1,39 @@
+.top-nav {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px 0 40px;
+  justify-content: space-between;
+}
+
+.search-input {
+  background-color: #363537;
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 10px;
+  color: #c7d5e0;
+}
+
+.mobile-logo {
+  font-weight: 800;
+  font-size: 1.8rem;
+  margin: 0 10px;
+  color: var(--primary-color);
+}
+
+.setting-icon {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .top-nav {
+    padding: 10px 10px 0 0;
+  }
+  .search-input {
+    width: 220px;
+  }
+}
