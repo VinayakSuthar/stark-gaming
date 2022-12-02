@@ -1,0 +1,38 @@
+.most-popular {
+  padding: 20px;
+}
+
+.most-popular > h2 {
+  color: var(--primary-color);
+  margin: 20px 0;
+  font-size: 1.8rem;
+}
+
+.popular-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+@media screen and (max-width: 992px) {
+  .popular-list {
+    justify-content: space-around;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .most-popular {
+    padding: 0;
+  }
+  .popular-list {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
+  }
+  .popular-list::-webkit-scrollbar {
+    display: none
+  }
+}

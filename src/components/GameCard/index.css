@@ -1,0 +1,26 @@
+.game-card {
+  width: 250px;
+}
+
+.game-card > img {
+  width: 100%;
+  aspect-ratio: 266/150;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.game-card > .game-title {
+  color: var(--off-white);
+}
+
+.game-genre {
+  font-weight: 500;
+}
+
+@media screen and (max-width: 600px) {
+  .game-card {
+    display: inline-block;
+    width: 300px;
+    margin: 0 10px;
+  }
+}

@@ -27,7 +27,7 @@
 }
 
 .nav-link {
-  color: #c7d5e0;
+  color: var(--secondary-color);
   font-weight: 500;
   font-size: 1.2rem;
   display: flex;
