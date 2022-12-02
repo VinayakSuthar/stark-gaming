@@ -6,6 +6,7 @@
   width: 280px;
   padding: 0 30px 0 40px;
   background-color: #171a21;
+  z-index: 2;
 }
 
 .logo {
