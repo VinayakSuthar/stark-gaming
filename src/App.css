@@ -1,11 +1,15 @@
 :root {
   --primary-color: #e5414e;
-  --secondary-color: #c7d5e0
+  --secondary-color: #c7d5e0;
 }
 
 /* utility classes */
 .mobile {
   display: none;
+}
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 @media screen and (max-width: 600px) {
