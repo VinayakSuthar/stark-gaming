@@ -2,7 +2,7 @@ import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import {AiFillSetting} from "react-icons/ai";
 
-import "./TopNavigation.css";
+import "./index.css";
 
 export default function TopNavigation({setOpen}) {
   const [searchText, setSearchText] = useState("");

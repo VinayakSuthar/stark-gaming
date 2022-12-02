@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { BiHomeAlt, BiSearchAlt } from "react-icons/bi";
 import { MdSlowMotionVideo, MdOutlineFactCheck } from "react-icons/md";
 
-import "./NavigationBar.css";
+import "./index.css";
 
 export default function NavigationBar({navRef}) {
   const [activeIndex, setActiveIndex] = useState("home");
