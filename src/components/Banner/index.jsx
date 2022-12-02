@@ -1,13 +1,11 @@
 import axios from "axios";
-import { Carousel } from "react-responsive-carousel";
 import { useEffect, useState } from "react";
 
 import SwiperCore, { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import "./Banner.css";
+import "./index.css";
 
 const options = {
   method: "GET",
