@@ -19,7 +19,7 @@ export default function NavigationBar({navRef}) {
 
   return (
     <div ref={navRef} className="nav-bar">
-      <div className="logo">
+      <div className="logo desktop">
         {
           innerWidth>992 ? "Stark Gaming": "SG"
         }
