@@ -1,11 +1,10 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+
 import GameCard from "../GameCard";
-import SwiperCore, { Autoplay } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
-import "./index.css"
+import "./index.css";
 
 const options = {
   method: "GET",
@@ -30,13 +29,19 @@ export default function MostPopular() {
         console.error(error);
       });
   }, []);
+
   return (
     <div className="most-popular">
       <h2>Most Popular</h2>
       <div className="popular-list">
-        {gameList.map((game) => {
-          return <GameCard key={game.id} gameData={game} />;
-        })}
+        {gameList.length !== 0 &&
+          gameList.map((game) => {
+            return <GameCard key={game.id} gameData={game} />;
+          })}
+        {gameList.length === 0 &&
+          Array(8)
+            .fill(1)
+            .map(() => <GameCard gameData={{}}/>)}
       </div>
     </div>
   );
