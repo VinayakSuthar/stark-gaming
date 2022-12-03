@@ -13,6 +13,11 @@
   color: var(--off-white);
 }
 
+.game-card > a {
+  text-decoration: none;
+  color: var(--off-white);
+}
+
 .game-genre {
   font-weight: 500;
 }
