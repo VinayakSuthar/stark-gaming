@@ -4,6 +4,7 @@ import "./App.css";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Game from "./pages/Game";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -11,8 +12,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="browse" element={<h2>Browse</h2>} />
-          <Route path="game/:id" element={<Game />} />
+          <Route path="browse/">
+            <Route index element={<h2>Browse</h2>} />
+            <Route path=":id" element={<Game />} />
+          </Route>
         </Route>
       </Routes>
     </div>
