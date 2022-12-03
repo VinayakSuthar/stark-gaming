@@ -1,10 +1,11 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 
+import axios from "axios";
+import Skeleton from "react-loading-skeleton";
 import SwiperCore, { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
 
+import "swiper/css";
 import "./index.css";
 
 export default function Banner() {
@@ -31,18 +32,22 @@ export default function Banner() {
 
   return (
     <div className="home-banner">
-      <Swiper autoplay lazy modules={[Autoplay]} centeredSlides>
-        {gameList?.map(({ id, name, background_image }) => {
-          return (
-            <SwiperSlide key={id} className="img-box">
-              <img className="banner-image" src={background_image} />
-              <div className="title">
-                <p>{name}</p>
-              </div>
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
+      {gameList.length !== 0 ? (
+        <Swiper autoplay modules={[Autoplay]} centeredSlides>
+          {gameList?.map(({ id, name, background_image }) => {
+            return (
+              <SwiperSlide key={id} className="img-box">
+                <img className="banner-image" src={background_image} />
+                <div className="title">
+                  <p>{name}</p>
+                </div>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      ) : (
+        <Skeleton height="500px"/>
+      )}
     </div>
   );
 }

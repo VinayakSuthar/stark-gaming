@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import parse from "html-react-parser";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Skeleton from "react-loading-skeleton";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import "./index.css";
@@ -43,7 +43,6 @@ export default function GameDetail() {
     })();
   }, []);
   return (
-    <SkeletonTheme baseColor="#171a21" highlightColor="#040f14">
       <div className="game-detail">
         <h1 className="game-title">{name || <Skeleton width="400px" />}</h1>
         <div className="game-detail-container">
@@ -91,6 +90,5 @@ export default function GameDetail() {
           </div>
         </div>
       </div>
-    </SkeletonTheme>
   );
 }
