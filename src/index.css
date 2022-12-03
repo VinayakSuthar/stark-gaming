@@ -12,6 +12,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --primary-color: #e5414e;
+  --secondary-color: #c7d5e0;
+  --off-white: #FAF9F6;
+  --dark-blue: #171a21;
+  --light-blue: #7393B3;
 }
 
 * {
@@ -20,7 +25,22 @@
   padding: 0;
 }
 
-/* html * {
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3);
-} */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #040f14; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #171a21; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #1d2028; 
+}

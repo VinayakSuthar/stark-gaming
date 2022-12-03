@@ -38,15 +38,6 @@ export default function MostPopular() {
           return <GameCard key={game.id} gameData={game} />;
         })}
       </div>
-      {/* <div className="popular-list-mobile mobile">
-        <Swiper lazy modules={[Autoplay]} centeredSlides>
-          {gameList.map((game) => {
-            return <SwiperSlide>
-              <GameCard key={game.id} gameData={game} />
-            </SwiperSlide>;
-          })}
-        </Swiper>
-      </div> */}
     </div>
   );
 }
