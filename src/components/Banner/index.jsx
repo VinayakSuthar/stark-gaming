@@ -12,7 +12,7 @@ export default function Banner() {
   const options = {
     method: "GET",
     url: "https://rawg-video-games-database.p.rapidapi.com/games",
-    params: { key: import.meta.env.VITE_RAWG_KEY, page_size: "8" },
+    params: { key: import.meta.env.VITE_RAWG_KEY, page_size: "5" },
     headers: {
       "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API_KEY,
       "X-RapidAPI-Host": "rawg-video-games-database.p.rapidapi.com",
