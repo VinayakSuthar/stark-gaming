@@ -4,7 +4,7 @@
   column-gap: 20px;
 }
 
-.game-title {
+.game-detail > .game-title {
   font-size: 2.3rem;
   color: var(--off-white);
   margin-bottom: 20px;
