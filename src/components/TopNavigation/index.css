@@ -7,7 +7,7 @@
 }
 
 .search-input {
-  background-color: #171a21;
+  background-color: var(--dark-blue);
   border: none;
   outline: none;
   padding: 10px 15px;
@@ -15,7 +15,7 @@
   font-weight: 600;
   font-size: 1rem;
   border-radius: 10px;
-  color: #c7d5e0;
+  color: var(--secondary-color);
 }
 
 .mobile-logo {
