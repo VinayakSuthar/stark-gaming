@@ -1,22 +1,21 @@
+import {useEffect, useState} from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
 
-import GameCard from "../GameCard";
+import GameCard from "../../components/GameCard";
 
-import "swiper/css";
-import "./index.css";
+import "./style.css";
 
 const options = {
   method: "GET",
   url: "https://rawg-video-games-database.p.rapidapi.com/games",
-  params: { key: import.meta.env.VITE_RAWG_KEY, page_size: "8" },
+  params: { key: import.meta.env.VITE_RAWG_KEY, page_size: "40" },
   headers: {
     "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API_KEY,
     "X-RapidAPI-Host": "rawg-video-games-database.p.rapidapi.com",
   },
 };
 
-export default function MostPopular() {
+export default function Browse() {
   const [gameList, setGameList] = useState([]);
   useEffect(() => {
     axios
@@ -30,17 +29,17 @@ export default function MostPopular() {
   }, []);
 
   return (
-    <div className="most-popular">
-      <h2>Most Popular</h2>
-      <div className="popular-list">
+    <div>
+      <h1>Browse</h1>
+      <div className="browse-list">
         {gameList.length !== 0 &&
           gameList.map((game) => {
             return <GameCard key={game.id} gameData={game} />;
           })}
         {gameList.length === 0 &&
-          Array(8)
+          Array(40)
             .fill(1)
-            .map((item,index) => <GameCard key={index} gameData={{}}/>)}
+            .map((item, index) => <GameCard key={index} gameData={{}} />)}
       </div>
     </div>
   );
