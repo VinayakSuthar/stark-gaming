@@ -21,11 +21,3 @@
 .game-genre {
   font-weight: 500;
 }
-
-@media screen and (max-width: 600px) {
-  .game-card {
-    display: inline-block;
-    width: 300px;
-    margin: 0 10px;
-  }
-}
