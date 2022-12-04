@@ -4,7 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import "./index.css";
 
 export default function GameCard({ gameData }) {
-  const { id,background_image, name, genres } = gameData;
+  const { id, background_image, name, genres } = gameData;
   return (
     <div className="game-card">
       {background_image ? (

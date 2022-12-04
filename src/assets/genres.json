@@ -1,0 +1,116 @@
+[
+  {
+    "id": 4,
+    "name": "Action",
+    "slug": "action",
+    "games_count": 168584
+  },
+  {
+    "id": 51,
+    "name": "Indie",
+    "slug": "indie",
+    "games_count": 49096
+  },
+  {
+    "id": 3,
+    "name": "Adventure",
+    "slug": "adventure",
+    "games_count": 128967
+  },
+  {
+    "id": 5,
+    "name": "RPG",
+    "slug": "role-playing-games-rpg",
+    "games_count": 51236
+  },
+  {
+    "id": 10,
+    "name": "Strategy",
+    "slug": "strategy",
+    "games_count": 51030
+  },
+  {
+    "id": 2,
+    "name": "Shooter",
+    "slug": "shooter",
+    "games_count": 59194
+  },
+  {
+    "id": 40,
+    "name": "Casual",
+    "slug": "casual",
+    "games_count": 41854
+  },
+  {
+    "id": 14,
+    "name": "Simulation",
+    "slug": "simulation",
+    "games_count": 63700
+  },
+  {
+    "id": 7,
+    "name": "Puzzle",
+    "slug": "puzzle",
+    "games_count": 95255
+  },
+  {
+    "id": 11,
+    "name": "Arcade",
+    "slug": "arcade",
+    "games_count": 22524
+  },
+  {
+    "id": 83,
+    "name": "Platformer",
+    "slug": "platformer",
+    "games_count": 99434
+  },
+  {
+    "id": 1,
+    "name": "Racing",
+    "slug": "racing",
+    "games_count": 23586
+  },
+  {
+    "id": 59,
+    "name": "Massively Multiplayer",
+    "slug": "massively-multiplayer",
+    "games_count": 3085
+  },
+  {
+    "id": 15,
+    "name": "Sports",
+    "slug": "sports",
+    "games_count": 20151
+  },
+  {
+    "id": 6,
+    "name": "Fighting",
+    "slug": "fighting",
+    "games_count": 11553
+  },
+  {
+    "id": 19,
+    "name": "Family",
+    "slug": "family",
+    "games_count": 5372
+  },
+  {
+    "id": 28,
+    "name": "Board Games",
+    "slug": "board-games",
+    "games_count": 8229
+  },
+  {
+    "id": 34,
+    "name": "Educational",
+    "slug": "educational",
+    "games_count": 15156
+  },
+  {
+    "id": 17,
+    "name": "Card",
+    "slug": "card",
+    "games_count": 4420
+  }
+]
