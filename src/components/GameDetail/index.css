@@ -11,7 +11,7 @@
 }
 
 .game-image {
-  max-width: 750px;
+  /* max-width: 750px; */
   aspect-ratio: 16/9;
   object-fit: cover;
   border-radius: 20px;
@@ -43,11 +43,38 @@
 }
 
 .game-detail-right .subtitle-data {
-  /* text-decoration: underline; */
   color: var(--off-white);
 }
 
 .game-detail-right .game-site-link {
   color: var(--secondary-color);
   font-weight: 500;
+}
+
+@media screen and (max-width: 992px) {
+  .game-description > div {
+    aspect-ratio: 4/1;
+  }
+}
+@media screen and (max-width: 600px) {
+  .game-detail > .game-title {
+    font-size: 2rem;
+  }
+
+  .game-detail-container {
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .game-description > div {
+    aspect-ratio: 5/2;
+    font-size: 1rem;
+  }
+  .game-detail-right {
+    flex-direction: unset;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .game-detail-right > div {
+    width: 50%;
+  }
 }
