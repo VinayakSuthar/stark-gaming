@@ -26,3 +26,12 @@
   padding: 0 10px;
   cursor: pointer;
 }
+
+@media screen and (max-width: 600px) {
+  .browse-list {
+    justify-content: center;
+  }
+  .browse-list > .game-card {
+    width: 100%;
+  }
+}

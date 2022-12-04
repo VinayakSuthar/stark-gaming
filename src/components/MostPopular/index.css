@@ -29,6 +29,12 @@
     scrollbar-width: none;
   }
   .popular-list::-webkit-scrollbar {
-    display: none
+    display: none;
+  }
+
+  .popular-list > .game-card {
+    display: inline-block;
+    width: 300px;
+    margin: 0 10px;
   }
 }
