@@ -7,6 +7,7 @@ import useAxios from "../../hooks/useAxios";
 
 export default function Home() {
   const [gameList, setGameList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchGames = useAxios();
   useEffect(() => {
@@ -17,18 +18,18 @@ export default function Home() {
         },
       })
       .then((response) => {
-        console.log(response);
         setGameList(response.data.results);
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   return (
     <div>
-      <Banner gameList={gameList} />
-      <MostPopular gameList={gameList} />
+      <Banner gameList={gameList} loading={loading} />
+      <MostPopular gameList={gameList} loading={loading} />
     </div>
   );
 }

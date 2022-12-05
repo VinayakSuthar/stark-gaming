@@ -5,10 +5,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "./index.css";
 
-export default function Banner({ gameList }) {
+export default function Banner({ gameList, loading }) {
   return (
     <div className="home-banner">
-      {gameList.length !== 0 ? (
+      {!loading ? (
         <Swiper autoplay modules={[Autoplay]} centeredSlides>
           {gameList?.map(({ id, name, background_image }) => {
             return (
