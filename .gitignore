@@ -23,7 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 *.env
-
-# Personal
-.gitignore
-useAxios.js
