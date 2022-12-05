@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import useAxios from "../../hooks/useAxios";
 
 import GameCard from "../../components/GameCard";
 import genreList from "../../assets/genres.json";
@@ -8,37 +8,22 @@ import "./style.css";
 
 export default function Browse() {
   const [gameList, setGameList] = useState([]);
-  const [genreParams, setGenreParams] = useState("");
-  const options = {
-    method: "GET",
-    url: "https://rawg-video-games-database.p.rapidapi.com/games",
-    params: {
-      key: import.meta.env.VITE_RAWG_KEY,
-      page_size: "40",
-    },
-    headers: {
-      "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API_KEY,
-      "X-RapidAPI-Host": "rawg-video-games-database.p.rapidapi.com",
-    },
-  };
-
-  function fetchGames(options) {
-    axios
-      .request(options)
-      .then(function (response) {
+  const axiosInstance = useAxios();
+  function fetchGames(options = {}) {
+    axiosInstance
+      .get("games", { params: { ...options } })
+      .then((response) => {
+        console.log(response);
         setGameList(response.data.results);
       })
-      .catch(function (error) {
-        console.error(error);
+      .catch((err) => {
+        console.log(err);
       });
   }
 
   useEffect(() => {
-    if (genreParams) {
-      options.params.genres = genreParams;
-    }
-    fetchGames(options);
-  }, [genreParams]);
+    fetchGames();
+  }, []);
 
   return (
     <div>
@@ -46,21 +31,24 @@ export default function Browse() {
       <div className="genres-container">
         {genreList.map(({ id, name, slug }) => {
           return (
-            <p className="genre" key={id} onClick={() => setGenreParams(slug)}>
+            <p
+              className="genre"
+              key={id}
+              onClick={() => fetchGames({ genres: slug })}
+            >
               {name}
             </p>
           );
         })}
       </div>
       <div className="browse-list">
-        {gameList.length !== 0 &&
-          gameList.map((game) => {
-            return <GameCard key={game.id} gameData={game} />;
-          })}
-        {gameList.length === 0 &&
-          Array(40)
-            .fill(1)
-            .map((item, index) => <GameCard key={index} gameData={{}} />)}
+        {gameList?.length !== 0
+          ? gameList?.map((game) => {
+              return <GameCard key={game.id} gameData={game} />;
+            })
+          : Array(40)
+              .fill(1)
+              .map((item, index) => <GameCard key={index} gameData={{}} />)}
       </div>
     </div>
   );
