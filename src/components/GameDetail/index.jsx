@@ -10,6 +10,7 @@ import "./index.css";
 export default function GameDetail() {
   const { id: gameId } = useParams();
   const [gameData, setGameData] = useState({});
+  const [loading, setLoading] = useState(true);
   const fetchGames = useAxios();
   const {
     name,
@@ -23,11 +24,13 @@ export default function GameDetail() {
   } = gameData;
 
   useEffect(() => {
+    // setLoading(true);
     fetchGames(`games/${gameId}`)
       .then((response) => {
         setGameData(response.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -35,7 +38,7 @@ export default function GameDetail() {
       <h1 className="game-title">{name || <Skeleton width="400px" />}</h1>
       <div className="game-detail-container">
         <div className="game-detail-left">
-          {background_image ? (
+          {!loading ? (
             <img className="game-image" src={background_image} alt="game" />
           ) : (
             <Skeleton height="400px" width="53vw" />
@@ -43,11 +46,7 @@ export default function GameDetail() {
           <div className="game-description">
             <h2>About this Game</h2>
             <div>
-              {description ? (
-                parse(`${description}`)
-              ) : (
-                <Skeleton height="200px" />
-              )}
+              {!loading ? parse(`${description}`) : <Skeleton height="200px" />}
             </div>
           </div>
         </div>
@@ -55,24 +54,24 @@ export default function GameDetail() {
           <div>
             <p className="subtitle">Genre: </p>
             <p className="subtitle-data">
-              {genres ? genres[0].name : <Skeleton />}
+              {!loading ? genres[0]?.name : <Skeleton />}
             </p>
           </div>
           <div>
             <p className="subtitle">Developers: </p>
             <p className="subtitle-data">
-              {developers ? developers[0].name : <Skeleton />}
+              {!loading ? developers[0]?.name : <Skeleton />}
             </p>
           </div>
           <div>
             <p className="subtitle">Publisher: </p>
             <p className="subtitle-data">
-              {publishers ? publishers[0].name : <Skeleton />}
+              {!loading ? publishers[0]?.name : <Skeleton />}
             </p>
           </div>
           <div>
             <p className="subtitle">Released Date: </p>
-            <p className="subtitle-data">{released || <Skeleton />}</p>
+            <p className="subtitle-data">{!loading || <Skeleton />}</p>
           </div>
           <a className="game-site-link" target="_blank" href={website}>
             Visit Site

@@ -5,20 +5,22 @@ import GameCard from "../../components/GameCard";
 import genreList from "../../assets/genres.json";
 
 import "./style.css";
+import SkeletonCard from "../../components/SkeletonCard";
 
 export default function Browse() {
   const [gameList, setGameList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const axiosInstance = useAxios();
   function fetchGames(options = {}) {
     axiosInstance
       .get("games", { params: { ...options } })
       .then((response) => {
-        console.log(response);
         setGameList(response.data.results);
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(() => setLoading(false));
   }
 
   useEffect(() => {
@@ -42,13 +44,11 @@ export default function Browse() {
         })}
       </div>
       <div className="browse-list">
-        {gameList?.length !== 0
+        {!loading
           ? gameList?.map((game) => {
               return <GameCard key={game.id} gameData={game} />;
             })
-          : Array(40)
-              .fill(1)
-              .map((item, index) => <GameCard key={index} gameData={{}} />)}
+          : [...Array(12)].map((item, index) => <SkeletonCard key={index} />)}
       </div>
     </div>
   );
