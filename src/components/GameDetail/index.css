@@ -1,7 +1,41 @@
 .game-detail-container {
-  display: flex;
-  justify-content: space-between;
-  column-gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  row-gap: 20px;
+}
+
+.game-content {
+  grid-column-end: span 12;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+}
+
+.game-image,
+.game-content > span {
+  grid-column-end: span 9;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.game-info {
+  grid-column-end: span 3;
+}
+
+.game-about {
+  grid-column-end: span 9;
+}
+
+.game-about > div {
+  overflow-y: auto;
+  font-size: 1.1rem;
+  aspect-ratio: 5/1;
+}
+
+.game-about > h2 {
+  margin-bottom: 10px;
+  color: var(--off-white);
 }
 
 .game-detail > .game-title {
@@ -10,71 +44,72 @@
   margin-bottom: 20px;
 }
 
-.game-image {
-  /* max-width: 750px; */
-  aspect-ratio: 16/9;
-  object-fit: cover;
-  border-radius: 20px;
-}
-
-.game-description > div {
-  max-width: 750px;
-  font-weight: 500;
-  aspect-ratio: 5/1;
-  overflow-y: auto;
-  font-size: 1.1rem;
-}
-
-.game-description > h2 {
-  margin: 20px 0 10px 0;
-  color: var(--off-white);
-}
-
-.game-detail-right {
+.game-info {
   width: 100%;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
 }
 
-.game-detail-right .subtitle {
+.game-info .subtitle {
   font-weight: 500;
   color: var(--light-blue);
 }
 
-.game-detail-right .subtitle-data {
+.game-info .subtitle-data {
   color: var(--off-white);
 }
 
-.game-detail-right .game-site-link {
+.game-info .game-site-link {
   color: var(--secondary-color);
   font-weight: 500;
 }
 
+@media screen and (max-width: 1200px) {
+  .game-image,
+  .game-content > span {
+    grid-column-end: span 8;
+  }
+  .game-info {
+    grid-column-end: span 4;
+  }
+}
+
 @media screen and (max-width: 992px) {
-  .game-description > div {
-    aspect-ratio: 4/1;
+  .game-detail-container {
+    row-gap: 30px;
+  }
+  .game-image,
+  .game-content > span {
+    grid-column-end: span 12;
+  }
+  .game-info {
+    grid-column-end: span 12;
+    flex-direction: unset;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .game-info > div {
+    width: 45%;
+  }
+  .game-about {
+    grid-column-end: span 12;
+  }
+  .game-about > div {
+    aspect-ratio: 3/1;
   }
 }
 @media screen and (max-width: 600px) {
   .game-detail > .game-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
-
   .game-detail-container {
     flex-direction: column;
-    row-gap: 10px;
+    row-gap: 30px;
   }
-  .game-description > div {
+  .game-about > div {
     aspect-ratio: 5/2;
     font-size: 1rem;
-  }
-  .game-detail-right {
-    flex-direction: unset;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  .game-detail-right > div {
-    width: 50%;
   }
 }
