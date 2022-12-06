@@ -49,67 +49,72 @@ export default function GameDetail() {
     <div className="game-detail">
       <h1 className="game-title">{name || <Skeleton width="400px" />}</h1>
       <div className="game-detail-container">
-        <div className="game-detail-left">
+        <div className="game-content">
           {!loading ? (
             <img className="game-image" src={background_image} alt="game" />
           ) : (
-            <Skeleton height="400px" width="53vw" />
+            <Skeleton style={{ aspectRatio: "16/9" }} />
           )}
-          <div className="game-description">
-            <h2>About this Game</h2>
+          <div className="game-info">
             <div>
-              {!loading ? (
-                description ? (
-                  parse(`${description}`)
+              <p className="subtitle">Genre: </p>
+              <p className="subtitle-data">
+                {!loading ? (
+                  genres?.map(({ name }) => name).join(", ") || `No Data`
                 ) : (
-                  `No Data`
-                )
-              ) : (
-                <Skeleton height="200px" />
-              )}
+                  <Skeleton className="game-info" />
+                )}
+              </p>
             </div>
+            <div>
+              <p className="subtitle">Developers: </p>
+              <p className="subtitle-data">
+                {!loading ? (
+                  developers?.map(({ name }) => name).join(", ") || `No Data`
+                ) : (
+                  <Skeleton className="game-info" />
+                )}
+              </p>
+            </div>
+            <div>
+              <p className="subtitle">Publisher: </p>
+              <p className="subtitle-data">
+                {!loading ? (
+                  publishers?.map(({ name }) => name).join(", ") || `No Data`
+                ) : (
+                  <Skeleton className="game-info" />
+                )}
+              </p>
+            </div>
+            <div>
+              <p className="subtitle">Released Date: </p>
+              <p className="subtitle-data">
+                {!loading ? (
+                  released || `No Data`
+                ) : (
+                  <Skeleton className="game-info" />
+                )}
+              </p>
+            </div>
+            <a className="game-site-link" target="_blank" href={website}>
+              Visit Site
+            </a>
           </div>
         </div>
-        <div className="game-detail-right">
+
+        <div className="game-about">
+          <h2>About this Game</h2>
           <div>
-            <p className="subtitle">Genre: </p>
-            <p className="subtitle-data">
-              {!loading ? (
-                genres?.map(({ name }) => name).join(", ") || `No Data`
+            {!loading ? (
+              description ? (
+                parse(`${description}`)
               ) : (
-                <Skeleton />
-              )}
-            </p>
+                `No Data`
+              )
+            ) : (
+              <Skeleton height="200px" />
+            )}
           </div>
-          <div>
-            <p className="subtitle">Developers: </p>
-            <p className="subtitle-data">
-              {!loading ? (
-                developers?.map(({ name }) => name).join(", ") || `No Data`
-              ) : (
-                <Skeleton />
-              )}
-            </p>
-          </div>
-          <div>
-            <p className="subtitle">Publisher: </p>
-            <p className="subtitle-data">
-              {!loading ? (
-                publishers?.map(({ name }) => name).join(", ") || `No Data`
-              ) : (
-                <Skeleton />
-              )}
-            </p>
-          </div>
-          <div>
-            <p className="subtitle">Released Date: </p>
-            <p className="subtitle-data">
-              {!loading ? released || `No Data` : <Skeleton />}
-            </p>
-          </div>
-          <a className="game-site-link" target="_blank" href={website}>
-            Visit Site
-          </a>
         </div>
       </div>
     </div>
