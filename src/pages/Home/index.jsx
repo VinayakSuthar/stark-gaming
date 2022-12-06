@@ -8,6 +8,7 @@ import useAxios from "../../hooks/useAxios";
 export default function Home() {
   const [gameList, setGameList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchGames = useAxios();
   useEffect(() => {
@@ -21,10 +22,17 @@ export default function Home() {
         setGameList(response.data.results);
       })
       .catch((err) => {
-        console.log(err);
+        setError(err);
       })
       .finally(() => setLoading(false));
   }, []);
+
+  if (error) {
+    return <h1>Service Unavailable</h1>;
+  }
+  if (!gameList) {
+    return <h1>No Data found. Please try again later</h1>;
+  }
 
   return (
     <div>
