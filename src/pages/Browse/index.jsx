@@ -11,8 +11,11 @@ export default function Browse() {
   const [gameList, setGameList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activeCategory, setActiveCategory] = useState("");
+
   const axiosInstance = useAxios();
   function fetchGames(options = {}) {
+    setLoading(true);
     axiosInstance
       .get("games", { params: { ...options } })
       .then((response) => {
@@ -28,6 +31,13 @@ export default function Browse() {
     fetchGames();
   }, []);
 
+  function handleGenreClick(name, slug) {
+    if (activeCategory !== name) {
+      fetchGames({ genres: slug });
+      setActiveCategory(name);
+    }
+  }
+
   if (error) {
     return <h1>Service Unavailable</h1>;
   }
@@ -38,13 +48,15 @@ export default function Browse() {
       <div className="genres-container">
         {genreList.map(({ id, name, slug }) => {
           return (
-            <p
-              className="genre"
+            <button
+              className={`genre ${
+                activeCategory === name && "active-category"
+              }`}
               key={id}
-              onClick={() => fetchGames({ genres: slug })}
+              onClick={() => handleGenreClick(name, slug)}
             >
               {name}
-            </p>
+            </button>
           );
         })}
       </div>
