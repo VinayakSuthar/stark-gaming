@@ -1,4 +1,3 @@
-
 /* utility classes */
 .mobile {
   display: none;
@@ -8,7 +7,7 @@ img {
   height: auto;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 480px) {
   .mobile {
     display: block;
   }

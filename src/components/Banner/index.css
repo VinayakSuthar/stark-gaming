@@ -2,7 +2,7 @@
   margin: 30px auto;
   overflow: hidden;
   border-radius: 20px;
-  max-width: 900px;
+  width: 80%;
 }
 
 .img-box {
@@ -10,7 +10,7 @@
 }
 
 .banner-image {
-  max-width: 900px;
+  width: 100%;
   aspect-ratio: 9/5;
   object-fit: cover;
   border-radius: 20px;
@@ -36,7 +36,7 @@
   width: 600px;
 }
 
-@media screen and (max-width: 1200px ) {
+@media screen and (max-width: 1200px) {
   .home-banner {
     width: 100%;
   }
