@@ -5,19 +5,28 @@
 }
 
 .popular-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(auto, 1fr));
   gap: 20px;
 }
 
+.popular-list > div {
+  grid-column-end: span 3;
+}
+
 @media screen and (max-width: 992px) {
-  .popular-list {
-    justify-content: space-around;
+  .popular-list > div {
+    grid-column-end: span 4;
   }
 }
 
 @media screen and (max-width: 600px) {
+  .popular-list > div {
+    grid-column-end: span 6;
+  }
+}
+
+@media screen and (max-width: 480px) {
   .most-popular {
     padding: 0;
   }

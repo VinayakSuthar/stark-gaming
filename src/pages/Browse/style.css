@@ -1,9 +1,11 @@
 .browse-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(auto, 1fr));
   gap: 20px;
   margin-top: 20px;
+}
+.browse-list > div {
+  grid-column-end: span 3;
 }
 
 .genres-container {
@@ -27,11 +29,20 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 600px) {
-  .browse-list {
-    justify-content: center;
+@media screen and (max-width: 992px) {
+  .browse-list > div {
+    grid-column-end: span 4;
   }
-  .browse-list > .game-card {
-    width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  .browse-list > div {
+    grid-column-end: span 6;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .browse-list > div {
+    grid-column-end: span 12;
   }
 }

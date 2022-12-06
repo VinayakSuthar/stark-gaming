@@ -7,7 +7,7 @@ import NavigationBar from "../Navigation";
 import TopNavigation from "../TopNavigation";
 
 export default function Layout() {
-  const [open, setOpen] = useState(window.innerWidth < 601 ? false : true);
+  const [open, setOpen] = useState(window.innerWidth < 480 ? false : true);
   const navRef = useRef(null);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function Layout() {
         setOpen(false);
       }
     };
-    if (window.innerWidth < 600) {
+    if (window.innerWidth < 480) {
       document.addEventListener("click", outsideClick, true);
       return () => {
         document.removeEventListener("click", outsideClick, true);
