@@ -65,7 +65,9 @@ export default function Browse() {
           ? gameList?.map((game) => {
               return <GameCard key={game.id} gameData={game} />;
             })
-          : [...Array(12)].map((item, index) => <SkeletonCard key={index} />)}
+          : [...Array(12)].map((item, index) => (
+              <SkeletonCard key={index} cardStyle="skeleton-card" />
+            ))}
       </div>
     </div>
   );

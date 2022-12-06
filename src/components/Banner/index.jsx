@@ -22,7 +22,7 @@ export default function Banner({ gameList, loading }) {
           })}
         </Swiper>
       ) : (
-        <Skeleton height="500px" />
+        <Skeleton style={{ aspectRatio: "9/5" }} />
       )}
     </div>
   );
