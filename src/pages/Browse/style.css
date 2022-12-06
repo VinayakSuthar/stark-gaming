@@ -25,8 +25,18 @@
   color: var(--light-blue);
   font-weight: 500;
   border-radius: 5px;
-  padding: 0 10px;
+  padding: 2px 10px;
   cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.active-category {
+  border: 2px solid var(--secondary-color);
+  background-color: var(--light-blue);
+  color: var(--dark-blue);
 }
 
 @media screen and (max-width: 992px) {
