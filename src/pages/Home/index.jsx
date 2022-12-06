@@ -30,9 +30,6 @@ export default function Home() {
   if (error) {
     return <h1>Service Unavailable</h1>;
   }
-  if (!gameList) {
-    return <h1>No Data found. Please try again later</h1>;
-  }
 
   return (
     <div>
