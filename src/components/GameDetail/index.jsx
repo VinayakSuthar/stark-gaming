@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import Skeleton from "react-loading-skeleton";
 import useAxios from "../../hooks/useAxios";
+import { useNavigate } from "react-router-dom";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import "./index.css";
@@ -11,7 +12,9 @@ export default function GameDetail() {
   const { id: gameId } = useParams();
   const [gameData, setGameData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const fetchGames = useAxios();
+  const navigate = useNavigate();
   const {
     name,
     background_image,
@@ -24,15 +27,27 @@ export default function GameDetail() {
   } = gameData;
 
   useEffect(() => {
-    // setLoading(true);
     fetchGames(`games/${gameId}`)
       .then((response) => {
         setGameData(response.data);
+        console.log(response);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        setError(err);
+      })
       .finally(() => setLoading(false));
   }, []);
 
+  if (error) {
+    if (error?.response.status === 404) {
+      return <h1>Game Not Found</h1>;
+    } else {
+      return <h1>Service unavailable</h1>;
+    }
+  }
+  if (!gameData) {
+    return <h1>No Data</h1>;
+  }
   return (
     <div className="game-detail">
       <h1 className="game-title">{name || <Skeleton width="400px" />}</h1>
@@ -46,7 +61,15 @@ export default function GameDetail() {
           <div className="game-description">
             <h2>About this Game</h2>
             <div>
-              {!loading ? parse(`${description}`) : <Skeleton height="200px" />}
+              {!loading ? (
+                description ? (
+                  parse(`${description}`)
+                ) : (
+                  `No Data`
+                )
+              ) : (
+                <Skeleton height="200px" />
+              )}
             </div>
           </div>
         </div>
@@ -54,24 +77,38 @@ export default function GameDetail() {
           <div>
             <p className="subtitle">Genre: </p>
             <p className="subtitle-data">
-              {!loading ? genres[0]?.name : <Skeleton />}
+              {!loading ? (
+                genres?.map(({ name }) => name).join(", ") || `No Data`
+              ) : (
+                <Skeleton />
+              )}
             </p>
           </div>
           <div>
             <p className="subtitle">Developers: </p>
             <p className="subtitle-data">
-              {!loading ? developers[0]?.name : <Skeleton />}
+              {!loading ? (
+                developers?.map(({ name }) => name).join(", ") || `No Data`
+              ) : (
+                <Skeleton />
+              )}
             </p>
           </div>
           <div>
             <p className="subtitle">Publisher: </p>
             <p className="subtitle-data">
-              {!loading ? publishers[0]?.name : <Skeleton />}
+              {!loading ? (
+                publishers?.map(({ name }) => name).join(", ") || `No Data`
+              ) : (
+                <Skeleton />
+              )}
             </p>
           </div>
           <div>
             <p className="subtitle">Released Date: </p>
-            <p className="subtitle-data">{!loading || <Skeleton />}</p>
+            <p className="subtitle-data">
+              {!loading ? released || `No Data` : <Skeleton />}
+            </p>
           </div>
           <a className="game-site-link" target="_blank" href={website}>
             Visit Site

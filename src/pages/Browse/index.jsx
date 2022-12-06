@@ -10,6 +10,7 @@ import SkeletonCard from "../../components/SkeletonCard";
 export default function Browse() {
   const [gameList, setGameList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const axiosInstance = useAxios();
   function fetchGames(options = {}) {
     axiosInstance
@@ -18,7 +19,7 @@ export default function Browse() {
         setGameList(response.data.results);
       })
       .catch((err) => {
-        console.log(err);
+        setError(err);
       })
       .finally(() => setLoading(false));
   }
@@ -26,6 +27,13 @@ export default function Browse() {
   useEffect(() => {
     fetchGames();
   }, []);
+
+  if (error) {
+    return <h1>Service Unavailable</h1>;
+  }
+  if (!gameList) {
+    return <h1>No data found. Please try again later</h1>;
+  }
 
   return (
     <div>
