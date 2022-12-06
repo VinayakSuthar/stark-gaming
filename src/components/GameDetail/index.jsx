@@ -45,9 +45,6 @@ export default function GameDetail() {
       return <h1>Service unavailable</h1>;
     }
   }
-  if (!gameData) {
-    return <h1>No Data</h1>;
-  }
   return (
     <div className="game-detail">
       <h1 className="game-title">{name || <Skeleton width="400px" />}</h1>
