@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import useAxios from "../../hooks/useAxios";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 import GameCard from "../../components/GameCard";
 import genreList from "../../assets/genres.json";
@@ -12,6 +13,16 @@ export default function Browse() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState("");
+  const [wishlist, setWishlist] = useLocalStorage("wishlist", []);
+
+  function addGameToWishlist(id) {
+    if (wishlist.includes(id)) {
+      const newList = wishlist.filter((item) => item !== id);
+      setWishlist(newList);
+    } else {
+      setWishlist((previousList) => [...previousList, id]);
+    }
+  }
 
   const axiosInstance = useAxios();
   function fetchGames(options = {}) {
@@ -63,7 +74,14 @@ export default function Browse() {
       <div className="browse-list">
         {!loading
           ? gameList?.map((game) => {
-              return <GameCard key={game.id} gameData={game} />;
+              return (
+                <GameCard
+                  key={game.id}
+                  gameData={game}
+                  addGameToWishlist={addGameToWishlist}
+                  wishlist={wishlist}
+                />
+              );
             })
           : [...Array(12)].map((item, index) => (
               <SkeletonCard key={index} cardStyle="skeleton-card" />
