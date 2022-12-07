@@ -8,8 +8,8 @@ export default function GameCard({ gameData, addGameToWishlist, wishlist }) {
 
   return (
     <div className="game-card">
-      <img src={background_image} alt="game" />
       <Link to={`/browse/${id}`}>
+        <img src={background_image} alt="game" />
         <h3 className="game-title">{name}</h3>
       </Link>
       <p className="game-genre">{genres[0]?.name}</p>
