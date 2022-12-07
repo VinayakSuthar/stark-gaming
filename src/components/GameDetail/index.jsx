@@ -47,7 +47,9 @@ export default function GameDetail() {
   }
   return (
     <div className="game-detail">
-      {!loading ? (
+      {loading ? (
+        <GameDetailSkeleton />
+      ) : (
         <>
           <h1 className="game-title">{name || <Skeleton width="400px" />}</h1>
           <div className="game-detail-container">
@@ -90,8 +92,6 @@ export default function GameDetail() {
             </div>
           </div>
         </>
-      ) : (
-        <GameDetailSkeleton />
       )}
     </div>
   );
