@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import parse from "html-react-parser";
-import Skeleton from "react-loading-skeleton";
+import GameDetailSkeleton from "../GameDetailSkeleton";
 import useAxios from "../../hooks/useAxios";
 import { useNavigate } from "react-router-dom";
 
@@ -47,76 +47,52 @@ export default function GameDetail() {
   }
   return (
     <div className="game-detail">
-      <h1 className="game-title">{name || <Skeleton width="400px" />}</h1>
-      <div className="game-detail-container">
-        <div className="game-content">
-          {!loading ? (
-            <img className="game-image" src={background_image} alt="game" />
-          ) : (
-            <Skeleton style={{ aspectRatio: "16/9" }} />
-          )}
-          <div className="game-info">
-            <div>
-              <p className="subtitle">Genre: </p>
-              <p className="subtitle-data">
-                {!loading ? (
-                  genres?.map(({ name }) => name).join(", ") || `No Data`
-                ) : (
-                  <Skeleton className="game-info" />
-                )}
-              </p>
-            </div>
-            <div>
-              <p className="subtitle">Developers: </p>
-              <p className="subtitle-data">
-                {!loading ? (
-                  developers?.map(({ name }) => name).join(", ") || `No Data`
-                ) : (
-                  <Skeleton className="game-info" />
-                )}
-              </p>
-            </div>
-            <div>
-              <p className="subtitle">Publisher: </p>
-              <p className="subtitle-data">
-                {!loading ? (
-                  publishers?.map(({ name }) => name).join(", ") || `No Data`
-                ) : (
-                  <Skeleton className="game-info" />
-                )}
-              </p>
-            </div>
-            <div>
-              <p className="subtitle">Released Date: </p>
-              <p className="subtitle-data">
-                {!loading ? (
-                  released || `No Data`
-                ) : (
-                  <Skeleton className="game-info" />
-                )}
-              </p>
-            </div>
-            <a className="game-site-link" target="_blank" href={website}>
-              Visit Site
-            </a>
-          </div>
-        </div>
+      {!loading ? (
+        <>
+          <h1 className="game-title">{name || <Skeleton width="400px" />}</h1>
+          <div className="game-detail-container">
+            <div className="game-content">
+              <img className="game-image" src={background_image} alt="game" />
 
-        <div className="game-about">
-          <h2>About this Game</h2>
-          <div>
-            {!loading ? (
-              description ? (
-                parse(`${description}`)
-              ) : (
-                `No Data`
-              )
-            ) : (
-              <Skeleton height="200px" />
-            )}
+              <div className="game-info">
+                <div>
+                  <p className="subtitle">Genre: </p>
+                  <p className="subtitle-data">
+                    {genres?.map(({ name }) => name).join(", ") || `No Data`}
+                  </p>
+                </div>
+                <div>
+                  <p className="subtitle">Developers: </p>
+                  <p className="subtitle-data">
+                    {developers?.map(({ name }) => name).join(", ") ||
+                      `No Data`}
+                  </p>
+                </div>
+                <div>
+                  <p className="subtitle">Publisher: </p>
+                  <p className="subtitle-data">
+                    {publishers?.map(({ name }) => name).join(", ") ||
+                      `No Data`}
+                  </p>
+                </div>
+                <div>
+                  <p className="subtitle">Released Date: </p>
+                  <p className="subtitle-data">{released || `No Data`}</p>
+                </div>
+                <a className="game-site-link" target="_blank" href={website}>
+                  Visit Site
+                </a>
+              </div>
+            </div>
+            <div className="game-about">
+              <h2>About this Game</h2>
+              <div>{description ? parse(`${description}`) : `No Data`}</div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      ) : (
+        <GameDetailSkeleton />
+      )}
     </div>
   );
 }
