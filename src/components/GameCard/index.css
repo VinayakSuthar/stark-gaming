@@ -17,3 +17,33 @@
 .game-genre {
   font-weight: 500;
 }
+
+.wishlist-btn {
+  background-color: var(--dark-blue);
+  color: var(--light-blue);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.wishlist-btn:hover {
+  transform: scale(1.1);
+}
+
+.wishlist-btn > svg {
+  display: none;
+}
+
+.wishlist-btn.active-wishlist > svg {
+  display: inline-block;
+  color: var(--light-blue);
+  vertical-align: middle;
+  font-size: 1.1rem;
+  margin-right: 5px;
+}
