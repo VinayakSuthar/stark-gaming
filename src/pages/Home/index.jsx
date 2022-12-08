@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 import Banner from "../../components/Banner";
-import MostPopular from "../../components/MostPopular";
+import GameList from "../../components/GameList";
 import useAxios from "../../hooks/useAxios";
 
+import "./index.css";
+
 export default function Home() {
-  const [gameList, setGameList] = useState([]);
+  const [listData, setListData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -19,7 +21,7 @@ export default function Home() {
         },
       })
       .then((response) => {
-        setGameList(response.data.results);
+        setListData(response.data.results);
       })
       .catch((err) => {
         setError(err);
@@ -33,8 +35,15 @@ export default function Home() {
 
   return (
     <div>
-      <Banner gameList={gameList} loading={loading} />
-      <MostPopular gameList={gameList} loading={loading} />
+      <Banner listData={listData} loading={loading} />
+      <div className="most-popular">
+        <h2>Most Popular</h2>
+        <GameList
+          listData={listData}
+          loading={loading}
+          listStyle="popular-list"
+        />
+      </div>
     </div>
   );
 }

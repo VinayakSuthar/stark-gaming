@@ -5,12 +5,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "./index.css";
 
-export default function Banner({ gameList, loading }) {
+export default function Banner({ listData, loading }) {
   return (
     <div className="home-banner">
       {!loading ? (
         <Swiper autoplay modules={[Autoplay]} centeredSlides>
-          {gameList?.map(({ id, name, background_image }) => {
+          {listData?.map(({ id, name, background_image }) => {
             return (
               <SwiperSlide key={id} className="img-box">
                 <img className="banner-image" src={background_image} />
