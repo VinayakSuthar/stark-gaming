@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import GameDetailSkeleton from "../GameDetailSkeleton";
 import useAxios from "../../hooks/useAxios";
-import { useNavigate } from "react-router-dom";
+import StatusButton from "../StatusButton";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import "./index.css";
@@ -14,7 +14,6 @@ export default function GameDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const fetchGames = useAxios();
-  const navigate = useNavigate();
   const {
     name,
     background_image,
@@ -30,7 +29,6 @@ export default function GameDetail() {
     fetchGames(`games/${gameId}`)
       .then((response) => {
         setGameData(response.data);
-        console.log(response);
       })
       .catch((err) => {
         setError(err);
@@ -84,6 +82,7 @@ export default function GameDetail() {
                 <a className="game-site-link" target="_blank" href={website}>
                   Visit Site
                 </a>
+                <StatusButton id={gameId} />
               </div>
             </div>
             <div className="game-about">

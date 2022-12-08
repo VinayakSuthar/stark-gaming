@@ -1,0 +1,36 @@
+.game-status-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--light-blue);
+  color: var(--dark-blue);
+  width: fit-content;
+  padding-left: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  justify-content: space-between;
+}
+.game-status-btn > svg {
+  font-size: 1.2rem;
+}
+.dropdown-icon svg {
+  font-size: 2rem;
+  vertical-align: middle;
+}
+
+.dropdown-icon:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  width: max-content;
+  background-color: var(--secondary-color);
+  top: 34px;
+  right: 0;
+  padding: 0 5px;
+}
+.dropdown-content > p {
+  cursor: pointer;
+}
