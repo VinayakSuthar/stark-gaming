@@ -4,12 +4,13 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 
 import GameCard from "../../components/GameCard";
 import genreList from "../../assets/genres.json";
+import GameList from "../../components/GameList";
 
 import "./style.css";
 import SkeletonCard from "../../components/SkeletonCard";
 
 export default function Browse() {
-  const [gameList, setGameList] = useState([]);
+  const [listData, setListData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState("");
@@ -30,7 +31,7 @@ export default function Browse() {
     axiosInstance
       .get("games", { params: { ...options } })
       .then((response) => {
-        setGameList(response.data.results);
+        setListData(response.data.results);
       })
       .catch((err) => {
         setError(err);
@@ -71,22 +72,7 @@ export default function Browse() {
           );
         })}
       </div>
-      <div className="browse-list">
-        {!loading
-          ? gameList?.map((game) => {
-              return (
-                <GameCard
-                  key={game.id}
-                  gameData={game}
-                  addGameToWishlist={addGameToWishlist}
-                  wishlist={wishlist}
-                />
-              );
-            })
-          : [...Array(12)].map((item, index) => (
-              <SkeletonCard key={index} cardStyle="skeleton-card" />
-            ))}
-      </div>
+      <GameList listData={listData} loading={loading} listStyle="browse-list" />
     </div>
   );
 }
