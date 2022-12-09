@@ -72,13 +72,15 @@ export default function StatusButton({ id }) {
   return (
     <div className="game-status-btn">
       {showCheck && <FiCheck />}
-      <div onClick={() => handleActiveBtnClick(activeBtn)}>{activeBtn}</div>
+      <button onClick={() => handleActiveBtnClick(activeBtn)}>
+        {activeBtn}
+      </button>
       <div className="dropdown-icon">
         <RiArrowDropDownLine />
         <div className="dropdown-content">
-          <p onClick={handleStatus}>Want to Play</p>
-          <p onClick={handleStatus}>Playing</p>
-          <p onClick={handleStatus}>Played</p>
+          <button onClick={handleStatus}>Want to Play</button>
+          <button onClick={handleStatus}>Playing</button>
+          <button onClick={handleStatus}>Played</button>
         </div>
       </div>
     </div>
