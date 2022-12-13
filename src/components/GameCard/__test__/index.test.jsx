@@ -49,25 +49,13 @@ describe("Game card component", () => {
   it("should render game card correctly", () => {
     render(<MockGameCard />);
     const image = screen.getByRole("img");
-    expect(image).toBeInTheDocument();
-  });
-
-  it("should have game name GTA V", () => {
-    render(<MockGameCard />);
     const gameTitle = screen.getByRole("heading");
-    expect(gameTitle).toHaveTextContent("GTA V");
-  });
-
-  it("should have genre", () => {
-    render(<MockGameCard />);
     const gameGenre = screen.getByText(/action/i);
-    expect(gameGenre).toBeInTheDocument();
-  });
-
-  it("should have 'Want to play' button", () => {
-    render(<MockGameCard />);
     const wantToPlayButton = screen.getByRole("button");
     expect(wantToPlayButton).toHaveTextContent(/want to play/i);
+    expect(gameGenre).toBeInTheDocument();
+    expect(gameTitle).toHaveTextContent("GTA V");
+    expect(image).toBeInTheDocument();
   });
 
   it("should able to click 'Want to play' button", () => {
