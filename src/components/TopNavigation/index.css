@@ -26,8 +26,15 @@
   color: var(--primary-color);
 }
 
-.setting-icon {
+.top-nav > div {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.icon {
   cursor: pointer;
+  color: var(--primary-color);
 }
 
 @media screen and (max-width: 600px) {

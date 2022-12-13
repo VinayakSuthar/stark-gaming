@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
-import {AiFillSetting} from "react-icons/ai";
+import { AiFillSetting } from "react-icons/ai";
+import { FaRegUserCircle } from "react-icons/fa";
 
 import "./index.css";
 
-export default function TopNavigation({setOpen}) {
+export default function TopNavigation({ setOpen }) {
   const [searchText, setSearchText] = useState("");
 
   function handleSearch(e) {
@@ -13,7 +15,7 @@ export default function TopNavigation({setOpen}) {
   }
 
   function handleOpen() {
-    setOpen((prev)=>!prev)
+    setOpen((prev) => !prev);
   }
 
   return (
@@ -34,8 +36,11 @@ export default function TopNavigation({setOpen}) {
         value={searchText}
         onChange={handleSearch}
       />
-
-      <AiFillSetting className="setting-icon" color="#c7d5e0" size="1.8em" />
+      <div>
+        <Link to="profile">
+          <FaRegUserCircle className="icon" size="1.5em" />
+        </Link>
+      </div>
     </div>
   );
 }
