@@ -6,20 +6,21 @@ import { FiCheck } from "react-icons/fi";
 
 import "./index.css";
 
-export default function StatusButton({ id }) {
-  const intId = parseInt(id);
+export default function StatusButton({ gameData }) {
+  const { gameId, name, background_image, genres } = gameData;
+  const intId = parseInt(gameId);
   const [wishlist, setWishlist] = useLocalStorage("wishlist", []);
   const [played, setPlayed] = useLocalStorage("played", []);
   const [playing, setPlaying] = useLocalStorage("playing", []);
   const [showCheck, setShowCheck] = useState(true);
   const [activeBtn, setActiveBtn] = useState(() => {
-    if (played.includes(intId)) {
+    if (played.find((game) => game.id === intId)) {
       return "Played";
     }
-    if (playing.includes(intId)) {
+    if (playing.find((game) => game.id === intId)) {
       return "Playing";
     }
-    if (wishlist.includes(intId)) {
+    if (wishlist.find((game) => game.id === intId)) {
       return "Want to Play";
     }
     setShowCheck(false);
@@ -27,37 +28,48 @@ export default function StatusButton({ id }) {
   });
 
   function handleActiveBtnClick(value) {
+    console.log(wishlist.find((game) => game.id === intId));
     if (value === "Want to Play") {
-      if (wishlist.includes(intId)) {
-        const newList = wishlist.filter((item) => item !== intId);
+      if (typeof wishlist.find((game) => game.id === intId) === "object") {
+        const newList = wishlist.filter((item) => item.id !== intId);
         setWishlist(newList);
         setShowCheck(false);
       } else {
-        setWishlist((previousList) => [...previousList, intId]);
-        setPlaying(playing.filter((item) => item !== intId));
-        setPlayed(played.filter((item) => item !== intId));
+        setWishlist((previousList) => [
+          ...previousList,
+          { id: intId, name, background_image, genres },
+        ]);
+        setPlaying(playing.filter((item) => item.id !== intId));
+        setPlayed(played.filter((item) => item.id !== intId));
         setShowCheck(true);
       }
     } else if (value === "Playing") {
-      if (playing.includes(intId)) {
-        const newList = playing.filter((item) => item !== intId);
+      console.log("Oh yeah");
+      if (typeof playing.find((game) => game.id === intId) === "object") {
+        const newList = playing.filter((item) => item.id !== intId);
         setPlaying(newList);
         setShowCheck(false);
       } else {
-        setPlaying((previousList) => [...previousList, intId]);
-        setPlayed(played.filter((item) => item !== intId));
-        setWishlist(wishlist.filter((item) => item !== intId));
+        setPlaying((previousList) => [
+          ...previousList,
+          { id: intId, name, background_image, genres },
+        ]);
+        setPlayed(played.filter((item) => item.id !== intId));
+        setWishlist(wishlist.filter((item) => item.id !== intId));
         setShowCheck(true);
       }
     } else if (value === "Played") {
-      if (played.includes(intId)) {
-        const newList = played.filter((item) => item !== intId);
+      if (typeof played.find((game) => game.id === intId) === "object") {
+        const newList = played.filter((item) => item.id !== intId);
         setPlayed(newList);
         setShowCheck(false);
       } else {
-        setPlayed((previousList) => [...previousList, intId]);
-        setWishlist(wishlist.filter((item) => item !== intId));
-        setPlaying(playing.filter((item) => item !== intId));
+        setPlayed((previousList) => [
+          ...previousList,
+          { id: intId, name, background_image, genres },
+        ]);
+        setWishlist(wishlist.filter((item) => item.id !== intId));
+        setPlaying(playing.filter((item) => item.id !== intId));
         setShowCheck(true);
       }
     }

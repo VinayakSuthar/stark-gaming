@@ -82,7 +82,9 @@ export default function GameDetail() {
                 <a className="game-site-link" target="_blank" href={website}>
                   Visit Site
                 </a>
-                <StatusButton id={gameId} />
+                <StatusButton
+                  gameData={{ gameId, name, background_image, genres }}
+                />
               </div>
             </div>
             <div className="game-about">
