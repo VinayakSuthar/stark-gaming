@@ -26,6 +26,10 @@ export default function GameList({ listData, loading, listStyle }) {
     }
   }
 
+  function isAvailableInTheList(id) {
+    return wishlist.find((game) => game.id === id);
+  }
+
   return (
     <div className={`game-list ${listStyle}`}>
       {!loading
@@ -33,9 +37,9 @@ export default function GameList({ listData, loading, listStyle }) {
             return (
               <GameCard
                 key={game.id}
-                gameData={game}
-                list={wishlist}
-                onListChange={addGameToWishlist}
+                data={game}
+                isSelected={isAvailableInTheList}
+                onStatusChange={addGameToWishlist}
                 buttonValue="Want to Play"
               />
             );
