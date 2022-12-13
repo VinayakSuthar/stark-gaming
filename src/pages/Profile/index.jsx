@@ -3,6 +3,7 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 import avatar from "../../assets/image/avatar.png";
 import "./index.css";
 import GameCard from "../../components/GameCard";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
   const [wishlist, setWishlist] = useLocalStorage("wishlist", []);
@@ -26,6 +27,11 @@ export default function Profile() {
           },
         ]);
       }
+    };
+  }
+  function isAvailableInTheList(list) {
+    return function (id) {
+      return list.find((game) => game.id === id);
     };
   }
 
@@ -58,14 +64,19 @@ export default function Profile() {
       <div className="user-game-list">
         <div>
           <h3>Wishlist</h3>
-          {wishlist.length === 0 && "No Games"}
+          {wishlist.length === 0 && (
+            <p className="no-games-card">
+              No Game to show. <br />
+              To add games go to <Link to="/browse">Browse</Link>
+            </p>
+          )}
           <div className="browse-list">
             {wishlist?.map((game) => (
               <GameCard
-                gameData={game}
+                data={game}
                 key={game.id}
-                list={wishlist}
-                onListChange={addToWishList}
+                onStatusChange={addToWishList}
+                isSelected={(() => isAvailableInTheList(wishlist))()}
                 buttonValue="Want to Play"
               />
             ))}
@@ -73,14 +84,19 @@ export default function Profile() {
         </div>
         <div>
           <h3>Playing</h3>
-          {playing.length === 0 && "No Games"}
+          {playing.length === 0 && (
+            <p className="no-games-card">
+              No Game to show. <br />
+              To add games go to <Link to="/browse">Browse</Link>
+            </p>
+          )}
           <div className="browse-list">
             {playing?.map((game) => (
               <GameCard
-                gameData={game}
+                data={game}
                 key={game.id}
-                list={playing}
-                onListChange={addToPlaying}
+                isSelected={(() => isAvailableInTheList(playing))()}
+                onStatusChange={addToPlaying}
                 buttonValue="Playing"
               />
             ))}
@@ -88,14 +104,19 @@ export default function Profile() {
         </div>
         <div>
           <h3>Played</h3>
-          {played.length === 0 && "No Games"}
+          {played.length === 0 && (
+            <p className="no-games-card">
+              No Game to show. <br />
+              To add games go to <Link to="/browse">Browse</Link>
+            </p>
+          )}
           <div className="browse-list">
             {played?.map((game) => (
               <GameCard
-                gameData={game}
+                data={game}
                 key={game.id}
-                list={played}
-                onListChange={addToPlayed}
+                isSelected={(() => isAvailableInTheList(played))()}
+                onStatusChange={addToPlayed}
                 buttonValue="Played"
               />
             ))}
