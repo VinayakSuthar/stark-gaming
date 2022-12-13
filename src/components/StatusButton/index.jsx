@@ -28,7 +28,6 @@ export default function StatusButton({ gameData }) {
   });
 
   function handleActiveBtnClick(value) {
-    console.log(wishlist.find((game) => game.id === intId));
     if (value === "Want to Play") {
       if (typeof wishlist.find((game) => game.id === intId) === "object") {
         const newList = wishlist.filter((item) => item.id !== intId);
@@ -44,7 +43,6 @@ export default function StatusButton({ gameData }) {
         setShowCheck(true);
       }
     } else if (value === "Playing") {
-      console.log("Oh yeah");
       if (typeof playing.find((game) => game.id === intId) === "object") {
         const newList = playing.filter((item) => item.id !== intId);
         setPlaying(newList);

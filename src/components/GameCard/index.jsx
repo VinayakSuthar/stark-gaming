@@ -4,13 +4,12 @@ import { FiCheck } from "react-icons/fi";
 import "./index.css";
 
 export default function GameCard({
-  gameData,
-  onListChange,
-  list,
+  data,
+  isSelected,
   buttonValue,
+  onStatusChange,
 }) {
-  const { id, background_image, name, genres } = gameData;
-  const isGameInTheList = list.find((item) => item.id === id);
+  const { id, background_image, name, genres } = data;
   return (
     <div className="game-card">
       <Link to={`/browse/${id}`}>
@@ -19,8 +18,8 @@ export default function GameCard({
       </Link>
       <p className="game-genre">{genres[0]?.name}</p>
       <button
-        className={`wishlist-btn ${isGameInTheList && "active-wishlist"}`}
-        onClick={() => onListChange(id, name, genres, background_image)}
+        className={`wishlist-btn ${isSelected(id) && "active-wishlist"}`}
+        onClick={() => onStatusChange(id, name, genres, background_image)}
       >
         <FiCheck />
         {buttonValue}
