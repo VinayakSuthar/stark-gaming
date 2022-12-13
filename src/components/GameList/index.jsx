@@ -8,12 +8,21 @@ import "swiper/css";
 export default function GameList({ listData, loading, listStyle }) {
   const [wishlist, setWishlist] = useLocalStorage("wishlist", []);
 
-  function addGameToWishlist(id) {
-    if (wishlist.includes(id)) {
-      const newList = wishlist.filter((item) => item !== id);
+  function addGameToWishlist(id, name, genres, background_image) {
+    const isGameInTheList = wishlist.find((item) => item.id === id);
+    if (isGameInTheList) {
+      const newList = wishlist.filter((item) => item.id !== id);
       setWishlist(newList);
     } else {
-      setWishlist((previousList) => [...previousList, id]);
+      setWishlist((previousList) => [
+        ...previousList,
+        {
+          id,
+          name,
+          genres,
+          background_image,
+        },
+      ]);
     }
   }
 
@@ -25,8 +34,9 @@ export default function GameList({ listData, loading, listStyle }) {
               <GameCard
                 key={game.id}
                 gameData={game}
-                wishlist={wishlist}
-                addGameToWishlist={addGameToWishlist}
+                list={wishlist}
+                onListChange={addGameToWishlist}
+                buttonValue="Want to Play"
               />
             );
           })
