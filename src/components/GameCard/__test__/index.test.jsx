@@ -2,31 +2,11 @@ import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter } from "react-router-dom";
-import useLocalStorage from "../../../hooks/useLocalStorage";
 import GameCard from "..";
 
-beforeEach(() => {
-  Object.defineProperty(window, "localStorage", {
-    value: {
-      getItem: vi.fn(() => null),
-      setItem: vi.fn(() => null),
-    },
-    writable: true,
-  });
-});
+const mockHandleStatusChange = vi.fn(() => null);
 
 const MockGameCard = () => {
-  const [wishlist, setWishlist] = useLocalStorage("wishlist", []);
-
-  function addGameToWishlist(id) {
-    if (wishlist.includes(id)) {
-      const newList = wishlist.filter((item) => item !== id);
-      setWishlist(newList);
-    } else {
-      setWishlist((previousList) => [...previousList, id]);
-    }
-  }
-
   const gameData = {
     id: 3489,
     background_image:
@@ -37,9 +17,10 @@ const MockGameCard = () => {
   return (
     <BrowserRouter>
       <GameCard
-        gameData={gameData}
-        addGameToWishlist={addGameToWishlist}
-        wishlist={wishlist}
+        data={gameData}
+        buttonValue="Want to Play"
+        isSelected={() => null}
+        onStatusChange={mockHandleStatusChange}
       />
     </BrowserRouter>
   );
@@ -58,10 +39,10 @@ describe("Game card component", () => {
     expect(image).toBeInTheDocument();
   });
 
-  it("should able to click 'Want to play' button", () => {
+  it("should able to click 'Want to play' button", async () => {
     render(<MockGameCard />);
     const wantToPlayButton = screen.getByRole("button");
-    userEvent.click(wantToPlayButton);
-    expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
+    await userEvent.click(wantToPlayButton);
+    expect(mockHandleStatusChange).toHaveBeenCalledTimes(1);
   });
 });
