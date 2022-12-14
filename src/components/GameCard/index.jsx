@@ -18,7 +18,7 @@ export default function GameCard({
       </Link>
       <p className="game-genre">{genres[0]?.name}</p>
       <button
-        className={`wishlist-btn ${isSelected(id) && "active-wishlist"}`}
+        className={`wishlist-btn ${!isSelected(id) ? "" : "active-wishlist"}`}
         onClick={() => onStatusChange(id, name, genres, background_image)}
       >
         <FiCheck />
