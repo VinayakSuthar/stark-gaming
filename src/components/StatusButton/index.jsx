@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -81,16 +81,21 @@ export default function StatusButton({ gameData }) {
 
   return (
     <div className="game-status-btn">
-      {showCheck && <FiCheck />}
-      <button onClick={() => handleActiveBtnClick(activeBtn)}>
+      {showCheck && <FiCheck data-testid="check-icon" />}
+      <button
+        data-testid="active-status"
+        onClick={() => handleActiveBtnClick(activeBtn)}
+      >
         {activeBtn}
       </button>
-      <div className="dropdown-icon">
-        <RiArrowDropDownLine />
-        <div className="dropdown-content">
-          <button onClick={handleStatus}>Want to Play</button>
-          <button onClick={handleStatus}>Playing</button>
-          <button onClick={handleStatus}>Played</button>
+      <div data-testid="dropdown" className="dropdown-icon">
+        <div className="dropdown-icon">
+          <RiArrowDropDownLine />
+          <div data-testid="dropdown-content" className="dropdown-content">
+            <button onClick={handleStatus}>Want to Play</button>
+            <button onClick={handleStatus}>Playing</button>
+            <button onClick={handleStatus}>Played</button>
+          </div>
         </div>
       </div>
     </div>
