@@ -7,17 +7,17 @@
   width: 100vw;
   z-index: 5;
   backdrop-filter: blur(4px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .search-box {
   width: 500px;
   height: 450px;
+  margin: 100px auto auto;
   background-color: var(--very-dark-blue);
   border: 2px solid var(--light-blue);
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .search-bar {
@@ -45,5 +45,32 @@
 }
 
 .search-result {
-  padding: 15px;
+  padding: 5px 15px;
+  overflow-x: auto;
+  height: 100%;
+}
+
+.search-result > a {
+  display: block;
+  text-decoration: none;
+  color: var(--light-blue);
+  font-size: 1.3rem;
+  margin: 5px 0;
+  padding: 5px 0;
+}
+
+.search-result > a:not(:last-child) {
+  border-bottom: 1px solid var(--light-blue);
+}
+
+.search-result .search-genre {
+  font-size: 1rem;
+  color: var(--secondary-color);
+}
+
+.loader-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
