@@ -14,7 +14,6 @@ export default function SearchBox({ onClose }) {
   const searchRef = useRef(null);
   const fetchGames = useAxios();
 
-  console.log("search-box");
   function handleSearch(event) {
     previousController?.abort();
     const searchString = event.target.value;
@@ -75,7 +74,9 @@ export default function SearchBox({ onClose }) {
           )}
           {!loading &&
             (searchResult.length === 0 ? (
-              "No result to show"
+              <p className="no-result-block">
+                No result to show. <br /> Type Something
+              </p>
             ) : (
               <>
                 {searchResult.map(({ id, name, genres }) => {
