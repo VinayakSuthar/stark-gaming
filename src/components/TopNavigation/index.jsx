@@ -9,15 +9,14 @@ import SearchBox from "../SearchBox";
 import "./index.css";
 
 export default function TopNavigation({ setOpen }) {
-  const [searchText, setSearchText] = useState("");
-
-  function handleSearch(e) {
-    const { value } = e.target;
-    setSearchText(value);
-  }
+  const [isSearchBoxOpen, setSearchBoxOpen] = useState(false);
 
   function handleOpen() {
     setOpen((prev) => !prev);
+  }
+
+  function handleClick() {
+    setSearchBoxOpen((prev) => !prev);
   }
 
   return (
@@ -32,7 +31,7 @@ export default function TopNavigation({ setOpen }) {
 
         <p className="mobile mobile-logo">SG</p>
 
-        <button className="search-bar-button">
+        <button className="search-bar-button" onClick={handleClick}>
           <BiSearch /> Search
         </button>
         <div>
@@ -41,7 +40,7 @@ export default function TopNavigation({ setOpen }) {
           </Link>
         </div>
       </div>
-      <SearchBox />
+      {isSearchBoxOpen && <SearchBox onClose={handleClick} />}
     </>
   );
 }
