@@ -11,6 +11,7 @@ export default function SearchBox({ onClose }) {
   const [previousController, setPreviousController] = useState();
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const searchRef = useRef(null);
   const fetchGames = useAxios();
 
@@ -23,6 +24,7 @@ export default function SearchBox({ onClose }) {
     }
     if (searchString.length > 2) {
       setLoading(true);
+      setError(null);
       fetchGames
         .get("games", {
           params: { search: searchString },
@@ -30,6 +32,10 @@ export default function SearchBox({ onClose }) {
         })
         .then((response) => {
           setSearchResult(response.data.results);
+        })
+        .catch((error) => {
+          if (error.name === "CanceledError") return;
+          setError(error);
         })
         .finally(() => {
           setLoading(false);
@@ -67,30 +73,33 @@ export default function SearchBox({ onClose }) {
           />
         </div>
         <div className="search-result">
-          {loading && (
+          {error ? (
+            <p className="exception-block">
+              An error ocurred. <br />
+              Please try again later
+            </p>
+          ) : loading ? (
             <div className="loader-container">
               <img className="loader-svg" src={loader} alt="loader" />
             </div>
+          ) : searchResult.length === 0 ? (
+            <p className="exception-block">
+              No result to show. <br /> Type Something
+            </p>
+          ) : (
+            <>
+              {searchResult.map(({ id, name, genres }) => {
+                return (
+                  <Link to={`/browse/${id}`} key={id} onClick={onClose}>
+                    {name} <br />
+                    <span className="search-genre">
+                      {genres[0]?.name || "No data"}
+                    </span>
+                  </Link>
+                );
+              })}
+            </>
           )}
-          {!loading &&
-            (searchResult.length === 0 ? (
-              <p className="no-result-block">
-                No result to show. <br /> Type Something
-              </p>
-            ) : (
-              <>
-                {searchResult.map(({ id, name, genres }) => {
-                  return (
-                    <Link to={`/browse/${id}`} key={id} onClick={onClose}>
-                      {name} <br />
-                      <span className="search-genre">
-                        {genres[0]?.name || "No data"}
-                      </span>
-                    </Link>
-                  );
-                })}
-              </>
-            ))}
         </div>
       </div>
     </div>
