@@ -10,7 +10,8 @@
 }
 
 .search-box {
-  width: 500px;
+  position: relative;
+  width: clamp(35%, 500px, 90%);
   height: 450px;
   margin: 100px auto auto;
   background-color: var(--very-dark-blue);
@@ -18,6 +19,16 @@
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+}
+
+.search-box > .close-button {
+  font-size: 3rem;
+  position: absolute;
+  right: -21px;
+  top: -21px;
+  color: var(--light-blue);
+  background-color: var(--very-dark-blue);
+  border-radius: 27px;
 }
 
 .search-bar {
