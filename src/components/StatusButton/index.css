@@ -5,6 +5,7 @@
   background-color: var(--primary-color);
   color: var(--very-dark-blue);
   width: fit-content;
+  max-width: 160px;
   padding-left: 10px;
   cursor: pointer;
   justify-content: space-between;

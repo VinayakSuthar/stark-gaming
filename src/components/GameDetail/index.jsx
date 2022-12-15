@@ -79,9 +79,11 @@ export default function GameDetail() {
                   <p className="subtitle">Released Date: </p>
                   <p className="subtitle-data">{released || `No Data`}</p>
                 </div>
-                <a className="game-site-link" target="_blank" href={website}>
-                  Visit Site
-                </a>
+                <div>
+                  <a className="game-site-link" target="_blank" href={website}>
+                    Visit Site
+                  </a>
+                </div>
                 <StatusButton
                   gameData={{ gameId, name, background_image, genres }}
                 />
