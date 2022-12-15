@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
-import useAxios from "@/hooks/useAxios";
+import useAxios from "../../hooks/useAxios";
 import { BiSearch } from "react-icons/bi";
 
-import loader from "@/assets/image/loader.svg";
+import loader from "../../assets/image/loader.svg";
 import "./index.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
