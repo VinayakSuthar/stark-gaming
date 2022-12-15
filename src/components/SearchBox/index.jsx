@@ -1,11 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import useAxios from "../../hooks/useAxios";
+import { Link } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
+import { IoCloseCircleSharp } from "react-icons/io5";
 
 import loader from "../../assets/image/loader.svg";
 import "./index.css";
-import { useState } from "react";
-import { Link } from "react-router-dom";
 
 export default function SearchBox({ onClose }) {
   const [previousController, setPreviousController] = useState();
@@ -63,6 +63,7 @@ export default function SearchBox({ onClose }) {
   return (
     <div className="search-box-container">
       <div className="search-box" ref={searchRef}>
+        <IoCloseCircleSharp onClick={onClose} className="close-button mobile" />
         <div className="search-bar">
           <BiSearch />
           <input
