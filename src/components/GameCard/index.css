@@ -7,6 +7,9 @@
 
 .game-card > .game-title {
   color: var(--off-white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .game-card > a {
