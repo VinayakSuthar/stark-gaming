@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaRegUserCircle } from "react-icons/fa";
 import { BiSearch } from "react-icons/bi";
@@ -40,7 +42,9 @@ export default function TopNavigation({ setOpen }) {
           </Link>
         </div>
       </div>
-      {isSearchBoxOpen && <SearchBox onClose={handleClick} />}
+      <AnimatePresence>
+        {isSearchBoxOpen && <SearchBox onClose={handleClick} />}
+      </AnimatePresence>
     </>
   );
 }

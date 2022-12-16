@@ -1,11 +1,41 @@
 import { useState, useEffect, useRef } from "react";
 import useAxios from "../../hooks/useAxios";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
 import { BiSearch } from "react-icons/bi";
 import { IoCloseCircleSharp } from "react-icons/io5";
 
 import loader from "../../assets/image/loader.svg";
 import "./index.css";
+
+const backdrop = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.2,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.2,
+    },
+  },
+};
+
+const dropIn = {
+  hidden: {
+    y: "-100vh",
+  },
+  visible: {
+    y: 0,
+  },
+  exit: {
+    y: "100vh",
+  },
+};
 
 export default function SearchBox({ onClose }) {
   const [previousController, setPreviousController] = useState();
@@ -61,8 +91,20 @@ export default function SearchBox({ onClose }) {
     };
   }, []);
   return (
-    <div className="search-box-container">
-      <div className="search-box" ref={searchRef}>
+    <motion.div
+      key="backdrop"
+      className="search-box-container"
+      variants={backdrop}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <motion.div
+        key="modal"
+        className="search-box"
+        ref={searchRef}
+        variants={dropIn}
+      >
         <IoCloseCircleSharp onClick={onClose} className="close-button mobile" />
         <div className="search-bar">
           <BiSearch />
@@ -84,9 +126,7 @@ export default function SearchBox({ onClose }) {
               <img className="loader-svg" src={loader} alt="loader" />
             </div>
           ) : searchResult.length === 0 ? (
-            <p className="exception-block">
-              No result to show. <br /> Type Something
-            </p>
+            <p className="exception-block">Type Something</p>
           ) : (
             <>
               {searchResult.map(({ id, name, genres }) => {
@@ -102,7 +142,7 @@ export default function SearchBox({ onClose }) {
             </>
           )}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
