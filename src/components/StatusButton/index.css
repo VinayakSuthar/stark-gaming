@@ -30,10 +30,6 @@
   vertical-align: middle;
 }
 
-.dropdown-icon:hover .dropdown-content {
-  display: block;
-}
-
 .dropdown-content {
   display: none;
   position: absolute;
