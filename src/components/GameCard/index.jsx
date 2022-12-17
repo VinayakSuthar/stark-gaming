@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { FiCheck } from "react-icons/fi";
 
 import "./index.css";
@@ -17,13 +18,14 @@ export default function GameCard({
         <h3 className="game-title">{name}</h3>
       </Link>
       <p className="game-genre">{genres[0]?.name}</p>
-      <button
+      <motion.button
         className={`wishlist-btn ${!isSelected(id) ? "" : "active-wishlist"}`}
         onClick={() => onStatusChange(id, name, genres, background_image)}
+        whileHover={{ scale: 1.15 }}
       >
         <FiCheck />
         {buttonValue}
-      </button>
+      </motion.button>
     </div>
   );
 }

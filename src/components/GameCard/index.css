@@ -35,10 +35,6 @@
   margin-top: 5px;
 }
 
-.wishlist-btn:hover {
-  transform: scale(1.1);
-}
-
 .wishlist-btn > svg {
   display: none;
 }
