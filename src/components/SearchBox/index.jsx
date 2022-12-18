@@ -2,10 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import useAxios from "../../hooks/useAxios";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import useDebounce from "../../hooks/useDebounce";
 
 import { BiSearch } from "react-icons/bi";
 import { IoCloseCircleSharp } from "react-icons/io5";
-
 import loader from "../../assets/image/loader.svg";
 import "./index.css";
 
@@ -38,27 +38,23 @@ const dropIn = {
 };
 
 export default function SearchBox({ onClose }) {
-  const [previousController, setPreviousController] = useState();
   const [searchResult, setSearchResult] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const searchRef = useRef(null);
   const fetchGames = useAxios();
 
-  function handleSearch(event) {
-    previousController?.abort();
-    const searchString = event.target.value;
-    const controller = new AbortController();
-    if (searchString.length === 0) {
+  useDebounce(() => {
+    if (searchValue.length === 0) {
       setSearchResult([]);
     }
-    if (searchString.length > 2) {
+    if (searchValue.length > 2) {
       setLoading(true);
       setError(null);
       fetchGames
         .get("games", {
-          params: { search: searchString },
-          signal: controller.signal,
+          params: { search: searchValue },
         })
         .then((response) => {
           setSearchResult(response.data.results);
@@ -71,8 +67,7 @@ export default function SearchBox({ onClose }) {
           setLoading(false);
         });
     }
-    setPreviousController(controller);
-  }
+  }, searchValue);
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -112,7 +107,8 @@ export default function SearchBox({ onClose }) {
             className="search-input"
             type="text"
             placeholder="Search..."
-            onChange={handleSearch}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
         </div>
         <div className="search-result">
