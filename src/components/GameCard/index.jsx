@@ -9,10 +9,16 @@ export default function GameCard({
   isSelected,
   buttonValue,
   onStatusChange,
+  onDragStart,
+  draggable = false,
 }) {
   const { id, background_image, name, genres } = data;
   return (
-    <div className="game-card">
+    <div
+      className="game-card"
+      draggable={draggable}
+      onDragStart={() => onDragStart({ id, background_image, name, genres })}
+    >
       <Link to={`/browse/${id}`}>
         <img src={background_image} alt="game" />
         <h3 className="game-title">{name}</h3>

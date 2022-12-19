@@ -4,11 +4,19 @@ import avatar from "../../assets/image/avatar.png";
 import "./index.css";
 import GameCard from "../../components/GameCard";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
+
+const defaultDataTransfer = {
+  from: [],
+  data: {},
+};
 
 export default function Profile() {
   const [wishlist, setWishlist] = useLocalStorage("wishlist", []);
   const [played, setPlayed] = useLocalStorage("played", []);
   const [playing, setPlaying] = useLocalStorage("playing", []);
+  const [dataTransfer, setDataTransfer] = useState(defaultDataTransfer);
 
   function addGameToList(list, setList) {
     return function (id, name, genres, background_image) {
@@ -29,11 +37,22 @@ export default function Profile() {
       }
     };
   }
-  function isAvailableInTheList(list) {
-    return function (id) {
-      return list.find((game) => game.id === id);
-    };
+
+  function dragStartHandler(list, setList, data, ev) {
+    setDataTransfer({ from: [list, setList], data: { ...data } });
+    ev.dataTransfer.dropEffect = "link";
   }
+
+  function dropHandler(list, setList, event) {
+    event.preventDefault();
+    const [oldList, setOldList] = dataTransfer.from;
+    setOldList(oldList.filter((item) => item.id !== dataTransfer.data.id));
+    setList((previousList) => [...previousList, { ...dataTransfer.data }]);
+  }
+
+  useEffect(() => {
+    console.log(dataTransfer);
+  }, [dataTransfer]);
 
   const addToWishList = addGameToList(wishlist, setWishlist);
   const addToPlaying = addGameToList(playing, setPlaying);
@@ -70,14 +89,23 @@ export default function Profile() {
               To add games go to <Link to="/browse">Browse</Link>
             </p>
           )}
-          <div className="browse-list">
+          <div
+            data-status="wishlist"
+            className="browse-list"
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => dropHandler(wishlist, setWishlist, e)}
+          >
             {wishlist?.map((game) => (
               <GameCard
                 data={game}
                 key={game.id}
+                draggable
                 onStatusChange={addToWishList}
-                isSelected={(() => isAvailableInTheList(wishlist))()}
-                buttonValue="Want to Play"
+                isSelected={() => false}
+                buttonValue="Remove"
+                onDragStart={(data, e) =>
+                  dragStartHandler(wishlist, setWishlist, data, e)
+                }
               />
             ))}
           </div>
@@ -90,14 +118,23 @@ export default function Profile() {
               To add games go to <Link to="/browse">Browse</Link>
             </p>
           )}
-          <div className="browse-list">
+          <div
+            data-status="playing"
+            className="browse-list"
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => dropHandler(playing, setPlaying, e)}
+          >
             {playing?.map((game) => (
               <GameCard
                 data={game}
                 key={game.id}
-                isSelected={(() => isAvailableInTheList(playing))()}
+                isSelected={() => false}
                 onStatusChange={addToPlaying}
-                buttonValue="Playing"
+                buttonValue="Remove"
+                draggable
+                onDragStart={(data) =>
+                  dragStartHandler(playing, setPlaying, data)
+                }
               />
             ))}
           </div>
@@ -110,14 +147,23 @@ export default function Profile() {
               To add games go to <Link to="/browse">Browse</Link>
             </p>
           )}
-          <div className="browse-list">
+          <div
+            className="browse-list"
+            data-status="played"
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => dropHandler(played, setPlayed, e)}
+          >
             {played?.map((game) => (
               <GameCard
                 data={game}
                 key={game.id}
-                isSelected={(() => isAvailableInTheList(played))()}
+                isSelected={() => false}
                 onStatusChange={addToPlayed}
-                buttonValue="Played"
+                buttonValue="Remove"
+                draggable
+                onDragStart={(data) =>
+                  dragStartHandler(played, setPlayed, data)
+                }
               />
             ))}
           </div>
