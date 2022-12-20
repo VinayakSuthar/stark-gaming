@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 const defaultDataTransfer = {
-  from: [],
+  status: "",
   data: {},
 };
 
@@ -38,16 +38,51 @@ export default function Profile() {
     };
   }
 
-  function dragStartHandler(list, setList, data, ev) {
-    setDataTransfer({ from: [list, setList], data: { ...data } });
-    ev.dataTransfer.dropEffect = "link";
+  function dragStartHandler(status, data) {
+    setDataTransfer({ status, data: { ...data } });
   }
 
-  function dropHandler(list, setList, event) {
+  function transferGame(status, dropStatus) {
+    const { data } = dataTransfer;
+    switch (dropStatus) {
+      case "wishlist": {
+        if (status === "wishlist") break;
+        setWishlist((previousList) => [...previousList, { ...data }]);
+        break;
+      }
+      case "playing": {
+        if (status === "playing") break;
+        setPlaying((previousList) => [...previousList, { ...data }]);
+        break;
+      }
+      case "played": {
+        if (status === "played") break;
+        setPlayed((previousList) => [...previousList, { ...data }]);
+        break;
+      }
+    }
+  }
+
+  function dropHandler(dropStatus, event) {
+    const { status, data } = dataTransfer;
     event.preventDefault();
-    const [oldList, setOldList] = dataTransfer.from;
-    setOldList(oldList.filter((item) => item.id !== dataTransfer.data.id));
-    setList((previousList) => [...previousList, { ...dataTransfer.data }]);
+    switch (status) {
+      case "wishlist": {
+        setWishlist(wishlist.filter((item) => item.id !== data.id));
+        transferGame(status, dropStatus);
+        break;
+      }
+      case "playing": {
+        setPlaying(playing.filter((item) => item.id !== data.id));
+        transferGame(status, dropStatus);
+        break;
+      }
+      case "played": {
+        setPlayed(played.filter((item) => item.id !== data.id));
+        transferGame(status, dropStatus);
+        break;
+      }
+    }
   }
 
   useEffect(() => {
@@ -73,10 +108,10 @@ export default function Profile() {
             <span>Wishlist :</span> <span>{wishlist.length}</span>
           </p>
           <p>
-            <span>Playing:</span> <span>{playing.length}</span>
+            <span>Playing :</span> <span>{playing.length}</span>
           </p>
           <p>
-            <span>Played:</span> <span>{played.length}</span>
+            <span>Played :</span> <span>{played.length}</span>
           </p>
         </div>
       </div>
@@ -93,7 +128,7 @@ export default function Profile() {
             data-status="wishlist"
             className="browse-list"
             onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => dropHandler(wishlist, setWishlist, e)}
+            onDrop={(e) => dropHandler("wishlist", e)}
           >
             {wishlist?.map((game) => (
               <GameCard
@@ -103,9 +138,7 @@ export default function Profile() {
                 onStatusChange={addToWishList}
                 isSelected={() => false}
                 buttonValue="Remove"
-                onDragStart={(data, e) =>
-                  dragStartHandler(wishlist, setWishlist, data, e)
-                }
+                onDragStart={(data, e) => dragStartHandler("wishlist", data)}
               />
             ))}
           </div>
@@ -122,7 +155,7 @@ export default function Profile() {
             data-status="playing"
             className="browse-list"
             onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => dropHandler(playing, setPlaying, e)}
+            onDrop={(e) => dropHandler("playing", e)}
           >
             {playing?.map((game) => (
               <GameCard
@@ -132,9 +165,7 @@ export default function Profile() {
                 onStatusChange={addToPlaying}
                 buttonValue="Remove"
                 draggable
-                onDragStart={(data) =>
-                  dragStartHandler(playing, setPlaying, data)
-                }
+                onDragStart={(data) => dragStartHandler("playing", data)}
               />
             ))}
           </div>
@@ -151,7 +182,7 @@ export default function Profile() {
             className="browse-list"
             data-status="played"
             onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => dropHandler(played, setPlayed, e)}
+            onDrop={(e) => dropHandler("played", e)}
           >
             {played?.map((game) => (
               <GameCard
@@ -161,9 +192,7 @@ export default function Profile() {
                 onStatusChange={addToPlayed}
                 buttonValue="Remove"
                 draggable
-                onDragStart={(data) =>
-                  dragStartHandler(played, setPlayed, data)
-                }
+                onDragStart={(data) => dragStartHandler("played", data)}
               />
             ))}
           </div>
