@@ -15,7 +15,9 @@ export default function GameCard({
     <div className="game-card">
       <Link to={`/browse/${id}`}>
         <img src={background_image} alt="game" />
-        <h3 className="game-title">{name}</h3>
+        <h3 className="game-title" title={name}>
+          {name}
+        </h3>
       </Link>
       <p className="game-genre">{genres[0]?.name}</p>
       <motion.button
