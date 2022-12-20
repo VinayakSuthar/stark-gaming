@@ -40,6 +40,7 @@ const dropIn = {
 export default function SearchBox({ onClose }) {
   const [searchResult, setSearchResult] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [noResult, setNoResult] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const searchRef = useRef(null);
@@ -57,6 +58,7 @@ export default function SearchBox({ onClose }) {
           params: { search: searchValue },
         })
         .then((response) => {
+          if (response.data.count === 0) setNoResult(true);
           setSearchResult(response.data.results);
         })
         .catch((error) => {
@@ -108,21 +110,24 @@ export default function SearchBox({ onClose }) {
             type="text"
             placeholder="Search..."
             value={searchValue}
+            autoFocus
             onChange={(e) => setSearchValue(e.target.value)}
           />
         </div>
         <div className="search-result">
-          {error ? (
-            <p className="exception-block">
-              An error ocurred. <br />
-              Please try again later
-            </p>
+          {searchValue.length < 3 ? (
+            <p className="exception-block">Search Games</p>
           ) : loading ? (
             <div className="loader-container">
               <img className="loader-svg" src={loader} alt="loader" />
             </div>
-          ) : searchResult.length === 0 ? (
-            <p className="exception-block">Type Something</p>
+          ) : error ? (
+            <p className="exception-block">
+              An error ocurred. <br />
+              Please try again later
+            </p>
+          ) : noResult ? (
+            <p className="exception-block">No Result Found</p>
           ) : (
             <>
               {searchResult.map(({ id, name, genres }) => {
