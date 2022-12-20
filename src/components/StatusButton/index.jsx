@@ -76,48 +76,39 @@ export default function StatusButton({ gameData }) {
     setHover((previous) => !previous);
   }
 
+  function toggleStatus(list, setList) {
+    if (typeof list.find((game) => game.id === intId) === "object") {
+      const newList = list.filter((item) => item.id !== intId);
+      setList(newList);
+      setShowCheck(false);
+    } else {
+      setList((previousList) => [
+        ...previousList,
+        { id: intId, name, background_image, genres },
+      ]);
+      setShowCheck(true);
+    }
+  }
+
   function handleActiveBtnClick(value) {
-    if (value === "Want to Play") {
-      if (typeof wishlist.find((game) => game.id === intId) === "object") {
-        const newList = wishlist.filter((item) => item.id !== intId);
-        setWishlist(newList);
-        setShowCheck(false);
-      } else {
-        setWishlist((previousList) => [
-          ...previousList,
-          { id: intId, name, background_image, genres },
-        ]);
+    switch (value) {
+      case "Want to Play": {
+        toggleStatus(wishlist, setWishlist);
         setPlaying(playing.filter((item) => item.id !== intId));
         setPlayed(played.filter((item) => item.id !== intId));
-        setShowCheck(true);
+        break;
       }
-    } else if (value === "Playing") {
-      if (typeof playing.find((game) => game.id === intId) === "object") {
-        const newList = playing.filter((item) => item.id !== intId);
-        setPlaying(newList);
-        setShowCheck(false);
-      } else {
-        setPlaying((previousList) => [
-          ...previousList,
-          { id: intId, name, background_image, genres },
-        ]);
+      case "Playing": {
+        toggleStatus(playing, setPlaying);
         setPlayed(played.filter((item) => item.id !== intId));
         setWishlist(wishlist.filter((item) => item.id !== intId));
-        setShowCheck(true);
+        break;
       }
-    } else if (value === "Played") {
-      if (typeof played.find((game) => game.id === intId) === "object") {
-        const newList = played.filter((item) => item.id !== intId);
-        setPlayed(newList);
-        setShowCheck(false);
-      } else {
-        setPlayed((previousList) => [
-          ...previousList,
-          { id: intId, name, background_image, genres },
-        ]);
+      case "Played": {
+        toggleStatus(played, setPlayed);
         setWishlist(wishlist.filter((item) => item.id !== intId));
         setPlaying(playing.filter((item) => item.id !== intId));
-        setShowCheck(true);
+        break;
       }
     }
   }
