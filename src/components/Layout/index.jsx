@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
+import useOutsideClick from "../../hooks/useOutsideClick";
 
 import "./index.css";
 
@@ -8,21 +9,11 @@ import TopNavigation from "../TopNavigation";
 
 export default function Layout() {
   const [open, setOpen] = useState(window.innerWidth < 480 ? false : true);
-  const navRef = useRef(null);
+  let navRef;
 
-  useEffect(() => {
-    const outsideClick = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target)) {
-        setOpen(false);
-      }
-    };
-    if (window.innerWidth < 480) {
-      document.addEventListener("click", outsideClick, true);
-      return () => {
-        document.removeEventListener("click", outsideClick, true);
-      };
-    }
-  }, []);
+  if (window.innerWidth < 480) {
+    navRef = useOutsideClick(() => setOpen(false));
+  }
 
   return (
     <div className="home-layout">
