@@ -3,6 +3,7 @@ import useAxios from "../../hooks/useAxios";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import useDebounce from "../../hooks/useDebounce";
+import useOutsideClick from "../../hooks/useOutsideClick";
 
 import { BiSearch } from "react-icons/bi";
 import { IoCloseCircleSharp } from "react-icons/io5";
@@ -43,8 +44,9 @@ export default function SearchBox({ onClose }) {
   const [noResult, setNoResult] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const searchRef = useRef(null);
+  // const searchRef = useRef(null);
   const fetchGames = useAxios();
+  const searchRef = useOutsideClick(onClose);
 
   useDebounce(() => {
     if (searchValue.length === 0) {
@@ -75,16 +77,9 @@ export default function SearchBox({ onClose }) {
     const handleKeyPress = (event) => {
       if (event.key === "Escape") onClose();
     };
-    const outsideClick = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
     document.addEventListener("keydown", handleKeyPress);
-    document.addEventListener("click", outsideClick, true);
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
-      document.removeEventListener("click", outsideClick, true);
     };
   }, []);
   return (
