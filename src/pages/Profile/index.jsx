@@ -63,21 +63,22 @@ export default function Profile() {
   function dropHandler(dropStatus, event) {
     const { status, data } = dataTransfer;
     event.preventDefault();
+    if (dropStatus === status) {
+      setDataTransfer(defaultDataTransfer);
+      return;
+    }
     switch (status) {
       case "wishlist": {
-        if (dropStatus === "wishlist") break;
         setWishlist(wishlist.filter((item) => item.id !== data.id));
         transferGame(dropStatus);
         break;
       }
       case "playing": {
-        if (dropStatus === "playing") break;
         setPlaying(playing.filter((item) => item.id !== data.id));
         transferGame(dropStatus);
         break;
       }
       case "played": {
-        if (dropStatus === "played") break;
         setPlayed(played.filter((item) => item.id !== data.id));
         transferGame(dropStatus);
         break;
