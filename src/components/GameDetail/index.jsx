@@ -26,6 +26,7 @@ export default function GameDetail() {
   } = gameData;
 
   useEffect(() => {
+    setLoading(true);
     fetchGames(`games/${gameId}`)
       .then((response) => {
         setGameData(response.data);
@@ -34,7 +35,7 @@ export default function GameDetail() {
         setError(err);
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [gameId]);
 
   if (error) {
     if (error?.response.status === 404) {
