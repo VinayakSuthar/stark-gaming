@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import useOutsideClick from "../../hooks/useOutsideClick";
 
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { FiCheck } from "react-icons/fi";
 
 import "./index.css";
+import { useEffect } from "react";
 
 const dropdownAnimate = {
   enter: {
@@ -41,14 +43,15 @@ const statusAnimate = {
     transition: { type: "spring", stiffness: 300, damping: 24 },
   },
   exit: { opacity: 0, x: 20, transition: { duration: 0.2 } },
+  onHover: {
+    paddingLeft: "15px",
+  },
 };
 
 const arrowAnimate = {
   enter: { rotate: 180 },
   exit: { rotate: 0 },
 };
-
-const MotionArrow = motion(RiArrowDropDownLine);
 
 export default function StatusButton({ gameData }) {
   const { gameId, name, background_image, genres } = gameData;
@@ -57,7 +60,7 @@ export default function StatusButton({ gameData }) {
   const [played, setPlayed] = useLocalStorage("played", []);
   const [playing, setPlaying] = useLocalStorage("playing", []);
   const [showCheck, setShowCheck] = useState(true);
-  const [isHover, setHover] = useState(false);
+  const [isOpen, setOpen] = useState(false);
   const [activeBtn, setActiveBtn] = useState(() => {
     if (played.find((game) => game.id === intId)) {
       return "Played";
@@ -72,8 +75,10 @@ export default function StatusButton({ gameData }) {
     return "Want to Play";
   });
 
-  function toggleHover() {
-    setHover((previous) => !previous);
+  const dropdownRef = useOutsideClick(() => setOpen(false));
+
+  function toggleOpen() {
+    setOpen((previous) => !previous);
   }
 
   function toggleStatus(list, setList) {
@@ -129,34 +134,43 @@ export default function StatusButton({ gameData }) {
       >
         {activeBtn}
       </button>
-      <div data-testid="dropdown" className="dropdown-icon">
-        <motion.div
-          className="dropdown-icon"
-          onHoverStart={toggleHover}
-          onHoverEnd={toggleHover}
-        >
+      <div data-testid="dropdown" className="dropdown-icon" ref={dropdownRef}>
+        <motion.div className="dropdown-icon">
           <motion.div
             variants={arrowAnimate}
-            animate={isHover ? "enter" : "exit"}
+            animate={isOpen ? "enter" : "exit"}
             transition={{ duration: 0.2 }}
             style={{ originY: 0.5 }}
+            onClick={toggleOpen}
           >
-            <MotionArrow />
+            <RiArrowDropDownLine />
           </motion.div>
           <motion.div
             data-testid="dropdown-content"
             className="dropdown-content"
             initial="exit"
             variants={dropdownAnimate}
-            animate={isHover ? "enter" : "exit"}
+            animate={isOpen ? "enter" : "exit"}
           >
-            <motion.button variants={statusAnimate} onClick={handleStatus}>
+            <motion.button
+              variants={statusAnimate}
+              whileHover="onHover"
+              onClick={handleStatus}
+            >
               Want to Play
             </motion.button>
-            <motion.button variants={statusAnimate} onClick={handleStatus}>
+            <motion.button
+              variants={statusAnimate}
+              whileHover="onHover"
+              onClick={handleStatus}
+            >
               Playing
             </motion.button>
-            <motion.button variants={statusAnimate} onClick={handleStatus}>
+            <motion.button
+              variants={statusAnimate}
+              whileHover="onHover"
+              onClick={handleStatus}
+            >
               Played
             </motion.button>
           </motion.div>
