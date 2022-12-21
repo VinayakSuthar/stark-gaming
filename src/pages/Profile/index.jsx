@@ -42,21 +42,18 @@ export default function Profile() {
     setDataTransfer({ status, data: { ...data } });
   }
 
-  function transferGame(status, dropStatus) {
+  function transferGame(dropStatus) {
     const { data } = dataTransfer;
     switch (dropStatus) {
       case "wishlist": {
-        if (status === "wishlist") break;
         setWishlist((previousList) => [...previousList, { ...data }]);
         break;
       }
       case "playing": {
-        if (status === "playing") break;
         setPlaying((previousList) => [...previousList, { ...data }]);
         break;
       }
       case "played": {
-        if (status === "played") break;
         setPlayed((previousList) => [...previousList, { ...data }]);
         break;
       }
@@ -68,26 +65,26 @@ export default function Profile() {
     event.preventDefault();
     switch (status) {
       case "wishlist": {
+        if (dropStatus === "wishlist") break;
         setWishlist(wishlist.filter((item) => item.id !== data.id));
-        transferGame(status, dropStatus);
+        transferGame(dropStatus);
         break;
       }
       case "playing": {
+        if (dropStatus === "playing") break;
         setPlaying(playing.filter((item) => item.id !== data.id));
-        transferGame(status, dropStatus);
+        transferGame(dropStatus);
         break;
       }
       case "played": {
+        if (dropStatus === "played") break;
         setPlayed(played.filter((item) => item.id !== data.id));
-        transferGame(status, dropStatus);
+        transferGame(dropStatus);
         break;
       }
     }
+    setDataTransfer(defaultDataTransfer);
   }
-
-  useEffect(() => {
-    console.log(dataTransfer);
-  }, [dataTransfer]);
 
   const addToWishList = addGameToList(wishlist, setWishlist);
   const addToPlaying = addGameToList(playing, setPlaying);
@@ -116,7 +113,15 @@ export default function Profile() {
         </div>
       </div>
       <div className="user-game-list">
-        <div>
+        <div
+          className={`${
+            dataTransfer.status && dataTransfer.status !== "wishlist"
+              ? "dragging"
+              : ""
+          }`}
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => dropHandler("wishlist", e)}
+        >
           <h3>Wishlist</h3>
           {wishlist.length === 0 && (
             <p className="no-games-card">
@@ -124,12 +129,7 @@ export default function Profile() {
               To add games go to <Link to="/browse">Browse</Link>
             </p>
           )}
-          <div
-            data-status="wishlist"
-            className="browse-list"
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => dropHandler("wishlist", e)}
-          >
+          <div data-status="wishlist" className="browse-list">
             {wishlist?.map((game) => (
               <GameCard
                 data={game}
@@ -143,7 +143,15 @@ export default function Profile() {
             ))}
           </div>
         </div>
-        <div>
+        <div
+          className={`${
+            dataTransfer.status && dataTransfer.status !== "playing"
+              ? "dragging"
+              : ""
+          }`}
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => dropHandler("playing", e)}
+        >
           <h3>Playing</h3>
           {playing.length === 0 && (
             <p className="no-games-card">
@@ -151,12 +159,7 @@ export default function Profile() {
               To add games go to <Link to="/browse">Browse</Link>
             </p>
           )}
-          <div
-            data-status="playing"
-            className="browse-list"
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => dropHandler("playing", e)}
-          >
+          <div data-status="playing" className="browse-list">
             {playing?.map((game) => (
               <GameCard
                 data={game}
@@ -170,7 +173,15 @@ export default function Profile() {
             ))}
           </div>
         </div>
-        <div>
+        <div
+          className={`${
+            dataTransfer.status && dataTransfer.status !== "played"
+              ? "dragging"
+              : ""
+          }`}
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => dropHandler("played", e)}
+        >
           <h3>Played</h3>
           {played.length === 0 && (
             <p className="no-games-card">
@@ -178,12 +189,7 @@ export default function Profile() {
               To add games go to <Link to="/browse">Browse</Link>
             </p>
           )}
-          <div
-            className="browse-list"
-            data-status="played"
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => dropHandler("played", e)}
-          >
+          <div className="browse-list" data-status="played">
             {played?.map((game) => (
               <GameCard
                 data={game}
