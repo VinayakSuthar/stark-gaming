@@ -44,11 +44,11 @@ export default function SearchBox({ onClose }) {
   const [noResult, setNoResult] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  // const searchRef = useRef(null);
   const fetchGames = useAxios();
   const searchRef = useOutsideClick(onClose);
 
   useDebounce(() => {
+    setNoResult(false);
     if (searchValue.length === 0) {
       setSearchResult([]);
     }
