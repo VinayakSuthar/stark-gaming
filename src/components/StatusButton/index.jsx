@@ -12,7 +12,7 @@ import { useEffect } from "react";
 const dropdownAnimate = {
   enter: {
     opacity: 1,
-    clipPath: "inset(0% 0% 0% 0% round 10px)",
+    clipPath: "inset(0% 0% 0% 0% round 3px)",
     transition: {
       type: "spring",
       bounce: 0,
