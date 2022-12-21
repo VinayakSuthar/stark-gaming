@@ -61,11 +61,37 @@
   border-radius: 20px;
 }
 
+.user-game-list .browse-list {
+  position: relative;
+}
+
+.user-game-list .dragging .game-card::before {
+  content: "Drop Here...";
+  font-size: 1.5rem;
+  font-weight: 500;
+  width: 100%;
+  height: 100%;
+  border-radius: 9px;
+  top: 0;
+  position: absolute;
+  background-color: var(--very-dark-blue);
+  filter: opacity(0.5);
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(1px);
+}
+
 .user-game-list .no-games-card {
   font-size: 1.2rem;
   font-weight: 500;
   min-height: 11vw;
   margin-top: 16px;
+}
+
+.user-game-list .game-card {
+  cursor: grab;
 }
 
 .no-games-card > a {
