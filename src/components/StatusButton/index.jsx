@@ -134,7 +134,7 @@ export default function StatusButton({ gameData }) {
       >
         {activeBtn}
       </button>
-      <div data-testid="dropdown" className="dropdown-icon" ref={dropdownRef}>
+      <div className="dropdown-icon" ref={dropdownRef}>
         <motion.div className="dropdown-icon">
           <motion.div
             variants={arrowAnimate}
@@ -142,6 +142,7 @@ export default function StatusButton({ gameData }) {
             transition={{ duration: 0.2 }}
             style={{ originY: 0.5 }}
             onClick={toggleOpen}
+            data-testid="dropdown"
           >
             <RiArrowDropDownLine />
           </motion.div>
