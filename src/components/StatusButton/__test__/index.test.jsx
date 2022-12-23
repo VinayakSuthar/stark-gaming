@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import StatusButton from "..";
 
 const MockStatusButton = () => {
@@ -21,20 +21,26 @@ describe("Status button component", () => {
     expect(statusButton).toBeInTheDocument();
   });
 
-  it("on hover show status list", () => {
+  it("on click show status list", async () => {
     render(<MockStatusButton />);
 
     const dropdown = screen.getByTestId("dropdown");
     const dropdownContent = screen.getByTestId("dropdown-content");
-    fireEvent.mouseOver(dropdown);
-    expect(dropdownContent).toBeVisible();
+    await fireEvent.click(dropdown);
+    await waitFor(() => {
+      expect(dropdownContent).toBeVisible();
+    });
   });
 
-  it("should have four buttons", () => {
+  it("should have four buttons", async () => {
     render(<MockStatusButton />);
 
-    const buttonList = screen.getAllByRole("button");
-    expect(buttonList).toHaveLength(4);
+    const dropdown = screen.getByTestId("dropdown");
+    await fireEvent.click(dropdown);
+    await waitFor(() => {
+      const buttonList = screen.getAllByRole("button");
+      expect(buttonList).toHaveLength(4);
+    });
   });
 
   it("should not have check icon", () => {
