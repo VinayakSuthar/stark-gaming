@@ -1,3 +1,16 @@
+.game-card {
+  position: relative;
+}
+
+.game-card > .drag-icon {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-size: 1.2rem;
+  background-color: #000000c2;
+  border-top-right-radius: 9px;
+}
+
 .game-card img {
   width: 100%;
   aspect-ratio: 266/150;

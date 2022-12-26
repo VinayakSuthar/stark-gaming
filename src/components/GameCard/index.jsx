@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiCheck } from "react-icons/fi";
+import { MdDragIndicator } from "react-icons/md";
 
 import "./index.css";
 
@@ -19,6 +20,7 @@ export default function GameCard({
       draggable={draggable}
       onDragStart={() => onDragStart({ id, background_image, name, genres })}
     >
+      {draggable && <MdDragIndicator className="drag-icon" />}
       <Link to={`/browse/${id}`}>
         <img src={background_image} alt="game" />
         <h3 className="game-title" title={name}>
