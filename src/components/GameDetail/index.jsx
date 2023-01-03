@@ -19,6 +19,8 @@ function fetchGame({ queryKey }) {
   });
 }
 
+const IMAGE_URL = import.meta.env.VITE_IMAGE_URL;
+
 export default function GameDetail() {
   const { id: gameId } = useParams();
 
@@ -46,7 +48,7 @@ export default function GameDetail() {
     return { id: genre.id, name, slug };
   });
 
-  const sanitizedBackgroundImage = `http://localhost:1337${background_image?.data?.attributes?.url}`;
+  const sanitizedBackgroundImage = `${IMAGE_URL}${background_image?.data?.attributes?.url}`;
 
   if (isError) {
     console.log(error);
