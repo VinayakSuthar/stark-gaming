@@ -1,16 +1,17 @@
 import Skeleton from "react-loading-skeleton";
-import SwiperCore, { Autoplay } from "swiper";
+import { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 import "./index.css";
 
-export default function Banner({ listData, loading }) {
+export default function Banner({ value, loading }) {
+  console.log("🔥 ~ file: index.jsx:9 ~ Banner ~ value", value);
   return (
     <div className="home-banner">
       {!loading ? (
         <Swiper autoplay modules={[Autoplay]} centeredSlides>
-          {listData?.map(({ id, name, background_image }) => {
+          {value?.map(({ id, name, background_image }) => {
             return (
               <SwiperSlide key={id} className="img-box">
                 <img className="banner-image" src={background_image} />
