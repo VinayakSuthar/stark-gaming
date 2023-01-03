@@ -5,7 +5,7 @@ import SkeletonCard from "../SkeletonCard";
 
 import "swiper/css";
 
-export default function GameList({ listData, loading, listStyle }) {
+export default function GameList({ value, loading, listStyle }) {
   const [wishlist, setWishlist] = useLocalStorage("wishlist", []);
 
   function addGameToWishlist(id, name, genres, background_image) {
@@ -33,7 +33,7 @@ export default function GameList({ listData, loading, listStyle }) {
   return (
     <div className={`game-list ${listStyle}`}>
       {!loading
-        ? listData.map((game) => {
+        ? value.map((game) => {
             return (
               <GameCard
                 key={game.id}

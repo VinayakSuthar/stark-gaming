@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useQuery } from "react-query";
 
 import Banner from "../../components/Banner";
 import GameList from "../../components/GameList";
@@ -7,40 +6,46 @@ import useAxios from "../../hooks/useAxios";
 
 import "./index.css";
 
+const client = useAxios();
+function fetchGames() {
+  return client.get("games", {
+    params: {
+      populate: "*",
+    },
+  });
+}
+
 export default function Home() {
-  const [listData, setListData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data, isError, isLoading } = useQuery("games", fetchGames, {
+    select: (data) => data.data.data.map((game) => game),
+  });
 
-  const fetchGames = useAxios();
-  useEffect(() => {
-    fetchGames
-      .get("games", {
-        params: {
-          page_size: 8,
-        },
-      })
-      .then((response) => {
-        setListData(response.data.results);
-      })
-      .catch((err) => {
-        setError(err);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  const sanitizedData = data?.map((game) => {
+    const { Name, genres, background_image } = game.attributes;
+    const sanitizedGenres = genres.data.map((genre) => {
+      const { name, slug } = genre.attributes;
+      return { id: genre.id, name, slug };
+    });
+    return {
+      id: game.id,
+      name: Name,
+      genres: sanitizedGenres,
+      background_image: `http://localhost:1337${background_image?.data?.attributes?.url}`,
+    };
+  });
 
-  if (error) {
+  if (isError) {
     return <h1>Service Unavailable</h1>;
   }
 
   return (
     <div>
-      <Banner listData={listData} loading={loading} />
+      <Banner value={sanitizedData} loading={isLoading} />
       <div className="most-popular">
         <h2>Most Popular</h2>
         <GameList
-          listData={listData}
-          loading={loading}
+          value={sanitizedData}
+          loading={isLoading}
           listStyle="popular-list"
         />
       </div>
