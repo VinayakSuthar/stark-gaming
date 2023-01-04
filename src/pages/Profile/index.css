@@ -6,12 +6,17 @@
   background-color: var(--very-dark-blue);
   border-radius: 20px;
   padding: 20px;
+  min-height: 327px;
 }
 
 .profile h2 {
   font-size: 2rem;
   margin-bottom: 20px;
   color: var(--primary-color);
+}
+
+.profile > img {
+  width: 280px;
 }
 
 .status-count p {
