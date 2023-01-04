@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import useAxios from "../../hooks/useAxios";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useQuery } from "react-query";
+
 import useDebounce from "../../hooks/useDebounce";
 import useOutsideClick from "../../hooks/useOutsideClick";
-
 import { BiSearch } from "react-icons/bi";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import loader from "../../assets/image/loader.svg";
@@ -38,14 +39,57 @@ const dropIn = {
   },
 };
 
+const client = useAxios();
+function searchGame({ queryKey }) {
+  const searchString = queryKey[1];
+  return client.get("/games", {
+    params: {
+      populate: "*",
+      filters: {
+        name: {
+          $containsi: searchString,
+        },
+      },
+    },
+  });
+}
+
+function sanitizeData(data) {
+  return data?.data?.data?.map((game) => {
+    const { Name, genres, background_image } = game.attributes;
+    const sanitizedGenres = genres?.data?.map((genre) => {
+      const { name, slug } = genre.attributes;
+      return { id: genre.id, name, slug };
+    });
+    return {
+      id: game.id,
+      name: Name,
+      genres: sanitizedGenres,
+      background_image: `http://localhost:1337${background_image?.data?.attributes?.url}`,
+    };
+  });
+}
+
 export default function SearchBox({ onClose }) {
   const [searchResult, setSearchResult] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [noResult, setNoResult] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const fetchGames = useAxios();
   const searchRef = useOutsideClick(onClose);
+
+  const { data, isLoading, isError, refetch } = useQuery(
+    ["game", searchValue],
+    searchGame,
+    {
+      enabled: false,
+      select: sanitizeData,
+      onSuccess: (data) => {
+        setSearchResult(data);
+        if (data.length === 0) {
+          setNoResult(true);
+        }
+      },
+    }
+  );
 
   useDebounce(() => {
     setNoResult(false);
@@ -53,23 +97,7 @@ export default function SearchBox({ onClose }) {
       setSearchResult([]);
     }
     if (searchValue.length > 2) {
-      setLoading(true);
-      setError(null);
-      fetchGames
-        .get("games", {
-          params: { search: searchValue },
-        })
-        .then((response) => {
-          if (response.data.count === 0) setNoResult(true);
-          setSearchResult(response.data.results);
-        })
-        .catch((error) => {
-          if (error.name === "CanceledError") return;
-          setError(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      refetch();
     }
   }, searchValue);
 
@@ -112,11 +140,11 @@ export default function SearchBox({ onClose }) {
         <div className="search-result">
           {searchValue.length < 3 ? (
             <p className="exception-block">Search Games</p>
-          ) : loading ? (
+          ) : isLoading ? (
             <div className="loader-container">
               <img className="loader-svg" src={loader} alt="loader" />
             </div>
-          ) : error ? (
+          ) : isError ? (
             <p className="exception-block">
               An error ocurred. <br />
               Please try again later

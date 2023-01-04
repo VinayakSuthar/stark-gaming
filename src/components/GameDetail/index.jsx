@@ -51,7 +51,6 @@ export default function GameDetail() {
   const sanitizedBackgroundImage = `${IMAGE_URL}${background_image?.data?.attributes?.url}`;
 
   if (isError) {
-    console.log(error);
     if (error?.response.status === 404) {
       return <h1>Game Not Found</h1>;
     } else {

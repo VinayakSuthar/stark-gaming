@@ -6,7 +6,6 @@ import "swiper/css";
 import "./index.css";
 
 export default function Banner({ value, loading }) {
-  console.log("🔥 ~ file: index.jsx:9 ~ Banner ~ value", value);
   return (
     <div className="home-banner">
       {!loading ? (
