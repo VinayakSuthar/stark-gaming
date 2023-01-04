@@ -14,6 +14,22 @@
   grid-column-end: span 3;
 }
 
+.browse-more {
+  display: block;
+  margin: 0 auto;
+  margin-top: 40px;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.browse-more > a {
+  color: var(--off-white);
+  text-decoration: none;
+  font-size: 1.3rem;
+}
+
 @media screen and (max-width: 992px) {
   .popular-list > div {
     grid-column-end: span 4;

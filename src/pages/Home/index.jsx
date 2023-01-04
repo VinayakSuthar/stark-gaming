@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 
 import Banner from "../../components/Banner";
 import GameList from "../../components/GameList";
@@ -30,8 +31,15 @@ export default function Home() {
       <Banner value={data} loading={isLoading} />
       <div className="most-popular">
         <h2>Most Popular</h2>
-        <GameList value={data} loading={isLoading} listStyle="popular-list" />
+        <GameList
+          value={sanitizedData?.slice(0, 8)}
+          loading={isLoading}
+          listStyle="popular-list"
+        />
       </div>
+      <button className="browse-more">
+        <Link to="/browse">Browse all</Link>
+      </button>
     </div>
   );
 }
