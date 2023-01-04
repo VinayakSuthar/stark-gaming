@@ -1,4 +1,4 @@
-function sanitizeData(data) {
+function sanitizeGames(data) {
   return data?.data?.data?.map((game) => {
     const { Name, genres, background_image } = game.attributes;
     const sanitizedGenres = genres?.data?.map((genre) => {
@@ -16,4 +16,4 @@ function sanitizeData(data) {
   });
 }
 
-export default sanitizeData;
+export { sanitizeGames };
