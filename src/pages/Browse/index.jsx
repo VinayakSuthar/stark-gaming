@@ -42,7 +42,7 @@ function fetchGamesByGenre({ queryKey }) {
 export default function Browse() {
   const [genreId, setGenreId] = useState();
   const [listData, setListData] = useState([]);
-  const [activeCategory, setActiveCategory] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
 
   const { data: genreData } = useQuery("genres", fetchGenres, {
     select: (data) =>
@@ -52,17 +52,17 @@ export default function Browse() {
       }),
   });
 
-  const { isLoading: isGameLoading, isError: isGameError } = useQuery(
-    "games",
-    fetchGames,
-    {
-      select: sanitizeGames,
-      onSuccess: (data) => setListData([...data]),
-      refetchOnWindowFocus: false,
-    }
-  );
+  const {
+    isLoading: isGameLoading,
+    isError: isGameError,
+    refetch: refetchGames,
+  } = useQuery("games", fetchGames, {
+    select: sanitizeData,
+    onSuccess: (data) => setListData([...data]),
+    refetchOnWindowFocus: false,
+  });
 
-  const { refetch: gameRefetch, isError: isRefetchError } = useQuery(
+  const { refetch: refetchGamesByGenre, isError: isRefetchError } = useQuery(
     ["game", genreId],
     fetchGamesByGenre,
     {
@@ -72,15 +72,20 @@ export default function Browse() {
     }
   );
 
-  function handleClick(id, name) {
+  function handleGenreClick(id, name) {
     if (activeCategory !== name) {
       setGenreId(id);
       setActiveCategory(name);
     }
   }
+  function handleClick() {
+    refetchGames();
+    setActiveCategory("All");
+    setGenreId(0);
+  }
 
   useEffect(() => {
-    if (genreId) gameRefetch();
+    if (genreId || genreId !== 0) refetchGamesByGenre();
   }, [genreId]);
 
   if (isGameError || isRefetchError) {
@@ -91,6 +96,12 @@ export default function Browse() {
     <div>
       <h1>Browse</h1>
       <div className="genres-container">
+        <button
+          className={`genre ${activeCategory === "All" && "active-category"}`}
+          onClick={handleClick}
+        >
+          All
+        </button>
         {genreData?.map(({ id, name }) => {
           return (
             <button
@@ -98,7 +109,7 @@ export default function Browse() {
                 activeCategory === name && "active-category"
               }`}
               key={id}
-              onClick={() => handleClick(id, name)}
+              onClick={() => handleGenreClick(id, name)}
             >
               {name}
             </button>
