@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 
 import useAxios from "../../hooks/useAxios";
 import GameList from "../../components/GameList";
+import { sanitizeGames } from "../../utils/sanitizedData";
 
 import "./style.css";
 
@@ -38,22 +39,6 @@ function fetchGamesByGenre({ queryKey }) {
   });
 }
 
-function sanitizeData(data) {
-  return data?.data?.data?.map((game) => {
-    const { Name, genres, background_image } = game.attributes;
-    const sanitizedGenres = genres?.data?.map((genre) => {
-      const { name, slug } = genre.attributes;
-      return { id: genre.id, name, slug };
-    });
-    return {
-      id: game.id,
-      name: Name,
-      genres: sanitizedGenres,
-      background_image: `http://localhost:1337${background_image?.data?.attributes?.url}`,
-    };
-  });
-}
-
 export default function Browse() {
   const [genreId, setGenreId] = useState();
   const [listData, setListData] = useState([]);
@@ -71,7 +56,7 @@ export default function Browse() {
     "games",
     fetchGames,
     {
-      select: sanitizeData,
+      select: sanitizeGames,
       onSuccess: (data) => setListData([...data]),
       refetchOnWindowFocus: false,
     }
@@ -82,7 +67,7 @@ export default function Browse() {
     fetchGamesByGenre,
     {
       enabled: false,
-      select: sanitizeData,
+      select: sanitizeGames,
       onSuccess: (data) => setListData([...data]),
     }
   );
