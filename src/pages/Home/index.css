@@ -25,9 +25,9 @@
 }
 
 .browse-more > a {
-  color: var(--off-white);
+  color: var(--very-dark-blue);
   text-decoration: none;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
 }
 
 @media screen and (max-width: 992px) {
