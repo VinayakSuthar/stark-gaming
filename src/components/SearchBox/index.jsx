@@ -8,7 +8,7 @@ import { IoCloseCircleSharp } from "react-icons/io5";
 
 import useDebounce from "../../hooks/useDebounce";
 import useOutsideClick from "../../hooks/useOutsideClick";
-import sanitizeData from "../../utils/sanitizedData";
+import { sanitizeGames } from "../../utils/sanitizedData";
 import loader from "../../assets/image/loader.svg";
 import "./index.css";
 
@@ -66,7 +66,7 @@ export default function SearchBox({ onClose }) {
     searchGame,
     {
       enabled: false,
-      select: sanitizeData,
+      select: sanitizeGames,
       onSuccess: (data) => {
         setSearchResult(data);
         if (data.length === 0) {
