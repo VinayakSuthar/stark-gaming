@@ -3,11 +3,12 @@ import useAxios from "../../hooks/useAxios";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useQuery } from "react-query";
+import { BiSearch } from "react-icons/bi";
+import { IoCloseCircleSharp } from "react-icons/io5";
 
 import useDebounce from "../../hooks/useDebounce";
 import useOutsideClick from "../../hooks/useOutsideClick";
-import { BiSearch } from "react-icons/bi";
-import { IoCloseCircleSharp } from "react-icons/io5";
+import sanitizeData from "../../utils/sanitizedData";
 import loader from "../../assets/image/loader.svg";
 import "./index.css";
 
@@ -51,22 +52,6 @@ function searchGame({ queryKey }) {
         },
       },
     },
-  });
-}
-
-function sanitizeData(data) {
-  return data?.data?.data?.map((game) => {
-    const { Name, genres, background_image } = game.attributes;
-    const sanitizedGenres = genres?.data?.map((genre) => {
-      const { name, slug } = genre.attributes;
-      return { id: genre.id, name, slug };
-    });
-    return {
-      id: game.id,
-      name: Name,
-      genres: sanitizedGenres,
-      background_image: `http://localhost:1337${background_image?.data?.attributes?.url}`,
-    };
   });
 }
 
