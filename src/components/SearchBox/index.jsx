@@ -138,13 +138,20 @@ export default function SearchBox({ onClose }) {
             <p className="exception-block">No Result Found</p>
           ) : (
             <>
-              {searchResult.map(({ id, name, genres }) => {
+              {searchResult.map(({ id, name, genres, background_image }) => {
                 return (
                   <Link to={`/browse/${id}`} key={id} onClick={onClose}>
-                    {name} <br />
-                    <span className="search-genre">
-                      {genres[0]?.name || "No data"}
-                    </span>
+                    <img
+                      src={background_image}
+                      alt="title"
+                      className="result-image"
+                    />
+                    <div className="result-content">
+                      {name} <br />
+                      <span className="search-genre">
+                        {genres[0]?.name || "No data"}
+                      </span>
+                    </div>
                   </Link>
                 );
               })}
