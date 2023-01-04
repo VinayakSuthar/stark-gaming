@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-
+import { AnimatePresence } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaRegUserCircle } from "react-icons/fa";
 import { BiSearch } from "react-icons/bi";
 
 import SearchBox from "../SearchBox";
 
+import logo from "../../assets/image/garena-logo.png";
 import "./index.css";
 
 export default function TopNavigation({ setOpen }) {
@@ -31,7 +31,7 @@ export default function TopNavigation({ setOpen }) {
           onClick={handleOpen}
         />
 
-        <p className="mobile mobile-logo">SG</p>
+        <img src={logo} alt="logo" className="logo mobile mobile-logo" />
 
         <button className="search-bar-button" onClick={handleClick}>
           <BiSearch /> Search

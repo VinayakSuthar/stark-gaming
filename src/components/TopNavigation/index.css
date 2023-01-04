@@ -33,13 +33,6 @@
   transform: scale(1.02);
 }
 
-.mobile-logo {
-  font-weight: 800;
-  font-size: 1.8rem;
-  margin: 0 10px;
-  color: var(--primary-color);
-}
-
 .top-nav > div {
   display: flex;
   align-items: center;

@@ -3,15 +3,12 @@ import { NavLink } from "react-router-dom";
 import { BiHomeAlt, BiSearchAlt } from "react-icons/bi";
 import { FaRegUserCircle } from "react-icons/fa";
 
+import logo from "../../assets/image/garena-logo.png";
 import "./index.css";
 
 export default function NavigationBar({ navRef }) {
   const [activeIndex, setActiveIndex] = useState("home");
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
-  console.log(
-    "🔥 ~ file: index.jsx:12 ~ NavigationBar ~ innerWidth",
-    innerWidth
-  );
 
   useEffect(() => {
     window.addEventListener("resize", resize);
@@ -23,8 +20,9 @@ export default function NavigationBar({ navRef }) {
 
   return (
     <div ref={navRef} className="nav-bar">
-      <div className="logo desktop">
-        {innerWidth > 992 ? "Stark Gaming" : "SG"}
+      <div className="logo-container">
+        <img src={logo} alt="logo" className="logo" />
+        {innerWidth > 992 && <h1 className="logo-title">Stark Gaming</h1>}
       </div>
       <div className="nav-menu">
         <div className="top-menu">

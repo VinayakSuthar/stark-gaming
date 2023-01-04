@@ -9,14 +9,22 @@
   z-index: 2;
 }
 
-.logo {
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-title {
   color: var(--primary-color);
   font-weight: 900;
   font-size: 1.5rem;
   padding: 10px 0;
   text-align: center;
-  height: 50px;
   line-height: 50px;
+}
+.logo {
+  width: 50px;
 }
 
 .nav-menu {
@@ -75,7 +83,8 @@
     width: 180px;
   }
   .nav-menu {
-    height: calc(100% - 50px);
+    margin-top: 10px;
+    height: calc(100% - 70px);
   }
   .nav-link {
     justify-content: start;
