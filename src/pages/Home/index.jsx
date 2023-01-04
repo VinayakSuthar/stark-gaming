@@ -28,11 +28,11 @@ export default function Home() {
 
   return (
     <div>
-      <Banner value={data} loading={isLoading} />
+      <Banner value={data?.slice(0, 8)} loading={isLoading} />
       <div className="most-popular">
         <h2>Most Popular</h2>
         <GameList
-          value={sanitizedData?.slice(0, 8)}
+          value={data?.slice(0, 8)}
           loading={isLoading}
           listStyle="popular-list"
         />

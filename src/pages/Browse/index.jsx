@@ -57,7 +57,7 @@ export default function Browse() {
     isError: isGameError,
     refetch: refetchGames,
   } = useQuery("games", fetchGames, {
-    select: sanitizeData,
+    select: sanitizeGames,
     onSuccess: (data) => setListData([...data]),
     refetchOnWindowFocus: false,
   });
