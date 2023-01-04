@@ -29,6 +29,10 @@
   height: 22px;
 }
 
+.search-bar-button:hover {
+  transform: scale(1.02);
+}
+
 .mobile-logo {
   font-weight: 800;
   font-size: 1.8rem;
