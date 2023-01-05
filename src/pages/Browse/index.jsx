@@ -93,7 +93,7 @@ export default function Browse() {
   }
 
   return (
-    <div>
+    <div >
       <h1>Browse</h1>
       <div className="genres-container">
         <button
