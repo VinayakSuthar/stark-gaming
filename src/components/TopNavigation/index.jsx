@@ -30,8 +30,9 @@ export default function TopNavigation({ setOpen }) {
           color="#c7d5e0"
           onClick={handleOpen}
         />
-
-        <img src={logo} alt="logo" className="logo mobile mobile-logo" />
+        <Link to="/" className="mobile">
+          <img src={logo} alt="logo" className="logo mobile mobile-logo" />
+        </Link>
 
         <button className="search-bar-button" onClick={handleClick}>
           <BiSearch /> Search
