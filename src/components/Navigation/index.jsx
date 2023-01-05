@@ -6,7 +6,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import logo from "../../assets/image/garena-logo.png";
 import "./index.css";
 
-export default function NavigationBar({ navRef }) {
+export default function NavigationBar({ navRef, setOpen }) {
   const [activeIndex, setActiveIndex] = useState("home");
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
@@ -16,6 +16,12 @@ export default function NavigationBar({ navRef }) {
 
   function resize() {
     setInnerWidth(window.innerWidth);
+  }
+
+  function handleClick() {
+    if (innerWidth < 448) {
+      setOpen(false);
+    }
   }
 
   return (
@@ -28,17 +34,21 @@ export default function NavigationBar({ navRef }) {
       </Link>
       <div className="nav-menu">
         <div className="top-menu">
-          <NavLink to="/" className="nav-link">
+          <NavLink to="/" className="nav-link" onClick={handleClick}>
             <BiHomeAlt size="1.1em" />
             <span>Home</span>
           </NavLink>
-          <NavLink to="browse" className="nav-link">
+          <NavLink to="browse" className="nav-link" onClick={handleClick}>
             <BiSearchAlt />
             <span>Browse</span>
           </NavLink>
         </div>
         <div className="bottom-menu">
-          <NavLink to="profile" className="nav-link profile-link">
+          <NavLink
+            to="profile"
+            className="nav-link profile-link"
+            onClick={handleClick}
+          >
             <FaRegUserCircle className="icon" size="1.5em" />
             <span>Profile</span>
           </NavLink>

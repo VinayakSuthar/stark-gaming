@@ -18,7 +18,7 @@ export default function Layout() {
   return (
     <div className="home-layout">
       <TopNavigation setOpen={setOpen} />
-      {open && <NavigationBar navRef={navRef} />}
+      {open && <NavigationBar setOpen={setOpen} navRef={navRef} />}
       <Outlet />
     </div>
   );
