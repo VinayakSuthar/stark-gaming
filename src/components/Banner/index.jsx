@@ -1,16 +1,24 @@
 import Skeleton from "react-loading-skeleton";
-import { Autoplay } from "swiper";
+import { Autoplay, Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link } from "react-router-dom";
 
 import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 import "./index.css";
 
 export default function Banner({ value, loading }) {
   return (
     <div className="home-banner">
       {!loading ? (
-        <Swiper autoplay modules={[Autoplay]} centeredSlides>
+        <Swiper
+          autoplay
+          centeredSlides
+          navigation={true}
+          pagination={true}
+          modules={[Autoplay, Navigation, Pagination]}
+        >
           {value?.map(({ id, name, background_image }) => {
             return (
               <SwiperSlide key={id} className="img-box">
