@@ -1,10 +1,14 @@
 .top-nav {
-  height: 50px;
+  height: 60px;
   display: flex;
   align-items: center;
   padding: 10px 20px 0 40px;
   justify-content: space-between;
   margin-bottom: 40px;
+  position: sticky;
+  top: 0;
+  background-color: #040f14;
+  z-index: 2;
 }
 
 .search-bar-button {
