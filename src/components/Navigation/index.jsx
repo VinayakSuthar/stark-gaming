@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { BiHomeAlt, BiSearchAlt } from "react-icons/bi";
 import { FaRegUserCircle } from "react-icons/fa";
 
@@ -20,10 +20,12 @@ export default function NavigationBar({ navRef }) {
 
   return (
     <div ref={navRef} className="nav-bar">
-      <div className="logo-container">
-        <img src={logo} alt="logo" className="logo" />
-        {innerWidth > 992 && <h1 className="logo-title">Stark Gaming</h1>}
-      </div>
+      <Link to="/">
+        <div className="logo-container">
+          <img src={logo} alt="logo" className="logo" />
+          {innerWidth > 992 && <h1 className="logo-title">Stark Gaming</h1>}
+        </div>
+      </Link>
       <div className="nav-menu">
         <div className="top-menu">
           <NavLink to="/" className="nav-link">
