@@ -2,7 +2,7 @@
   height: 60px;
   display: flex;
   align-items: center;
-  padding: 10px 20px 0 40px;
+  padding: 10px 20px 0 0;
   justify-content: space-between;
   margin-bottom: 40px;
   position: sticky;
