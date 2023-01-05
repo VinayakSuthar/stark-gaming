@@ -30,7 +30,6 @@
 .game-about > div {
   overflow-y: auto;
   font-size: 1.1rem;
-  aspect-ratio: 5/1;
 }
 
 .game-about > h2 {
@@ -95,9 +94,6 @@
   .game-about {
     grid-column-end: span 12;
   }
-  .game-about > div {
-    aspect-ratio: 3/1;
-  }
 }
 @media screen and (max-width: 600px) {
   .game-detail > .game-title {
@@ -111,7 +107,6 @@
     width: 48%;
   }
   .game-about > div {
-    aspect-ratio: 5/2;
     font-size: 1rem;
   }
 }
