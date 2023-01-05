@@ -7,6 +7,8 @@ import "swiper/css";
 
 export default function GameList({ value, loading, listStyle }) {
   const [wishlist, setWishlist] = useLocalStorage("wishlist", []);
+  const [played, setPlayed] = useLocalStorage("played", []);
+  const [playing, setPlaying] = useLocalStorage("playing", []);
 
   function addGameToWishlist(id, name, genres, background_image) {
     const isGameInTheList = wishlist.find((item) => item.id === id);
@@ -14,6 +16,8 @@ export default function GameList({ value, loading, listStyle }) {
       const newList = wishlist.filter((item) => item.id !== id);
       setWishlist(newList);
     } else {
+      setPlaying(playing.filter((item) => item.id !== id));
+      setPlayed(played.filter((item) => item.id !== id));
       setWishlist((previousList) => [
         ...previousList,
         {
