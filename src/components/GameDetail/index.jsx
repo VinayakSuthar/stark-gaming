@@ -1,20 +1,21 @@
-import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
-import parse from "html-react-parser";
-import GameDetailSkeleton from "../GameDetailSkeleton";
+import { useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import parse from 'html-react-parser';
+import Skeleton from 'react-loading-skeleton';
+import GameDetailSkeleton from '../GameDetailSkeleton';
 
-import useAxios from "../../hooks/useAxios";
-import StatusButton from "../StatusButton";
+import useAxios from '../../hooks/useAxios';
+import StatusButton from '../StatusButton';
 
-import "react-loading-skeleton/dist/skeleton.css";
-import "./index.css";
+import 'react-loading-skeleton/dist/skeleton.css';
+import './index.css';
 
 const client = useAxios();
 function fetchGame({ queryKey }) {
   const id = queryKey[1];
   return client.get(`games/${id}`, {
     params: {
-      populate: "*",
+      populate: '*',
     },
   });
 }
@@ -24,23 +25,18 @@ const IMAGE_URL = import.meta.env.VITE_IMAGE_URL;
 export default function GameDetail() {
   const { id: gameId } = useParams();
 
-  const { data, isError, isLoading, error } = useQuery(
-    ["game", gameId],
-    fetchGame,
-    {
-      select: (data) => data.data.data,
-    }
-  );
+  const { data, isError, isLoading, error } = useQuery(['game', gameId], fetchGame, {
+    select: (data) => data.data.data,
+  });
 
   const {
     Name: name,
-    background_image,
+    background_image: backgroundImage,
     description,
     genres,
     Developer: developer,
     Released: released,
     Publisher: publisher,
-    website,
   } = data?.attributes || {};
 
   const sanitizedGenres = genres?.data?.map((genre) => {
@@ -48,14 +44,13 @@ export default function GameDetail() {
     return { id: genre.id, name, slug };
   });
 
-  const sanitizedBackgroundImage = `${IMAGE_URL}${background_image?.data?.attributes?.url}`;
+  const sanitizedBackgroundImage = `${IMAGE_URL}${backgroundImage?.data?.attributes?.url}`;
 
   if (isError) {
     if (error?.response.status === 404) {
       return <h1>Game Not Found</h1>;
-    } else {
-      return <h1>Service unavailable</h1>;
     }
+    return <h1>Service unavailable</h1>;
   }
   return (
     <div className="game-detail">
@@ -66,19 +61,12 @@ export default function GameDetail() {
           <h1 className="game-title">{name || <Skeleton width="400px" />}</h1>
           <div className="game-detail-container">
             <div className="game-content">
-              <img
-                className="game-image"
-                src={sanitizedBackgroundImage}
-                alt="game"
-              />
+              <img className="game-image" src={sanitizedBackgroundImage} alt="game" />
 
               <div className="game-info">
                 <div>
                   <p className="subtitle">Genre: </p>
-                  <p className="subtitle-data">
-                    {sanitizedGenres?.map(({ name }) => name).join(", ") ||
-                      `No Data`}
-                  </p>
+                  <p className="subtitle-data">{sanitizedGenres?.map(({ name }) => name).join(', ') || `No Data`}</p>
                 </div>
                 <div>
                   <p className="subtitle">Developers: </p>

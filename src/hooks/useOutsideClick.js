@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 export default function useOutsideClick(callBack) {
   const ref = useRef();
@@ -8,9 +8,9 @@ export default function useOutsideClick(callBack) {
     }
   };
   useEffect(() => {
-    document.addEventListener("click", outsideClick, true);
+    document.addEventListener('click', outsideClick, true);
     return () => {
-      document.removeEventListener("click", outsideClick, true);
+      document.removeEventListener('click', outsideClick, true);
     };
   }, []);
   return ref;

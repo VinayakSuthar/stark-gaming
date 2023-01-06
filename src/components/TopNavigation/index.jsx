@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { FaRegUserCircle } from "react-icons/fa";
-import { BiSearch } from "react-icons/bi";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { FaRegUserCircle } from 'react-icons/fa';
+import { BiSearch } from 'react-icons/bi';
 
-import SearchBox from "../SearchBox";
+import SearchBox from '../SearchBox';
 
-import logo from "../../assets/image/garena-logo.png";
-import "./index.css";
+import logo from '../../assets/image/garena-logo.png';
+import './index.css';
 
 export default function TopNavigation({ setOpen }) {
   const [isSearchBoxOpen, setSearchBoxOpen] = useState(false);
@@ -24,17 +24,12 @@ export default function TopNavigation({ setOpen }) {
   return (
     <>
       <div className="top-nav">
-        <GiHamburgerMenu
-          className="mobile"
-          size="1.8em"
-          color="#c7d5e0"
-          onClick={handleOpen}
-        />
+        <GiHamburgerMenu className="mobile" size="1.8em" color="#c7d5e0" onClick={() => handleOpen()} />
         <Link to="/" className="mobile">
           <img src={logo} alt="logo" className="logo mobile mobile-logo" />
         </Link>
 
-        <button className="search-bar-button" onClick={handleClick}>
+        <button type="button" className="search-bar-button" onClick={() => handleClick}>
           <BiSearch /> Search
         </button>
         <div>
@@ -43,9 +38,7 @@ export default function TopNavigation({ setOpen }) {
           </Link>
         </div>
       </div>
-      <AnimatePresence>
-        {isSearchBoxOpen && <SearchBox onClose={handleClick} />}
-      </AnimatePresence>
+      <AnimatePresence>{isSearchBoxOpen && <SearchBox onClose={() => handleClick} />}</AnimatePresence>
     </>
   );
 }

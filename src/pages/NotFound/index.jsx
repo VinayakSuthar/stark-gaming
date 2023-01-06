@@ -1,8 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import bugGif from "../../assets/image/bug.gif";
+import { Link } from 'react-router-dom';
+import bugGif from '../../assets/image/bug.gif';
 
-import "./index.css";
+import './index.css';
 
 export default function NotFound() {
   return (
