@@ -1,11 +1,11 @@
-import GameDetail from "../../components/GameDetail";
+import GameDetail from '../../components/GameDetail';
 
-import "./index.css";
+import './index.css';
 
 export default function Game() {
   return (
     <div className="game-container">
-      <GameDetail/>
+      <GameDetail />
     </div>
-  )
+  );
 }

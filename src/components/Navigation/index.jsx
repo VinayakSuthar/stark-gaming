@@ -1,22 +1,21 @@
-import { useEffect, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
-import { BiHomeAlt, BiSearchAlt } from "react-icons/bi";
-import { FaRegUserCircle } from "react-icons/fa";
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from 'react';
+import { NavLink, Link } from 'react-router-dom';
+import { BiHomeAlt, BiSearchAlt } from 'react-icons/bi';
+import { FaRegUserCircle } from 'react-icons/fa';
 
-import logo from "../../assets/image/garena-logo.png";
-import "./index.css";
+import logo from '../../assets/image/garena-logo.png';
+import './index.css';
 
 export default function NavigationBar({ navRef, setOpen }) {
-  const [activeIndex, setActiveIndex] = useState("home");
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    window.addEventListener("resize", resize);
-  }, []);
 
   function resize() {
     setInnerWidth(window.innerWidth);
   }
+  useEffect(() => {
+    window.addEventListener('resize', resize);
+  }, []);
 
   function handleClick() {
     if (innerWidth < 448) {
@@ -34,21 +33,17 @@ export default function NavigationBar({ navRef, setOpen }) {
       </Link>
       <div className="nav-menu">
         <div className="top-menu">
-          <NavLink to="/" className="nav-link" onClick={handleClick}>
+          <NavLink to="/" className="nav-link" onClick={() => handleClick()}>
             <BiHomeAlt size="1.1em" />
             <span>Home</span>
           </NavLink>
-          <NavLink to="browse" className="nav-link" onClick={handleClick}>
+          <NavLink to="browse" className="nav-link" onClick={() => handleClick()}>
             <BiSearchAlt />
             <span>Browse</span>
           </NavLink>
         </div>
         <div className="bottom-menu">
-          <NavLink
-            to="profile"
-            className="nav-link profile-link"
-            onClick={handleClick}
-          >
+          <NavLink to="profile" className="nav-link profile-link" onClick={() => handleClick()}>
             <FaRegUserCircle className="icon" size="1.5em" />
             <span>Profile</span>
           </NavLink>

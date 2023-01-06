@@ -71,7 +71,7 @@
 }
 
 .user-game-list .dragging .browse-list::before {
-  content: "Drop Here...";
+  content: 'Drop Here...';
   font-size: 1.5rem;
   color: var(--primary-color);
   text-shadow: 2px 2px 3px #040f14;
