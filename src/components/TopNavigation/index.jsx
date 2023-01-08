@@ -29,7 +29,7 @@ export default function TopNavigation({ setOpen }) {
           <img src={logo} alt="logo" className="logo mobile mobile-logo" />
         </Link>
 
-        <button type="button" className="search-bar-button" onClick={() => handleClick}>
+        <button type="button" className="search-bar-button" onClick={() => handleClick()}>
           <BiSearch /> Search
         </button>
         <div>
@@ -38,7 +38,7 @@ export default function TopNavigation({ setOpen }) {
           </Link>
         </div>
       </div>
-      <AnimatePresence>{isSearchBoxOpen && <SearchBox onClose={() => handleClick} />}</AnimatePresence>
+      <AnimatePresence>{isSearchBoxOpen && <SearchBox onClose={() => handleClick()} />}</AnimatePresence>
     </>
   );
 }

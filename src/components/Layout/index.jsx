@@ -8,7 +8,7 @@ import NavigationBar from '../Navigation';
 import TopNavigation from '../TopNavigation';
 
 export default function Layout() {
-  const [open, setOpen] = useState(window.innerWidth < 480);
+  const [open, setOpen] = useState(window.innerWidth > 480);
   let navRef;
 
   if (window.innerWidth < 480) {
