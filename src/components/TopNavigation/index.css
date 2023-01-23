@@ -1,10 +1,14 @@
 .top-nav {
-  height: 50px;
+  height: 60px;
   display: flex;
   align-items: center;
-  padding: 10px 20px 0 40px;
+  padding: 10px 20px 0 0;
   justify-content: space-between;
   margin-bottom: 40px;
+  position: sticky;
+  top: 0;
+  background-color: #040f14;
+  z-index: 2;
 }
 
 .search-bar-button {
@@ -29,11 +33,8 @@
   height: 22px;
 }
 
-.mobile-logo {
-  font-weight: 800;
-  font-size: 1.8rem;
-  margin: 0 10px;
-  color: var(--primary-color);
+.search-bar-button:hover {
+  transform: scale(1.02);
 }
 
 .top-nav > div {

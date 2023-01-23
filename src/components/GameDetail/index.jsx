@@ -1,92 +1,92 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import parse from "html-react-parser";
-import GameDetailSkeleton from "../GameDetailSkeleton";
-import useAxios from "../../hooks/useAxios";
-import StatusButton from "../StatusButton";
+import { useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import parse from 'html-react-parser';
+import Skeleton from 'react-loading-skeleton';
+import GameDetailSkeleton from '../GameDetailSkeleton';
 
-import "react-loading-skeleton/dist/skeleton.css";
-import "./index.css";
+import useAxios from '../../hooks/useAxios';
+import StatusButton from '../StatusButton';
+
+import 'react-loading-skeleton/dist/skeleton.css';
+import './index.css';
+
+const client = useAxios();
+function fetchGame({ queryKey }) {
+  const id = queryKey[1];
+  return client.get(`games/${id}`, {
+    params: {
+      populate: '*',
+    },
+  });
+}
+
+const IMAGE_URL = import.meta.env.VITE_IMAGE_URL;
 
 export default function GameDetail() {
   const { id: gameId } = useParams();
-  const [gameData, setGameData] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const fetchGames = useAxios();
+
+  const { data, isError, isLoading, error } = useQuery(['game', gameId], fetchGame, {
+    select: (data) => data.data.data,
+  });
+
   const {
-    name,
-    background_image,
+    Name: name,
+    background_image: backgroundImage,
     description,
     genres,
-    developers,
-    released,
-    publishers,
-    website,
-  } = gameData;
+    Developer: developer,
+    Released: released,
+    Publisher: publisher,
+  } = data?.attributes || {};
 
-  useEffect(() => {
-    setLoading(true);
-    fetchGames(`games/${gameId}`)
-      .then((response) => {
-        setGameData(response.data);
-      })
-      .catch((err) => {
-        setError(err);
-      })
-      .finally(() => setLoading(false));
-  }, [gameId]);
+  const sanitizedGenres = genres?.data?.map((genre) => {
+    const { name, slug } = genre.attributes;
+    return { id: genre.id, name, slug };
+  });
 
-  if (error) {
+  const sanitizedBackgroundImage = `${IMAGE_URL}${backgroundImage?.data?.attributes?.url}`;
+
+  if (isError) {
     if (error?.response.status === 404) {
       return <h1>Game Not Found</h1>;
-    } else {
-      return <h1>Service unavailable</h1>;
     }
+    return <h1>Service unavailable</h1>;
   }
   return (
     <div className="game-detail">
-      {loading ? (
+      {isLoading ? (
         <GameDetailSkeleton />
       ) : (
         <>
           <h1 className="game-title">{name || <Skeleton width="400px" />}</h1>
           <div className="game-detail-container">
             <div className="game-content">
-              <img className="game-image" src={background_image} alt="game" />
+              <img className="game-image" src={sanitizedBackgroundImage} alt="game" />
 
               <div className="game-info">
                 <div>
                   <p className="subtitle">Genre: </p>
-                  <p className="subtitle-data">
-                    {genres?.map(({ name }) => name).join(", ") || `No Data`}
-                  </p>
+                  <p className="subtitle-data">{sanitizedGenres?.map(({ name }) => name).join(', ') || `No Data`}</p>
                 </div>
                 <div>
                   <p className="subtitle">Developers: </p>
-                  <p className="subtitle-data">
-                    {developers?.map(({ name }) => name).join(", ") ||
-                      `No Data`}
-                  </p>
+                  <p className="subtitle-data">{developer || `No Data`}</p>
                 </div>
                 <div>
                   <p className="subtitle">Publisher: </p>
-                  <p className="subtitle-data">
-                    {publishers?.map(({ name }) => name).join(", ") ||
-                      `No Data`}
-                  </p>
+                  <p className="subtitle-data">{publisher || `No Data`}</p>
                 </div>
                 <div>
                   <p className="subtitle">Released Date: </p>
                   <p className="subtitle-data">{released || `No Data`}</p>
                 </div>
-                <div>
-                  <a className="game-site-link" target="_blank" href={website}>
-                    Visit Site
-                  </a>
-                </div>
                 <StatusButton
-                  gameData={{ gameId, name, background_image, genres }}
+                  gameData={{
+                    gameId,
+                    name,
+                    background_image: sanitizedBackgroundImage,
+                    genres,
+                  }}
                 />
               </div>
             </div>

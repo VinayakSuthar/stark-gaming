@@ -1,56 +1,96 @@
-import { useEffect, useState } from "react";
-import useAxios from "../../hooks/useAxios";
-import useLocalStorage from "../../hooks/useLocalStorage";
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 
-import GameCard from "../../components/GameCard";
-import genreList from "../../assets/genres.json";
-import GameList from "../../components/GameList";
+import useAxios from '../../hooks/useAxios';
+import GameList from '../../components/GameList';
+import { sanitizeGames } from '../../utils/sanitizedData';
 
-import "./style.css";
-import SkeletonCard from "../../components/SkeletonCard";
+import './style.css';
+
+const client = useAxios();
+
+function fetchGenres() {
+  return client.get(`/genres`, {
+    params: {
+      populate: '*',
+    },
+  });
+}
+function fetchGames() {
+  return client.get(`/games`, {
+    params: {
+      populate: '*',
+    },
+  });
+}
+function fetchGamesByGenre({ queryKey }) {
+  const genreId = queryKey[1];
+  return client.get(`/games`, {
+    params: {
+      populate: '*',
+      filters: {
+        genres: {
+          id: {
+            $eq: genreId,
+          },
+        },
+      },
+    },
+  });
+}
 
 export default function Browse() {
   const [listData, setListData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [activeCategory, setActiveCategory] = useState("");
-  const [wishlist, setWishlist] = useLocalStorage("wishlist", []);
+  const [genre, setGenre] = useState({
+    id: null,
+    name: 'All',
+  });
 
-  function addGameToWishlist(id) {
-    if (wishlist.includes(id)) {
-      const newList = wishlist.filter((item) => item !== id);
-      setWishlist(newList);
-    } else {
-      setWishlist((previousList) => [...previousList, id]);
+  const { data: genreData } = useQuery('genres', fetchGenres, {
+    select: (data) =>
+      data.data.data.map((game) => {
+        const { name, slug } = game.attributes;
+        return { id: game.id, name, slug };
+      }),
+  });
+
+  const {
+    isLoading: isGameLoading,
+    isError: isGameError,
+    refetch: refetchGames,
+  } = useQuery('games', fetchGames, {
+    select: sanitizeGames,
+    onSuccess: (data) => {
+      setListData([...data]);
+    },
+    refetchOnWindowFocus: false,
+  });
+
+  const { isError: isRefetchError } = useQuery(['game', genre.id], fetchGamesByGenre, {
+    enabled: !!genre.id,
+    select: sanitizeGames,
+    onSuccess: (data) => {
+      setListData([...data]);
+    },
+  });
+
+  function handleGenreClick(id, name) {
+    if (genre.name !== name) {
+      setGenre({
+        id,
+        name,
+      });
     }
   }
-
-  const axiosInstance = useAxios();
-  function fetchGames(options = {}) {
-    setLoading(true);
-    axiosInstance
-      .get("games", { params: { ...options } })
-      .then((response) => {
-        setListData(response.data.results);
-      })
-      .catch((err) => {
-        setError(err);
-      })
-      .finally(() => setLoading(false));
+  function handleClick() {
+    refetchGames();
+    setGenre((previous) => ({
+      id: null,
+      name: 'All',
+    }));
   }
 
-  useEffect(() => {
-    fetchGames();
-  }, []);
-
-  function handleGenreClick(name, slug) {
-    if (activeCategory !== name) {
-      fetchGames({ genres: slug });
-      setActiveCategory(name);
-    }
-  }
-
-  if (error) {
+  if (isGameError || isRefetchError) {
     return <h1>Service Unavailable</h1>;
   }
 
@@ -58,21 +98,21 @@ export default function Browse() {
     <div>
       <h1>Browse</h1>
       <div className="genres-container">
-        {genreList.map(({ id, name, slug }) => {
-          return (
-            <button
-              className={`genre ${
-                activeCategory === name && "active-category"
-              }`}
-              key={id}
-              onClick={() => handleGenreClick(name, slug)}
-            >
-              {name}
-            </button>
-          );
-        })}
+        <button className={`genre ${genre.name === 'All' && 'active-category'}`} onClick={handleClick} type="button">
+          All
+        </button>
+        {genreData?.map(({ id, name }) => (
+          <button
+            className={`genre ${genre.name === name && 'active-category'}`}
+            key={id}
+            onClick={() => handleGenreClick(id, name)}
+            type="button"
+          >
+            {name}
+          </button>
+        ))}
       </div>
-      <GameList listData={listData} loading={loading} listStyle="browse-list" />
+      <GameList value={listData} loading={isGameLoading} listStyle="browse-list" />
     </div>
   );
 }

@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Outlet } from "react-router-dom";
-import useOutsideClick from "../../hooks/useOutsideClick";
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import useOutsideClick from '../../hooks/useOutsideClick';
 
-import "./index.css";
+import './index.css';
 
-import NavigationBar from "../Navigation";
-import TopNavigation from "../TopNavigation";
+import NavigationBar from '../Navigation';
+import TopNavigation from '../TopNavigation';
 
 export default function Layout() {
-  const [open, setOpen] = useState(window.innerWidth < 480 ? false : true);
+  const [open, setOpen] = useState(window.innerWidth > 480);
   let navRef;
 
   if (window.innerWidth < 480) {
@@ -18,7 +18,7 @@ export default function Layout() {
   return (
     <div className="home-layout">
       <TopNavigation setOpen={setOpen} />
-      {open && <NavigationBar navRef={navRef} />}
+      {open && <NavigationBar setOpen={setOpen} navRef={navRef} />}
       <Outlet />
     </div>
   );

@@ -1,26 +1,32 @@
-import useLocalStorage from "../../hooks/useLocalStorage";
+/* eslint-disable react/prop-types */
+import useLocalStorage from '../../hooks/useLocalStorage';
 
-import GameCard from "../GameCard";
-import SkeletonCard from "../SkeletonCard";
+import GameCard from '../GameCard';
+import SkeletonCard from '../SkeletonCard';
 
-import "swiper/css";
+// eslint-disable-next-line import/no-unresolved
+import 'swiper/css';
 
-export default function GameList({ listData, loading, listStyle }) {
-  const [wishlist, setWishlist] = useLocalStorage("wishlist", []);
+export default function GameList({ value, loading, listStyle }) {
+  const [wishlist, setWishlist] = useLocalStorage('wishlist', []);
+  const [played, setPlayed] = useLocalStorage('played', []);
+  const [playing, setPlaying] = useLocalStorage('playing', []);
 
-  function addGameToWishlist(id, name, genres, background_image) {
+  function addGameToWishlist(id, name, genres, backgroundImage) {
     const isGameInTheList = wishlist.find((item) => item.id === id);
     if (isGameInTheList) {
       const newList = wishlist.filter((item) => item.id !== id);
       setWishlist(newList);
     } else {
+      setPlaying(playing.filter((item) => item.id !== id));
+      setPlayed(played.filter((item) => item.id !== id));
       setWishlist((previousList) => [
         ...previousList,
         {
           id,
           name,
           genres,
-          background_image,
+          background_image: backgroundImage,
         },
       ]);
     }
@@ -33,18 +39,17 @@ export default function GameList({ listData, loading, listStyle }) {
   return (
     <div className={`game-list ${listStyle}`}>
       {!loading
-        ? listData.map((game) => {
-            return (
-              <GameCard
-                key={game.id}
-                data={game}
-                isSelected={isAvailableInTheList}
-                onStatusChange={addGameToWishlist}
-                buttonValue="Want to Play"
-              />
-            );
-          })
-        : [...Array(8)].map((item, index) => <SkeletonCard key={index} />)}
+        ? value.map((game) => (
+            <GameCard
+              key={game.id}
+              data={game}
+              isSelected={() => isAvailableInTheList()}
+              onStatusChange={() => addGameToWishlist()}
+              buttonValue="Want to Play"
+            />
+          ))
+        : // eslint-disable-next-line react/no-array-index-key
+          [...Array(8)].map((item, index) => <SkeletonCard key={index} />)}
     </div>
   );
 }

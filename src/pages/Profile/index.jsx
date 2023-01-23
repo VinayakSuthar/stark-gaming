@@ -1,25 +1,25 @@
-import useLocalStorage from "../../hooks/useLocalStorage";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
-import avatar from "../../assets/image/avatar.png";
-import "./index.css";
-import GameCard from "../../components/GameCard";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
+import avatar from '../../assets/image/avatar.png';
+import './index.css';
+import GameCard from '../../components/GameCard';
 
 const defaultDataTransfer = {
-  status: "",
+  status: '',
   data: {},
 };
 
 export default function Profile() {
-  const [wishlist, setWishlist] = useLocalStorage("wishlist", []);
-  const [played, setPlayed] = useLocalStorage("played", []);
-  const [playing, setPlaying] = useLocalStorage("playing", []);
+  const [wishlist, setWishlist] = useLocalStorage('wishlist', []);
+  const [played, setPlayed] = useLocalStorage('played', []);
+  const [playing, setPlaying] = useLocalStorage('playing', []);
   const [dataTransfer, setDataTransfer] = useState(defaultDataTransfer);
 
   function addGameToList(list, setList) {
-    return function (id, name, genres, background_image) {
+    // eslint-disable-next-line func-names
+    return function (id, name, genres, backgroundImage) {
       const isGameInTheList = list.find((item) => item.id === id);
       if (isGameInTheList) {
         const newList = list.filter((item) => item.id !== id);
@@ -31,7 +31,7 @@ export default function Profile() {
             id,
             name,
             genres,
-            background_image,
+            backgroundImage,
           },
         ]);
       }
@@ -45,18 +45,19 @@ export default function Profile() {
   function transferGame(dropStatus) {
     const { data } = dataTransfer;
     switch (dropStatus) {
-      case "wishlist": {
+      case 'wishlist': {
         setWishlist((previousList) => [...previousList, { ...data }]);
         break;
       }
-      case "playing": {
+      case 'playing': {
         setPlaying((previousList) => [...previousList, { ...data }]);
         break;
       }
-      case "played": {
+      case 'played': {
         setPlayed((previousList) => [...previousList, { ...data }]);
         break;
       }
+      default:
     }
   }
 
@@ -68,21 +69,22 @@ export default function Profile() {
       return;
     }
     switch (status) {
-      case "wishlist": {
+      case 'wishlist': {
         setWishlist(wishlist.filter((item) => item.id !== data.id));
         transferGame(dropStatus);
         break;
       }
-      case "playing": {
+      case 'playing': {
         setPlaying(playing.filter((item) => item.id !== data.id));
         transferGame(dropStatus);
         break;
       }
-      case "played": {
+      case 'played': {
         setPlayed(played.filter((item) => item.id !== data.id));
         transferGame(dropStatus);
         break;
       }
+      default:
     }
     setDataTransfer(defaultDataTransfer);
   }
@@ -115,93 +117,87 @@ export default function Profile() {
       </div>
       <div className="user-game-list">
         <div
-          className={`${
-            dataTransfer.status && dataTransfer.status !== "wishlist"
-              ? "dragging"
-              : ""
-          }`}
+          className={`${dataTransfer.status && dataTransfer.status !== 'wishlist' ? 'dragging' : ''}`}
           onDragOver={(e) => e.preventDefault()}
-          onDrop={(e) => dropHandler("wishlist", e)}
+          onDrop={(e) => dropHandler('wishlist', e)}
         >
           <h3>Wishlist</h3>
-          {wishlist.length === 0 && (
-            <p className="no-games-card">
-              No Game to show. <br />
-              To add games go to <Link to="/browse">Browse</Link>
-            </p>
-          )}
-          <div data-status="wishlist" className="browse-list">
-            {wishlist?.map((game) => (
-              <GameCard
-                data={game}
-                key={game.id}
-                draggable
-                onStatusChange={addToWishList}
-                isSelected={() => false}
-                buttonValue="Remove"
-                onDragStart={(data, e) => dragStartHandler("wishlist", data)}
-              />
-            ))}
+          <div className="browse-list-container">
+            {wishlist.length === 0 && (
+              <div className="no-games-card">
+                No Game to show. <br />
+                To add games go to <Link to="/browse">Browse</Link>
+              </div>
+            )}
+            <div data-status="wishlist" className="browse-list">
+              {wishlist?.map((game) => (
+                <GameCard
+                  data={game}
+                  key={game.id}
+                  draggable
+                  onStatusChange={addToWishList}
+                  isSelected={() => false}
+                  buttonValue="Remove"
+                  onDragStart={(data) => dragStartHandler('wishlist', data)}
+                />
+              ))}
+            </div>
           </div>
         </div>
         <div
-          className={`${
-            dataTransfer.status && dataTransfer.status !== "playing"
-              ? "dragging"
-              : ""
-          }`}
+          className={`${dataTransfer.status && dataTransfer.status !== 'playing' ? 'dragging' : ''}`}
           onDragOver={(e) => e.preventDefault()}
-          onDrop={(e) => dropHandler("playing", e)}
+          onDrop={(e) => dropHandler('playing', e)}
         >
           <h3>Playing</h3>
-          {playing.length === 0 && (
-            <p className="no-games-card">
-              No Game to show. <br />
-              To add games go to <Link to="/browse">Browse</Link>
-            </p>
-          )}
-          <div data-status="playing" className="browse-list">
-            {playing?.map((game) => (
-              <GameCard
-                data={game}
-                key={game.id}
-                isSelected={() => false}
-                onStatusChange={addToPlaying}
-                buttonValue="Remove"
-                draggable
-                onDragStart={(data) => dragStartHandler("playing", data)}
-              />
-            ))}
+          <div className="browse-list-container">
+            {playing.length === 0 && (
+              <div className="no-games-card">
+                No Game to show. <br />
+                To add games go to <Link to="/browse">Browse</Link>
+              </div>
+            )}
+            <div data-status="playing" className="browse-list">
+              {playing?.map((game) => (
+                <GameCard
+                  data={game}
+                  key={game.id}
+                  isSelected={() => false}
+                  onStatusChange={addToPlaying}
+                  buttonValue="Remove"
+                  draggable
+                  onDragStart={(data) => dragStartHandler('playing', data)}
+                />
+              ))}
+            </div>
           </div>
         </div>
         <div
-          className={`${
-            dataTransfer.status && dataTransfer.status !== "played"
-              ? "dragging"
-              : ""
-          }`}
+          className={`${dataTransfer.status && dataTransfer.status !== 'played' ? 'dragging' : ''}`}
           onDragOver={(e) => e.preventDefault()}
-          onDrop={(e) => dropHandler("played", e)}
+          onDrop={(e) => dropHandler('played', e)}
         >
           <h3>Played</h3>
-          {played.length === 0 && (
-            <p className="no-games-card">
-              No Game to show. <br />
-              To add games go to <Link to="/browse">Browse</Link>
-            </p>
-          )}
-          <div className="browse-list" data-status="played">
-            {played?.map((game) => (
-              <GameCard
-                data={game}
-                key={game.id}
-                isSelected={() => false}
-                onStatusChange={addToPlayed}
-                buttonValue="Remove"
-                draggable
-                onDragStart={(data) => dragStartHandler("played", data)}
-              />
-            ))}
+          <div className="browse-list-container">
+            {played.length === 0 && (
+              <div className="no-games-card">
+                No Game to show. <br />
+                To add games go to <Link to="/browse">Browse</Link>
+              </div>
+            )}
+            <div className="browse-list" data-status="played">
+              {played?.map((game) => (
+                <GameCard
+                  data={game}
+                  key={game.id}
+                  isSelected={() => false}
+                  onStatusChange={addToPlayed}
+                  buttonValue="Remove"
+                  draggable
+                  onDragStart={(data) => dragStartHandler('played', data)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

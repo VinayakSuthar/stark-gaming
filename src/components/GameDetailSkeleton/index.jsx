@@ -1,4 +1,4 @@
-import Skeleton from "react-loading-skeleton";
+import Skeleton from 'react-loading-skeleton';
 
 export default function GameDetailSkeleton() {
   return (
@@ -6,7 +6,7 @@ export default function GameDetailSkeleton() {
       <Skeleton width={400} height={30} />
       <div className="game-detail-container">
         <div className="game-content">
-          <Skeleton style={{ aspectRatio: "16/9" }} />
+          <Skeleton style={{ aspectRatio: '16/9' }} />
           <div className="game-info">
             <div>
               <p className="subtitle">Genre: </p>

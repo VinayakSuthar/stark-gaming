@@ -1,14 +1,17 @@
-import { useState, useEffect, useRef } from "react";
-import useAxios from "../../hooks/useAxios";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import useDebounce from "../../hooks/useDebounce";
-import useOutsideClick from "../../hooks/useOutsideClick";
+/* eslint-disable no-nested-ternary */
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { useQuery } from 'react-query';
+import { BiSearch } from 'react-icons/bi';
+import { IoCloseCircleSharp } from 'react-icons/io5';
+import useAxios from '../../hooks/useAxios';
 
-import { BiSearch } from "react-icons/bi";
-import { IoCloseCircleSharp } from "react-icons/io5";
-import loader from "../../assets/image/loader.svg";
-import "./index.css";
+import useDebounce from '../../hooks/useDebounce';
+import useOutsideClick from '../../hooks/useOutsideClick';
+import { sanitizeGames } from '../../utils/sanitizedData';
+import loader from '../../assets/image/loader.svg';
+import './index.css';
 
 const backdrop = {
   hidden: { opacity: 0 },
@@ -28,24 +31,47 @@ const backdrop = {
 
 const dropIn = {
   hidden: {
-    y: "-100vh",
+    y: '-100vh',
   },
   visible: {
     y: 0,
   },
   exit: {
-    y: "100vh",
+    y: '100vh',
   },
 };
 
+const client = useAxios();
+function searchGame({ queryKey }) {
+  const searchString = queryKey[1];
+  return client.get('/games', {
+    params: {
+      populate: '*',
+      filters: {
+        name: {
+          $containsi: searchString,
+        },
+      },
+    },
+  });
+}
+
 export default function SearchBox({ onClose }) {
   const [searchResult, setSearchResult] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const [noResult, setNoResult] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const fetchGames = useAxios();
   const searchRef = useOutsideClick(onClose);
+
+  const { isLoading, isError, refetch } = useQuery(['game', searchValue], searchGame, {
+    enabled: false,
+    select: sanitizeGames,
+    onSuccess: (data) => {
+      setSearchResult(data);
+      if (data.length === 0) {
+        setNoResult(true);
+      }
+    },
+  });
 
   useDebounce(() => {
     setNoResult(false);
@@ -53,33 +79,17 @@ export default function SearchBox({ onClose }) {
       setSearchResult([]);
     }
     if (searchValue.length > 2) {
-      setLoading(true);
-      setError(null);
-      fetchGames
-        .get("games", {
-          params: { search: searchValue },
-        })
-        .then((response) => {
-          if (response.data.count === 0) setNoResult(true);
-          setSearchResult(response.data.results);
-        })
-        .catch((error) => {
-          if (error.name === "CanceledError") return;
-          setError(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      refetch();
     }
   }, searchValue);
 
   useEffect(() => {
     const handleKeyPress = (event) => {
-      if (event.key === "Escape") onClose();
+      if (event.key === 'Escape') onClose();
     };
-    document.addEventListener("keydown", handleKeyPress);
+    document.addEventListener('keydown', handleKeyPress);
     return () => {
-      document.removeEventListener("keydown", handleKeyPress);
+      document.removeEventListener('keydown', handleKeyPress);
     };
   }, []);
   return (
@@ -91,12 +101,7 @@ export default function SearchBox({ onClose }) {
       animate="visible"
       exit="exit"
     >
-      <motion.div
-        key="modal"
-        className="search-box"
-        ref={searchRef}
-        variants={dropIn}
-      >
+      <motion.div key="modal" className="search-box" ref={searchRef} variants={dropIn}>
         <IoCloseCircleSharp onClick={onClose} className="close-button mobile" />
         <div className="search-bar">
           <BiSearch />
@@ -105,6 +110,7 @@ export default function SearchBox({ onClose }) {
             type="text"
             placeholder="Search..."
             value={searchValue}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
             onChange={(e) => setSearchValue(e.target.value)}
           />
@@ -112,11 +118,11 @@ export default function SearchBox({ onClose }) {
         <div className="search-result">
           {searchValue.length < 3 ? (
             <p className="exception-block">Search Games</p>
-          ) : loading ? (
+          ) : isLoading ? (
             <div className="loader-container">
               <img className="loader-svg" src={loader} alt="loader" />
             </div>
-          ) : error ? (
+          ) : isError ? (
             <p className="exception-block">
               An error ocurred. <br />
               Please try again later
@@ -125,16 +131,15 @@ export default function SearchBox({ onClose }) {
             <p className="exception-block">No Result Found</p>
           ) : (
             <>
-              {searchResult.map(({ id, name, genres }) => {
-                return (
-                  <Link to={`/browse/${id}`} key={id} onClick={onClose}>
+              {searchResult.map(({ id, name, genres, background_image: backgroundImage }) => (
+                <Link to={`/browse/${id}`} key={id} onClick={onClose}>
+                  <img src={backgroundImage} alt="title" className="result-image" />
+                  <div className="result-content">
                     {name} <br />
-                    <span className="search-genre">
-                      {genres[0]?.name || "No data"}
-                    </span>
-                  </Link>
-                );
-              })}
+                    <span className="search-genre">{genres[0]?.name || 'No data'}</span>
+                  </div>
+                </Link>
+              ))}
             </>
           )}
         </div>
