@@ -43,8 +43,8 @@ export default function GameList({ value, loading, listStyle }) {
             <GameCard
               key={game.id}
               data={game}
-              isSelected={() => isAvailableInTheList()}
-              onStatusChange={() => addGameToWishlist()}
+              isSelected={isAvailableInTheList}
+              onStatusChange={addGameToWishlist}
               buttonValue="Want to Play"
             />
           ))

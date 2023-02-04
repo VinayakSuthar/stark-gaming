@@ -12,39 +12,27 @@ import './index.css';
 
 const client = useAxios();
 function fetchGame({ queryKey }) {
-  const id = queryKey[1];
-  return client.get(`games/${id}`, {
-    params: {
-      populate: '*',
-    },
-  });
+  const gameId = queryKey[1];
+  return client.get(`games/${gameId}`);
 }
-
-const IMAGE_URL = import.meta.env.VITE_IMAGE_URL;
 
 export default function GameDetail() {
   const { id: gameId } = useParams();
 
   const { data, isError, isLoading, error } = useQuery(['game', gameId], fetchGame, {
-    select: (data) => data.data.data,
+    select: (data) => data.data,
   });
 
   const {
-    Name: name,
+    name,
     background_image: backgroundImage,
     description,
     genres,
-    Developer: developer,
-    Released: released,
-    Publisher: publisher,
-  } = data?.attributes || {};
-
-  const sanitizedGenres = genres?.data?.map((genre) => {
-    const { name, slug } = genre.attributes;
-    return { id: genre.id, name, slug };
-  });
-
-  const sanitizedBackgroundImage = `${IMAGE_URL}${backgroundImage?.data?.attributes?.url}`;
+    developers,
+    released,
+    publishers,
+    website,
+  } = data || {};
 
   if (isError) {
     if (error?.response.status === 404) {
@@ -61,30 +49,35 @@ export default function GameDetail() {
           <h1 className="game-title">{name || <Skeleton width="400px" />}</h1>
           <div className="game-detail-container">
             <div className="game-content">
-              <img className="game-image" src={sanitizedBackgroundImage} alt="game" />
+              <img className="game-image" src={backgroundImage} alt="game" />
 
               <div className="game-info">
                 <div>
                   <p className="subtitle">Genre: </p>
-                  <p className="subtitle-data">{sanitizedGenres?.map(({ name }) => name).join(', ') || `No Data`}</p>
+                  <p className="subtitle-data">{genres?.map(({ name }) => name).join(', ') || `No Data`}</p>
                 </div>
                 <div>
                   <p className="subtitle">Developers: </p>
-                  <p className="subtitle-data">{developer || `No Data`}</p>
+                  <p className="subtitle-data">{developers?.map(({ name }) => name).join(', ') || `No Data`}</p>
                 </div>
                 <div>
                   <p className="subtitle">Publisher: </p>
-                  <p className="subtitle-data">{publisher || `No Data`}</p>
+                  <p className="subtitle-data">{publishers?.map(({ name }) => name).join(', ') || `No Data`}</p>
                 </div>
                 <div>
                   <p className="subtitle">Released Date: </p>
                   <p className="subtitle-data">{released || `No Data`}</p>
                 </div>
+                <div>
+                  <a className="game-site-link" target="_blank" href={website} rel="noreferrer">
+                    Visit Site
+                  </a>
+                </div>
                 <StatusButton
                   gameData={{
                     gameId,
                     name,
-                    background_image: sanitizedBackgroundImage,
+                    background_image: backgroundImage,
                     genres,
                   }}
                 />

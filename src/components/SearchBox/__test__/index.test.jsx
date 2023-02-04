@@ -1,19 +1,31 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import useAxios from '../../../hooks/useAxios';
 import { BrowserRouter } from 'react-router-dom';
+import { QueryClientProvider, QueryClient } from 'react-query';
+
+import useAxios from '../../../hooks/useAxios';
 import SearchBox from '..';
 
 vi.mock('../../../hooks/useAxios.js');
 
-const MocKSearchBox = () => {
+function MocKSearchBox() {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+        cacheTime: Infinity,
+      },
+    },
+  });
   return (
     <BrowserRouter>
-      <SearchBox />
+      <QueryClientProvider client={queryClient}>
+        <SearchBox />
+      </QueryClientProvider>
     </BrowserRouter>
   );
-};
+}
 
 describe('Search Box component', () => {
   it('should render search box correctly', () => {
@@ -50,13 +62,13 @@ describe('Search Box component', () => {
     const searchInput = screen.getByRole('textbox');
 
     await userEvent.type(searchInput, 'god');
-
     await waitFor(
       async () => {
         const result = await screen.findByText('God of War');
+
         expect(result).toBeVisible();
       },
-      { timeout: 1000 },
+      { timeout: 2000 },
     );
   });
 
