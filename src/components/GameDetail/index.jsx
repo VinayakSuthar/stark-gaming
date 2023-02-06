@@ -6,6 +6,7 @@ import GameDetailSkeleton from '../GameDetailSkeleton';
 
 import useAxios from '../../hooks/useAxios';
 import StatusButton from '../StatusButton';
+import gameImage from '../../assets/image/game.png';
 
 import 'react-loading-skeleton/dist/skeleton.css';
 import './index.css';
@@ -49,7 +50,7 @@ export default function GameDetail() {
           <h1 className="game-title">{name || <Skeleton width="400px" />}</h1>
           <div className="game-detail-container">
             <div className="game-content">
-              <img className="game-image" src={backgroundImage} alt="game" />
+              <img className="game-image" src={backgroundImage || gameImage} alt="game" />
 
               <div className="game-info">
                 <div>

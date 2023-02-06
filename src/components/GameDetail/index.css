@@ -17,6 +17,7 @@
   aspect-ratio: 16/9;
   object-fit: cover;
   border-radius: 20px;
+  width: 100%;
 }
 
 .game-info {

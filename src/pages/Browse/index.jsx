@@ -44,7 +44,6 @@ export default function Browse() {
     }
   }
   function handleClick() {
-    // refetchGames();
     setGenre(() => ({
       id: null,
       name: 'All',
