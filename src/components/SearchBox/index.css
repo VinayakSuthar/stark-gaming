@@ -74,7 +74,8 @@
 
 .result-image {
   width: 100px;
-  object-fit: contain;
+  object-fit: cover;
+  aspect-ratio: 16/9;
   border-radius: 5px;
 }
 

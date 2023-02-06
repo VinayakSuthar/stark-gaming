@@ -9,7 +9,6 @@ import useAxios from '../../hooks/useAxios';
 
 import useDebounce from '../../hooks/useDebounce';
 import useOutsideClick from '../../hooks/useOutsideClick';
-import { sanitizeGames } from '../../utils/sanitizedData';
 import loader from '../../assets/image/loader.svg';
 import './index.css';
 
@@ -44,15 +43,8 @@ const dropIn = {
 const client = useAxios();
 function searchGame({ queryKey }) {
   const searchString = queryKey[1];
-  return client.get('/games', {
-    params: {
-      populate: '*',
-      filters: {
-        name: {
-          $containsi: searchString,
-        },
-      },
-    },
+  return client.get('games', {
+    params: { search: searchString },
   });
 }
 
@@ -64,7 +56,7 @@ export default function SearchBox({ onClose }) {
 
   const { isLoading, isError, refetch } = useQuery(['game', searchValue], searchGame, {
     enabled: false,
-    select: sanitizeGames,
+    select: (data) => data.data.results,
     onSuccess: (data) => {
       setSearchResult(data);
       if (data.length === 0) {
