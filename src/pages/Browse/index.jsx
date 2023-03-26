@@ -27,6 +27,9 @@ export default function Browse() {
   const { isLoading: isGameLoading, isError: isGameError } = useQuery(['games', genre], fetchGames, {
     select: (data) => data.data.results,
     onSuccess: (data) => {
+      if (data.length === 0) {
+        navigate('/404');
+      }
       setListData([...data]);
     },
     refetchOnWindowFocus: false,
@@ -43,7 +46,9 @@ export default function Browse() {
 
   useEffect(() => {
     const activeCategory = document.querySelector('.genre.active-category');
-    activeCategory.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    if (activeCategory) {
+      activeCategory.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    }
   }, []);
 
   return (
