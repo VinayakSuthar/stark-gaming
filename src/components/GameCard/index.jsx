@@ -14,7 +14,7 @@ export default function GameCard({ data, isSelected, buttonValue, onStatusChange
       onDragStart={() => onDragStart({ id, background_image: backgroundImage, name, genres })}
     >
       {draggable && <MdDragIndicator className="drag-icon" />}
-      <Link to={`/browse/${id}`}>
+      <Link to={`/browse/game/${id}`}>
         <img src={backgroundImage} alt="game" />
         <h3 className="game-title" title={name}>
           {name}

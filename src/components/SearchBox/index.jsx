@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useQuery } from 'react-query';
 import { BiSearch } from 'react-icons/bi';
-import { IoCloseCircleSharp } from 'react-icons/io5';
 import useAxios from '../../hooks/useAxios';
 
 import useDebounce from '../../hooks/useDebounce';
@@ -48,10 +47,44 @@ function searchGame({ queryKey }) {
   });
 }
 
+function SearchResult({ searchValue, isLoading, isError, searchResult, onClose }) {
+  if (searchValue.length === 0) {
+    return <p className="exception-block">Search Games</p>;
+  }
+  if (isLoading) {
+    return (
+      <div className="loader-container">
+        <img className="loader-svg" src={loader} alt="loader" />
+      </div>
+    );
+  }
+  if (isError) {
+    return (
+      <p className="exception-block">
+        An error ocurred. <br />
+        Please try again later
+      </p>
+    );
+  }
+  if (searchResult?.length === 0) {
+    return <p className="exception-block">No Result Found</p>;
+  }
+  if (searchResult?.length > 0) {
+    return searchResult?.map(({ id, name, genres, background_image: backgroundImage }) => (
+      <Link to={`/browse/game/${id}`} key={id} onClick={onClose}>
+        <img src={backgroundImage} alt="title" className="result-image" />
+        <div className="result-content">
+          {name} <br />
+          <span className="search-genre">{genres[0]?.name || 'No data'}</span>
+        </div>
+      </Link>
+    ));
+  }
+}
+
 export default function SearchBox({ onClose }) {
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchResult, setSearchResult] = useState();
   const [searchValue, setSearchValue] = useState('');
-  const [noResult, setNoResult] = useState(false);
   const searchRef = useOutsideClick(onClose);
 
   const { isLoading, isError, refetch } = useQuery(['game', searchValue], searchGame, {
@@ -59,18 +92,11 @@ export default function SearchBox({ onClose }) {
     select: (data) => data.data.results,
     onSuccess: (data) => {
       setSearchResult(data);
-      if (data.length === 0) {
-        setNoResult(true);
-      }
     },
   });
 
   useDebounce(() => {
-    setNoResult(false);
-    if (searchValue.length === 0) {
-      setSearchResult([]);
-    }
-    if (searchValue.length > 2) {
+    if (searchValue.length !== 0) {
       refetch();
     }
   }, searchValue);
@@ -94,7 +120,6 @@ export default function SearchBox({ onClose }) {
       exit="exit"
     >
       <motion.div key="modal" className="search-box" ref={searchRef} variants={dropIn}>
-        <IoCloseCircleSharp onClick={onClose} className="close-button mobile" />
         <div className="search-bar">
           <BiSearch />
           <input
@@ -108,32 +133,13 @@ export default function SearchBox({ onClose }) {
           />
         </div>
         <div className="search-result">
-          {searchValue.length < 3 ? (
-            <p className="exception-block">Search Games</p>
-          ) : isLoading ? (
-            <div className="loader-container">
-              <img className="loader-svg" src={loader} alt="loader" />
-            </div>
-          ) : isError ? (
-            <p className="exception-block">
-              An error ocurred. <br />
-              Please try again later
-            </p>
-          ) : noResult ? (
-            <p className="exception-block">No Result Found</p>
-          ) : (
-            <>
-              {searchResult.map(({ id, name, genres, background_image: backgroundImage }) => (
-                <Link to={`/browse/${id}`} key={id} onClick={onClose}>
-                  <img src={backgroundImage} alt="title" className="result-image" />
-                  <div className="result-content">
-                    {name} <br />
-                    <span className="search-genre">{genres[0]?.name || 'No data'}</span>
-                  </div>
-                </Link>
-              ))}
-            </>
-          )}
+          <SearchResult
+            searchValue={searchValue}
+            searchResult={searchResult}
+            onClose={onClose}
+            isError={isError}
+            isLoading={isLoading}
+          />
         </div>
       </motion.div>
     </motion.div>
