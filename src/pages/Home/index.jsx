@@ -5,8 +5,6 @@ import Banner from '../../components/Banner';
 import GameList from '../../components/GameList';
 import useAxios from '../../hooks/useAxios';
 
-import './index.css';
-
 const client = useAxios();
 function fetchGames() {
   return client.get('games', {
@@ -28,12 +26,14 @@ export default function Home() {
   return (
     <div>
       <Banner value={data?.slice(0, 8)} loading={isLoading} />
-      <div className="most-popular">
-        <h2>Most Popular</h2>
+      <div>
+        <h2 className="text-primary my-5 text-3xl">Most Popular</h2>
         <GameList value={data?.slice(0, 8)} loading={isLoading} listStyle="popular-list" />
       </div>
-      <button type="button" className="browse-more">
-        <Link to="/browse">Browse all</Link>
+      <button type="button" className="block mx-auto mt-10 bg-primary border-none rounded py-2 px-3">
+        <Link className="text-veryDarkBlue text-xs font-bold" to="/browse">
+          Browse all
+        </Link>
       </button>
     </div>
   );

@@ -14,7 +14,7 @@ export default function Layout() {
   }
 
   return (
-    <div className="home-layout p-5 pt-0 sm:pl-20 md:pl-72">
+    <div className="p-5 pt-0 md:pl-20 lg:pl-72">
       <TopNavigation setOpen={setOpen} />
       {open && <NavigationBar setOpen={setOpen} navRef={navRef} />}
       <Outlet />

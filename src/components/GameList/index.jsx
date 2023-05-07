@@ -7,6 +7,11 @@ import SkeletonCard from '../SkeletonCard';
 // eslint-disable-next-line import/no-unresolved
 import 'swiper/css';
 
+const styles = {
+  'popular-list':
+    'block max-sm:overflow-x-auto max-sm:whitespace-nowrap max-sm:scrollbar-hide sm:grid  gap-5 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 group popular',
+};
+
 export default function GameList({ value, loading, listStyle }) {
   const [wishlist, setWishlist] = useLocalStorage('wishlist', []);
   const [played, setPlayed] = useLocalStorage('played', []);
@@ -37,7 +42,7 @@ export default function GameList({ value, loading, listStyle }) {
   }
 
   return (
-    <div className={`game-list ${listStyle}`}>
+    <div className={`game-list ${styles[listStyle]} `}>
       {!loading
         ? value.map((game) => (
             <GameCard
