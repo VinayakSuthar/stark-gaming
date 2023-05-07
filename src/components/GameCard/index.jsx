@@ -14,13 +14,13 @@ export default function GameCard({ data, isSelected, buttonValue, onStatusChange
       {draggable && <MdDragIndicator className="absolute top-0 right-0 text-xl bg-gray-950 rounded-tr-lg" />}
       <Link to={`/browse/game/${id}`}>
         <img src={backgroundImage} alt="game" className="w-full aspect-video object-cover rounded-xl" />
-        <h3 className="game-title text-slate-200 truncate" title={name}>
+        <h3 className="game-title text-slate-200 font-bold mt-2 truncate" title={name}>
           {name}
         </h3>
       </Link>
-      <p className="game-genre font-medium">{genres[0]?.name}</p>
+      <p className="game-genre text-sm font-medium">{genres[0]?.name}</p>
       <motion.button
-        className={`wishlist-btn bg-darkBlue text-lightBlue font-semibold text-base border-none outline-none py-1 px-2 rounded-md cursor-pointer mt-1 group ${
+        className={`wishlist-btn bg-darkBlue text-lightBlue font-semibold text-sm border-none outline-none py-1 px-2 rounded-md cursor-pointer mt-1 group ${
           !isSelected(id) ? '' : 'active-wishlist'
         }`}
         onClick={() => onStatusChange(id, name, genres, backgroundImage)}

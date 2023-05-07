@@ -8,8 +8,8 @@ import SkeletonCard from '../SkeletonCard';
 import 'swiper/css';
 
 const styles = {
-  'popular-list':
-    'block max-sm:overflow-x-auto max-sm:whitespace-nowrap max-sm:scrollbar-hide sm:grid  gap-5 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 group popular',
+  'popular-list': 'block max-sm:overflow-x-auto max-sm:whitespace-nowrap max-sm:scrollbar-hide group popular',
+  'browse-list': 'mt-5',
 };
 
 export default function GameList({ value, loading, listStyle }) {
@@ -42,7 +42,7 @@ export default function GameList({ value, loading, listStyle }) {
   }
 
   return (
-    <div className={`game-list ${styles[listStyle]} `}>
+    <div className={`game-list sm:grid  gap-5 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 ${styles[listStyle]} `}>
       {!loading
         ? value.map((game) => (
             <GameCard

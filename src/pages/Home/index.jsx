@@ -30,8 +30,8 @@ export default function Home() {
         <h2 className="text-primary my-5 text-3xl">Most Popular</h2>
         <GameList value={data?.slice(0, 8)} loading={isLoading} listStyle="popular-list" />
       </div>
-      <button type="button" className="block mx-auto mt-10 bg-primary border-none rounded py-2 px-3">
-        <Link className="text-veryDarkBlue text-xs font-bold" to="/browse">
+      <button type="button" className="block mx-auto mt-10 bg-primary border-none rounded-lg py-2 px-4">
+        <Link className="text-veryDarkBlue text-sm font-bold" to="/browse">
           Browse all
         </Link>
       </button>

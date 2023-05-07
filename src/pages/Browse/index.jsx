@@ -6,8 +6,6 @@ import useAxios from '../../hooks/useAxios';
 import genreList from '../../assets/genres.json';
 import GameList from '../../components/GameList';
 
-import './style.css';
-
 const client = useAxios();
 
 function fetchGames({ queryKey }) {
@@ -45,7 +43,7 @@ export default function Browse() {
   }
 
   useEffect(() => {
-    const activeCategory = document.querySelector('.genre.active-category');
+    const activeCategory = document.querySelector('.active-genre');
     if (activeCategory) {
       activeCategory.scrollIntoView({ behavior: 'smooth', inline: 'center' });
     }
@@ -53,14 +51,26 @@ export default function Browse() {
 
   return (
     <div>
-      <h1>Browse</h1>
-      <div className="genres-container">
-        <button className={`genre ${genre || 'active-category'}`} onClick={() => handleClick('all')} type="button">
+      <h1 className="text-3xl font-bold">Browse</h1>
+      <div className="overflow-x-auto whitespace-nowrap mt-5 py-2 sticky top-[60px] z-[1] bg-[#040f14] scrollbar-hide snap-x">
+        <button
+          className={`inline-block mx-1 font-medium rounded-md px-3 border-2 outline-none snap-start ${
+            genre
+              ? ' border-transparent text-lightBlue bg-darkBlue'
+              : 'active-genre border-secondary bg-lightBlue text-darkBlue'
+          }`}
+          onClick={() => handleClick('all')}
+          type="button"
+        >
           All
         </button>
         {genreList.map(({ id, name, slug }) => (
           <button
-            className={`genre ${genre === slug ? 'active-category' : ''}`}
+            className={`inline-block mx-1  text-lightBlue font-medium rounded-md px-3 border-2 border-transparent outline-none snap-start ${
+              genre === slug
+                ? 'active-genre border-secondary bg-lightBlue text-darkBlue'
+                : 'bg-darkBlue text-lightBlue border-transparent'
+            }`}
             key={id}
             onClick={() => handleClick(slug)}
             type="button"
