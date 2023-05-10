@@ -51,12 +51,11 @@ export default function Browse() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold">Browse</h1>
-      <div className="overflow-x-auto whitespace-nowrap mt-5 py-2 sticky top-[60px] z-[1] bg-[#040f14] scrollbar-hide snap-x">
+      <div className="scrollbar-hide sticky top-16 z-[4] snap-x overflow-x-auto whitespace-nowrap bg-[#040f14] pb-3 pt-2">
         <button
-          className={`inline-block mx-1 font-medium rounded-md px-3 border-2 outline-none snap-start ${
+          className={`mx-1 inline-block snap-start rounded-md border-2 px-3 font-medium outline-none ${
             genre
-              ? ' border-transparent text-lightBlue bg-darkBlue'
+              ? ' border-transparent bg-darkBlue text-lightBlue'
               : 'active-genre border-secondary bg-lightBlue text-darkBlue'
           }`}
           onClick={() => handleClick('all')}
@@ -66,10 +65,10 @@ export default function Browse() {
         </button>
         {genreList.map(({ id, name, slug }) => (
           <button
-            className={`inline-block mx-1  text-lightBlue font-medium rounded-md px-3 border-2 border-transparent outline-none snap-start ${
+            className={`mx-1 inline-block  snap-start rounded-md border-2 border-transparent px-3 font-medium text-lightBlue outline-none ${
               genre === slug
                 ? 'active-genre border-secondary bg-lightBlue text-darkBlue'
-                : 'bg-darkBlue text-lightBlue border-transparent'
+                : 'border-transparent bg-darkBlue text-lightBlue'
             }`}
             key={id}
             onClick={() => handleClick(slug)}

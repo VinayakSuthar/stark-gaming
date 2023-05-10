@@ -25,7 +25,7 @@ export default function NavigationBar({ navRef, setOpen }) {
   return (
     <div
       ref={navRef}
-      className="fixed left-0 top-0 z-[2] flex h-[100dvh] w-44 flex-col bg-veryDarkBlue px-2 pb-4 sm:w-auto sm:px-2 lg:w-60 lg:px-4"
+      className="fixed left-0 top-0 z-[9] flex h-[100dvh] w-44 flex-col bg-veryDarkBlue px-2 pb-4 sm:w-auto sm:px-2 lg:w-60 lg:px-4"
     >
       <Link to="/">
         <div className="mt-4 flex items-center justify-center">

@@ -17,9 +17,9 @@ export default function Layout() {
     <div className="pt-0 sm:pl-[65.2px] lg:pl-60">
       <TopNavigation setOpen={setOpen} />
       {open && <NavigationBar setOpen={setOpen} navRef={navRef} />}
-      <div className="p-4">
+      <main className="px-4 pb-5 pt-2">
         <Outlet />
-      </div>
+      </main>
     </div>
   );
 }
