@@ -42,7 +42,9 @@ export default function GameList({ value, loading, listStyle }) {
   }
 
   return (
-    <div className={`game-list sm:grid  gap-5 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 ${styles[listStyle]} `}>
+    <div
+      className={`game-list flex flex-col gap-y-4 sm:grid sm:grid-cols-2 sm:gap-5 md:grid-cols-3 xl:grid-cols-4 ${styles[listStyle]} `}
+    >
       {!loading
         ? value.map((game) => (
             <GameCard

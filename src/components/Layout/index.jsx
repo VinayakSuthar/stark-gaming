@@ -14,10 +14,12 @@ export default function Layout() {
   }
 
   return (
-    <div className="p-5 pt-0 md:pl-20 lg:pl-72">
+    <div className="pt-0 sm:pl-[65.2px] lg:pl-60">
       <TopNavigation setOpen={setOpen} />
       {open && <NavigationBar setOpen={setOpen} navRef={navRef} />}
-      <Outlet />
+      <div className="p-4">
+        <Outlet />
+      </div>
     </div>
   );
 }

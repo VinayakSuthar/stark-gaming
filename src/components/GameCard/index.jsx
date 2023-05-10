@@ -7,26 +7,26 @@ export default function GameCard({ data, isSelected, buttonValue, onStatusChange
   const { id, background_image: backgroundImage, name, genres } = data;
   return (
     <div
-      className="game-card relative max-sm:group-[.popular]:inline-block max-sm:group-[.popular]:w-72 max-sm:group-[.popular]:mx-3"
+      className="relative max-sm:group-[.popular]:mx-3 max-sm:group-[.popular]:inline-block max-sm:group-[.popular]:w-72"
       draggable={draggable}
       onDragStart={() => onDragStart({ id, background_image: backgroundImage, name, genres })}
     >
-      {draggable && <MdDragIndicator className="absolute top-0 right-0 text-xl bg-gray-950 rounded-tr-lg" />}
+      {draggable && <MdDragIndicator className="absolute right-0 top-0 rounded-tr-lg bg-gray-950 text-xl" />}
       <Link to={`/browse/game/${id}`}>
-        <img src={backgroundImage} alt="game" className="w-full aspect-video object-cover rounded-xl" />
-        <h3 className="game-title text-slate-200 font-bold mt-2 truncate" title={name}>
+        <img src={backgroundImage} alt="game" className="aspect-video w-full rounded-xl object-cover" />
+        <h3 className="mt-2 truncate text-lg font-bold text-slate-200" title={name}>
           {name}
         </h3>
       </Link>
-      <p className="game-genre text-sm font-medium">{genres[0]?.name}</p>
+      <p className="text-sm font-medium">{genres[0]?.name}</p>
       <motion.button
-        className={`wishlist-btn bg-darkBlue text-lightBlue font-semibold text-sm border-none outline-none py-1 px-2 rounded-md cursor-pointer mt-1 group ${
+        className={`group mt-1 cursor-pointer rounded-md border-none bg-darkBlue px-2 py-1 text-sm font-semibold text-lightBlue outline-none ${
           !isSelected(id) ? '' : 'active-wishlist'
         }`}
         onClick={() => onStatusChange(id, name, genres, backgroundImage)}
         whileHover={{ scale: 1.15 }}
       >
-        <FiCheck className="hidden group-[.active-wishlist]:inline-block text-lightBlue align-middle text-[1.1rem] mr-1" />
+        <FiCheck className="mr-1 hidden align-middle text-[1.1rem] text-lightBlue group-[.active-wishlist]:inline-block" />
         {buttonValue}
       </motion.button>
     </div>
