@@ -65,7 +65,7 @@ export default function Browse() {
         </button>
         {genreList.map(({ id, name, slug }) => (
           <button
-            className={`mx-1 inline-block  snap-start rounded-md border-2 border-transparent px-3 font-medium text-lightBlue outline-none ${
+            className={`mx-1 inline-block  snap-start rounded-md border-2 px-3 font-medium outline-none ${
               genre === slug
                 ? 'active-genre border-secondary bg-lightBlue text-darkBlue'
                 : 'border-transparent bg-darkBlue text-lightBlue'

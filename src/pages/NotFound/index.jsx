@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
 import bugGif from '../../assets/image/bug.gif';
 
-import './index.css';
-
 export default function NotFound() {
   return (
-    <div className="not-found">
-      <h1>404 Page Not Found</h1>
-      <p>Congrats, you just found the bongo moth!</p>
+    <div className="mt-16 flex flex-col items-center gap-5">
+      <h1 className="text-2xl font-bold">404 Page Not Found</h1>
+      <p className="font-medium">Congrats, you just found the bongo moth!</p>
       <img src={bugGif} alt="bug gif" />
-      <Link to="/">Go To Home</Link>
+      <Link to="/" className="text-xl font-semibold text-primary">
+        Go To Home
+      </Link>
     </div>
   );
 }
