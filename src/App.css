@@ -1,0 +1,17 @@
+/* utility classes */
+.mobile {
+  display: none;
+}
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media screen and (max-width: 480px) {
+  .mobile {
+    display: block;
+  }
+  .desktop {
+    display: none !important;
+  }
+}

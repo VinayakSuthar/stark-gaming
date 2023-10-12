@@ -1,0 +1,158 @@
+.profile {
+  display: flex;
+  column-gap: 100px;
+  align-items: center;
+  margin-top: 30px;
+  background-color: var(--very-dark-blue);
+  border-radius: 20px;
+  padding: 20px;
+  min-height: 327px;
+}
+
+.profile h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+.profile > img {
+  width: 280px;
+}
+
+.status-count p {
+  color: var(--light-blue);
+  font-weight: 500;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.status-count p:not(:last-child) {
+  border-bottom: 1px solid var(--light-blue);
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+}
+
+.profile .online-status {
+  background-color: var(--primary-color);
+  color: var(--very-dark-blue);
+  border-radius: 20px;
+  padding: 5px 20px;
+  width: fit-content;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+.profile .status-count {
+  background-color: #040f14;
+  padding: 20px 30px;
+  border-radius: 20px;
+  min-width: 200px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.user-game-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.user-game-list > div {
+  background-color: var(--very-dark-blue);
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.browse-list-container {
+  position: relative;
+}
+
+.user-game-list .dragging .browse-list::before {
+  content: 'Drop Here...';
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  text-shadow: 2px 2px 3px #040f14;
+  font-weight: 500;
+  width: 100%;
+  height: 100%;
+  border-radius: 9px;
+  top: 0;
+  position: absolute;
+  background-color: #c7d5e01d;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+.user-game-list .no-games-card {
+  font-size: 1.2rem;
+  font-weight: 500;
+  min-height: 15vw;
+  margin-top: 16px;
+}
+
+/* .user-game-list > div {
+  min-height: 314px;
+} */
+
+.user-game-list .game-card {
+  cursor: grab;
+}
+
+.no-games-card > a {
+  color: var(--light-blue);
+}
+
+.user-game-list > div > h3 {
+  color: var(--primary-color);
+  font-size: 1.4rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .profile {
+    column-gap: 20px;
+  }
+  .profile > img {
+    width: 30%;
+  }
+  .profile h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .profile {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 20px;
+  }
+  .profile > img {
+    width: 50%;
+    height: 200px;
+    object-fit: contain;
+  }
+  .profile > .status-count {
+    width: 50%;
+    min-width: 250px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .profile > img {
+    width: 40%;
+    height: auto;
+  }
+  .profile h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  .profile .online-status {
+    margin-top: 10px;
+  }
+}

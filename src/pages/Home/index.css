@@ -1,0 +1,65 @@
+.most-popular > h2 {
+  color: var(--primary-color);
+  margin: 20px 0;
+  font-size: 1.8rem;
+}
+
+.popular-list {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(auto, 1fr));
+  gap: 20px;
+}
+
+.popular-list > div {
+  grid-column-end: span 3;
+}
+
+.browse-more {
+  display: block;
+  margin: 0 auto;
+  margin-top: 40px;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.browse-more > a {
+  color: var(--very-dark-blue);
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+@media screen and (max-width: 992px) {
+  .popular-list > div {
+    grid-column-end: span 4;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .popular-list > div {
+    grid-column-end: span 6;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .most-popular {
+    padding: 0;
+  }
+  .popular-list {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
+  }
+  .popular-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .popular-list > .game-card {
+    display: inline-block;
+    width: 300px;
+    margin: 0 10px;
+  }
+}

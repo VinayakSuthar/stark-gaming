@@ -1,0 +1,18 @@
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 90px;
+}
+
+.not-found > p {
+  font-weight: 500;
+}
+
+.not-found > a {
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: 500;
+  font-size: 1.2rem;
+}

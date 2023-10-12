@@ -1,0 +1,22 @@
+.home-layout {
+  padding: 0 40px 20px 290px;
+  min-height: 100vh;
+}
+
+@media screen and (max-width: 1200px) {
+  .home-layout {
+    padding: 0 20px 20px 300px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .home-layout {
+    padding: 0 20px 20px 85px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .home-layout {
+    padding: 0 20px 20px 20px;
+  }
+}
