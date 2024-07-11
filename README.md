@@ -4,6 +4,12 @@
 
 A gaming library website where user can browse games of all platform and can create his own library with the game play status.
 
+![Logo](public/desktop.png)
+
+<div align="center">
+<img src="public/mobile.png" width="200" align="center">
+</div>
+
 ## Features
 
 - Updated games list (RAWG games Api)
